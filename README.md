@@ -10,6 +10,7 @@ To be finished.
 ## Databases
 This project contains a SQL database with three tables: user, lost, and found. Table "user" has one-to-many relationships with "lost" and "found".
 ## API Documentation
+A HTTP status code of 500 indicates internal server error and should be reported to the backend developer.  
 For post methods, the field time should be in the format: TBD.
 ### `GET /api/lost/`
 Retrieve all lost items.   
@@ -114,8 +115,8 @@ Request:
     "location": <LOCATION>
 }
 ```
-Response:
-Same as `GET /api/lost/{lost_id}/`
+Response:  
+Same as `GET /api/lost/{lost_id}/` except that a success post returns HTTP status code 201.
 If there is no such user, the response is also:
 ```
 <HTTP STATUS CODE 404>
@@ -135,7 +136,7 @@ Request:
 }
 ```
 Response:  
-Same as `GET /api/found/{found_id}/`
+Same as `GET /api/found/{found_id}/` except that a success post returns HTTP status code 201.
 If there is no such user, the response is also:
 ```
 <HTTP STATUS CODE 404>
@@ -146,7 +147,7 @@ If there is no such user, the response is also:
 ### `DELETE /api/lost/{lost_id}/`
 Delete a specific lost item.  
 Response:  
-Same as `GET /api/lost/{lost_id}/`
+Same as `GET /api/lost/{lost_id}/` 
 ### `DELETE /api/found/{found_id}/`
 Delete a specific found item.  
 Response:  
