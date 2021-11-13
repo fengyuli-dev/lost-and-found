@@ -10,6 +10,7 @@ To be finished.
 ## Databases
 This project contains a SQL database with three tables: user, lost, and found. Table "user" has one-to-many relationships with "lost" and "found".
 ## API Documentation
+For post methods, the field time should be in the format: TBD.
 ### `GET /api/lost/`
 Retrieve all lost items.   
 Response:
@@ -71,8 +72,82 @@ Response if there is no such item:
 }
 ```
 ### `GET /api/lost/{user_id}/`
+Retrive all lost items that belong to a user with the given id.  
+Response if there exists such item:
+```
+<HTTP STATUS CODE 200>
+{
+    "lost": [ <SERIALIZED LOST ITEMS>, ... ]
+}
+```
+Response if there is no such item:
+```
+<HTTP STATUS CODE 404>
+{
+    "error": true
+}
+```
 ### `GET /api/found/{user_id}/`
+Retrive all items that are found by a user with the given id.  
+Response if there exists such item:
+```
+<HTTP STATUS CODE 200>
+{
+    "found": [ <SERIALIZED FOUND ITEMS>, ... ]
+}
+```
+Response if there is no such item:
+```
+<HTTP STATUS CODE 404>
+{
+    "error": true
+}
+```
 ### `POST /api/lost/{user_id}/`
+Let a user post that a item is lost.  
+Request:
+```
+{
+    "name": <NAME, NOT NULL>,
+    "description": <DISCRIPTION>,
+    "time": <TIME>,
+    "location": <LOCATION>
+}
+```
+Response:
+Same as `GET /api/lost/{lost_id}/`
+If there is no such user, the response is also:
+```
+<HTTP STATUS CODE 404>
+{
+    "error": true
+}
+```
 ### `POST /api/found/{user_id}/`
+Let a user post that a item is found.  
+Request:
+```
+{
+    "name": <NAME, NOT NULL>,
+    "description": <DISCRIPTION>,
+    "time": <TIME>,
+    "location": <LOCATION>
+}
+```
+Response:  
+Same as `GET /api/found/{found_id}/`
+If there is no such user, the response is also:
+```
+<HTTP STATUS CODE 404>
+{
+    "error": true
+}
+```
 ### `DELETE /api/lost/{lost_id}/`
+Delete a specific lost item.  
+Response:  
+Same as `GET /api/lost/{lost_id}/`
 ### `DELETE /api/found/{found_id}/`
+Delete a specific found item.  
+Response:  
+Same as `GET /api/found/{found_id}/`
