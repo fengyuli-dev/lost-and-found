@@ -9,7 +9,6 @@ A lost & found iOS app built during Cornell Appdev's Hack Challenge FA21.
 To be finished.
 ## Databases
 This project contains a SQL database with three tables: user, lost, and found. Table "user" has one-to-many relationships with "lost" and "found".
-Unless otherwise specified in the API documentation, all table fields are not null.
 ## API Documentation
 ### `GET /api/lost/`
 Retrieve all lost items.   
@@ -36,11 +35,11 @@ Response if there exists such item:
 <HTTP STATUS CODE 200>
 {
     "id": <ID>,
-    "name": <NAME OF THE LOST ITEM>,
+    "name": <NAME OF THE LOST ITEM, NOT NULL>,
     "description": <DESCRPTION OF THE LOST ITEM, COULD BE NULL>,
-    "time": <TIME WHEN THE ITEM WAS LOST>,
+    "time": <TIME WHEN THE ITEM WAS LOST, COULD BE NULL>,
     "location": <WHERE THE ITEM WAS LOST, COULD BE NULL>,
-    "owner": <SERIALIZED USER>
+    "user": <SERIALIZED USER, NOT NULL>
 }
 ```
 Response if there is no such item:
@@ -57,11 +56,11 @@ Response if there exists such item:
 <HTTP STATUS CODE 200>
 {
     "id": <ID>,
-    "name": <NAME OF THE FOUND ITEM>,
+    "name": <NAME OF THE FOUND ITEM, NOT NULL>,
     "description": <DESCRPTION OF THE FOUND ITEM, COULD BE NULL>,
-    "time": <TIME WHEN THE ITEM WAS FOUND>,
-    "location": <WHERE THE ITEM WAS FOUND>,
-    "owner": <SERIALIZED USER>
+    "time": <TIME WHEN THE ITEM WAS FOUND, COULD BE NULL>,
+    "location": <WHERE THE ITEM WAS FOUND, COULD BE NULL>,
+    "user": <SERIALIZED USER, NOT NULL>
 }
 ```
 Response if there is no such item:
