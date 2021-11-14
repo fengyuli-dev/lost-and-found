@@ -36,7 +36,7 @@ class Lost(db.Model):
             "description": self.description,
             "time": self.time,
             "location": self.location,
-            "user": self.user.serialize()
+            "user": self.user_id
         }
 
 
@@ -57,5 +57,5 @@ class Found(db.Model):
             "description": self.description,
             "time": self.time,
             "location": self.location,
-            "user": self.user.serialize()
+            "user": self.user_id
         }
