@@ -73,5 +73,53 @@ def get_found_by_user(user_id):
     return success_response([f.serialize() for f in found])
 
 
+@app.route("/api/lost/<int:user_id>/", methods=['POST'])
+def post_lost_item(user_id):
+
+    user = User.query.filter_by(id=user_id).first()
+    if user in None:
+        return failure_response({"error": True})
+
+    body = json.loads(request.data)
+    if body.keys() < {"name"}:
+        return failure_response({"error": True}, 400)
+
+    item = Lost(
+        name=body["name"],
+        description=body.get("description", None),
+        # Use String for time?
+        time=body.get("time", None),
+        location=body.get("location", None),
+        user_id=user_id
+    )
+    db.session.add(item)
+    db.session.commit()
+    return success_response(item.serialize(), 201)
+
+
+@app.route("/api/found/<int:user_id>/", methods=['POST'])
+def post_found_item(user_id):
+
+    user = User.query.filter_by(id=user_id).first()
+    if user in None:
+        return failure_response({"error": True})
+
+    body = json.loads(request.data)
+    if body.keys() < {"name"}:
+        return failure_response({"error": True}, 400)
+
+    item = Found(
+        name=body["name"],
+        description=body.get("description", None),
+        # Use String for time?
+        time=body.get("time", None),
+        location=body.get("location", None),
+        user_id=user_id
+    )
+    db.session.add(item)
+    db.session.commit()
+    return success_response(item.serialize(), 201)
+
+
 if __name__ == "__main__":
     app.run(host="0.0.0.0", port=3000, debug=True)

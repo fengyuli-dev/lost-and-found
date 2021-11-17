@@ -116,7 +116,14 @@ Request:
 }
 ```
 Response:  
-Same as `GET /api/lost/{lost_id}/` except that a success post returns HTTP status code 201.
+Same as `GET /api/lost/{lost_id}/` except that a success post returns HTTP status code 201.  
+If the request does not have a name, the response is 
+```
+<HTTP STATUS CODE 400>
+{
+    "error": true
+}
+```
 If there is no such user, the response is also:
 ```
 <HTTP STATUS CODE 404>
@@ -136,7 +143,14 @@ Request:
 }
 ```
 Response:  
-Same as `GET /api/found/{found_id}/` except that a success post returns HTTP status code 201.
+Same as `GET /api/found/{found_id}/` except that a success post returns HTTP status code 201.  
+If the request does not have a name, the response is 
+```
+<HTTP STATUS CODE 400>
+{
+    "error": true
+}
+```
 If there is no such user, the response is also:
 ```
 <HTTP STATUS CODE 404>
