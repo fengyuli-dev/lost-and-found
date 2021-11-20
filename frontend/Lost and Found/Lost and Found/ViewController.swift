@@ -12,6 +12,7 @@ class ViewController: UIViewController {
     private var netIdText = UITextField();
     private var passwordText = UITextField();
     private var loginButton = UIButton();
+    print("hello world!")
     
 
     override func viewDidLoad() {
