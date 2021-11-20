@@ -121,5 +121,25 @@ def post_found_item(user_id):
     return success_response(item.serialize(), 201)
 
 
+@app.route("/api/found/<int:lost_id>", methods=["DELETE"])
+def delete_lost_item(lost_id):
+    lost = Lost.query.filter_by(id=lost_id).first()
+    if lost is None:
+        return failure_response({"error": True})
+    db.session.delete(lost)
+    db.session.commit()
+    return success_response(lost.serialize())
+
+
+@app.route("/api/found/<int:found_id>", methods=["DELETE"])
+def delete_found_item(found_id):
+    found = Found.query.filter_by(id=found_id).first()
+    if found is None:
+        return failure_response({"error": True})
+    db.session.delete(found)
+    db.session.commit()
+    return success_response(found.serialize())
+
+
 if __name__ == "__main__":
     app.run(host="0.0.0.0", port=3000, debug=True)
