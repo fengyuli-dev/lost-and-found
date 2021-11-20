@@ -28,6 +28,10 @@ with app.app_context():
 
 # Routes
 
+@app.route("/")
+def home():
+    return "Backend server for lost & found"
+
 
 @app.route("/api/lost/")
 def get_all_lost():
