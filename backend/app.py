@@ -28,6 +28,7 @@ with app.app_context():
 
 # Routes
 
+
 @app.route("/")
 def home():
     return "Backend server for lost & found"
@@ -123,6 +124,19 @@ def post_found_item(user_id):
     db.session.add(item)
     db.session.commit()
     return success_response(item.serialize(), 201)
+
+
+@app.route("/api/user/", methods=['POST'])
+def post_user():
+    body = json.loads(request.data)
+    if body.keys() < {"name"}:
+        return failure_response({"error": True}, 400)
+    user = User(
+        name=body["name"],
+    )
+    db.session.add(user)
+    db.session.commit()
+    return success_response(user.serialize(), 201)
 
 
 @app.route("/api/found/<int:lost_id>", methods=["DELETE"])

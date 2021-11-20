@@ -158,6 +158,20 @@ If there is no such user, the response is also:
     "error": true
 }
 ```
+### `POST /api/user/` 
+Add a user to the database.  
+Request:
+```
+{
+    "name": <NAME, NOT NULL>,
+}
+```
+Response:
+```
+{
+    "name": <NAME, NOT NULL>,
+}
+```
 ### `DELETE /api/lost/{lost_id}/`
 Delete a specific lost item.  
 Response:  
