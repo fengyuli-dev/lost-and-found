@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-class FoundDescViewController: UIViewController{
+class LostDescViewController: UIViewController{
     
     var name_title = UILabel()
     var name = UILabel()
@@ -15,8 +15,8 @@ class FoundDescViewController: UIViewController{
     var location = UILabel()
     var time_title = UILabel()
     var time = UILabel()
-    var note_title = UILabel()
-    var note = UILabel()
+    var des_title = UILabel()
+    var descrip = UILabel()
     var contact_title = UILabel()
     var contact = UILabel()
     
@@ -29,12 +29,12 @@ class FoundDescViewController: UIViewController{
         setupConstraints()
     }
     
-    func configure(for item: Found_Item) {
+    func configure(for item: Lost_Item) {
         name.text = item.objectName
         location.text = item.location
         time.text = item.time
         contact.text = item.contact
-        note.text = item.note
+        descrip.text = item.descrip
     }
     
     func setupViews(){
@@ -50,7 +50,7 @@ class FoundDescViewController: UIViewController{
         name.translatesAutoresizingMaskIntoConstraints = false
         view.addSubview(name)
         
-        loc_title.text="Found Location:"
+        loc_title.text="Lost Location:"
         loc_title.textColor = .black
         loc_title.font = UIFont(name: "RoundedMplus1c-Medium", size: 15)
         loc_title.translatesAutoresizingMaskIntoConstraints = false
@@ -61,7 +61,7 @@ class FoundDescViewController: UIViewController{
         location.translatesAutoresizingMaskIntoConstraints = false
         view.addSubview(location)
         
-        time_title.text="Found Time:"
+        time_title.text="Lost Time:"
         time_title.textColor = .black
         time_title.font = UIFont(name: "RoundedMplus1c-Medium", size: 15)
         time_title.translatesAutoresizingMaskIntoConstraints = false
@@ -72,16 +72,16 @@ class FoundDescViewController: UIViewController{
         time.translatesAutoresizingMaskIntoConstraints = false
         view.addSubview(time)
         
-        note_title.text="Founder's Note:"
-        note_title.textColor = .black
-        note_title.font = UIFont(name: "RoundedMplus1c-Medium", size: 15)
-        note_title.translatesAutoresizingMaskIntoConstraints = false
-        view.addSubview(note_title)
+        des_title.text="Founder's Note:"
+        des_title.textColor = .black
+        des_title.font = UIFont(name: "RoundedMplus1c-Medium", size: 15)
+        des_title.translatesAutoresizingMaskIntoConstraints = false
+        view.addSubview(des_title)
         
-        note.textColor = .black
-        note.font = UIFont(name: "RoundedMplus1c-Medium", size: 12)
-        note.translatesAutoresizingMaskIntoConstraints = false
-        view.addSubview(note)
+        descrip.textColor = .black
+        descrip.font = UIFont(name: "RoundedMplus1c-Medium", size: 12)
+        descrip.translatesAutoresizingMaskIntoConstraints = false
+        view.addSubview(descrip)
 
         contact_title.text="Contact:"
         contact_title.textColor = .black
@@ -141,23 +141,23 @@ class FoundDescViewController: UIViewController{
         ])
         
         NSLayoutConstraint.activate([
-            note_title.widthAnchor.constraint(equalToConstant: 329),
-            note_title.heightAnchor.constraint(equalToConstant: 28),
-            note_title.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor,constant: leading),
-            note_title.topAnchor.constraint(equalTo: time.bottomAnchor, constant: l_padding),
+            des_title.widthAnchor.constraint(equalToConstant: 329),
+            des_title.heightAnchor.constraint(equalToConstant: 28),
+            des_title.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor,constant: leading),
+            des_title.topAnchor.constraint(equalTo: time.bottomAnchor, constant: l_padding),
         ])
         NSLayoutConstraint.activate([
-            note.widthAnchor.constraint(equalToConstant: 329),
-            note.heightAnchor.constraint(equalToConstant: 20),
-            note.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor,constant: leading),
-            note.topAnchor.constraint(equalTo: note_title.bottomAnchor, constant: s_padding),
+            descrip.widthAnchor.constraint(equalToConstant: 329),
+            descrip.heightAnchor.constraint(equalToConstant: 20),
+            descrip.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor,constant: leading),
+            descrip.topAnchor.constraint(equalTo: des_title.bottomAnchor, constant: s_padding),
         ])
         
         NSLayoutConstraint.activate([
             contact_title.widthAnchor.constraint(equalToConstant: 287),
             contact_title.heightAnchor.constraint(equalToConstant: 28),
             contact_title.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor,constant: leading),
-            contact_title.topAnchor.constraint(equalTo: note.bottomAnchor, constant: l_padding),
+            contact_title.topAnchor.constraint(equalTo: descrip.bottomAnchor, constant: l_padding),
         ])
         NSLayoutConstraint.activate([
             contact.widthAnchor.constraint(equalToConstant: 287),

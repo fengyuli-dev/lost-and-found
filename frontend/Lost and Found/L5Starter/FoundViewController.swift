@@ -13,7 +13,7 @@ class FoundViewController: UIViewController, UITableViewDelegate {
     var foundTableView = UITableView()
     let reuseIdentifier_1 = "foundCellReuse"
     
-    var foundItems: [Item]=[]
+    var foundItems: [Found_Item]=[]
     var PostLost_Button = UIButton()
 //    var recButton = UILabel()
 
@@ -40,8 +40,6 @@ class FoundViewController: UIViewController, UITableViewDelegate {
         PostLost_Button.setTitleColor(.black, for: .normal)
         PostLost_Button.translatesAutoresizingMaskIntoConstraints = false
         view.addSubview(PostLost_Button)
-        
-        
         
         setupConstraints()
     }
