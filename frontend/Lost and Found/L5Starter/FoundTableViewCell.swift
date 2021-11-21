@@ -54,24 +54,47 @@ class FoundTableViewCell: UITableViewCell {
     }
     
     func setupConstraints() {
-        let padding: CGFloat = 50
-        let labelHeight: CGFloat = 20
-        
+//        let padding: CGFloat = 50
+//        let labelHeight: CGFloat = 20
+//
         NSLayoutConstraint.activate([
-            rec.widthAnchor.constraint(equalToConstant: 159),
-            rec.heightAnchor.constraint(equalToConstant: 30),
+            rec.widthAnchor.constraint(equalToConstant: 309),
+            rec.heightAnchor.constraint(equalToConstant: 92),
             rec.centerXAnchor.constraint(equalTo: contentView.centerXAnchor),
-            rec.topAnchor.constraint(equalTo: contentView.safeAreaLayoutGuide.topAnchor, constant: 307),
+            rec.topAnchor.constraint(equalTo: contentView.safeAreaLayoutGuide.topAnchor, constant: 164),
         ])
-        
         
         
         NSLayoutConstraint.activate([
-            name.widthAnchor.constraint(equalToConstant: 159),
-            name.heightAnchor.constraint(equalToConstant: 30),
-            name.centerXAnchor.constraint(equalTo: contentView.centerXAnchor),
-            name.topAnchor.constraint(equalTo: contentView.safeAreaLayoutGuide.topAnchor, constant: 307),
+            name.widthAnchor.constraint(equalToConstant: 165),
+            name.heightAnchor.constraint(equalToConstant: 25),
+            name.leadingAnchor.constraint(equalTo: rec.leadingAnchor, constant: 21),
+            name.topAnchor.constraint(equalTo: location.topAnchor, constant: 10),
         ])
+        
+        NSLayoutConstraint.activate([
+            location.widthAnchor.constraint(equalToConstant: 180),
+            location.heightAnchor.constraint(equalToConstant: 20),
+            location.leadingAnchor.constraint(equalTo: rec.leadingAnchor, constant: 21),
+            location.topAnchor.constraint(equalTo: rec.topAnchor, constant: 38),
+        ])
+        
+        NSLayoutConstraint.activate([
+            time.widthAnchor.constraint(equalToConstant: 35),
+            time.heightAnchor.constraint(equalToConstant: 20),
+            time.leadingAnchor.constraint(equalTo: rec.leadingAnchor, constant: 141),
+            time.topAnchor.constraint(equalTo: rec.topAnchor, constant: 15),
+        ])
+        
+        NSLayoutConstraint.activate([
+            des_image.widthAnchor.constraint(equalToConstant: 58),
+            des_image.heightAnchor.constraint(equalToConstant: 70),
+            des_image.leadingAnchor.constraint(equalTo: rec.leadingAnchor, constant: 229),
+            des_image.topAnchor.constraint(equalTo: rec.topAnchor, constant: 11),
+        ])
+        
+        
+        
         
         
     }

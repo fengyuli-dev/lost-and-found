@@ -1,63 +1,96 @@
-//
+// 我自己写的
 //  ViewController.swift
 //  L5Starter
 //
 //  Created by Amy Chin Siu Huang on 10/25/21.
 //
 
+//import UIKit
+//
+//class ViewController: UIViewController {
+//
+//    // TODO 1: set up view
+//
+//    override func viewDidLoad() {
+//        super.viewDidLoad()
+//        view.backgroundColor = UIColor(red: 0.325, green: 0.38, blue: 0.424, alpha: 1)
+//
+//        setupViews()
+//        setupConstraints()
+//    }
+//
+//    func setupViews(){
+//    }
+//
+//    func setupConstraints() {
+//
+//    }
+//}
 import UIKit
 
-class ViewController: UIViewController, UITableViewDataSource, UITableViewDelegate {
-    
-    
+ class ViewController: UIViewController {
 
-    // TODO 1: set up view
-    var foundTableView = UITableView()
-    let reuseIdentifier_1 = "foundCellReuse"
-    
-    var foundItems: [Item]=[]
+     private var netIdText = UITextField();
+     private var passwordText = UITextField();
+     private var loginButton = UIButton();
 
 
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        title = "Found Items"
-        view.backgroundColor = UIColor(red: 0.325, green: 0.38, blue: 0.424, alpha: 1)
-        
-        foundTableView.translatesAutoresizingMaskIntoConstraints = false
-        foundTableView.dataSource = self
-        foundTableView.delegate = self
-        foundTableView.register(FoundTableViewCell.self, forCellReuseIdentifier: reuseIdentifier_1)
-        view.addSubview(foundTableView)
-        
-        setupViews()
-        setupConstraints()
-    }
-    
-    func setupViews(){
-        
-        
-    }
+     override func viewDidLoad() {
+         super.viewDidLoad()
+         // Do any additional setup after loading the view.
+         view.backgroundColor = .gray;
+         let theWidth = CGFloat(257);
+         let theHeight = CGFloat(49);
 
-    func setupConstraints() {
-//        let collectionViewPadding: CGFloat = 12
-        NSLayoutConstraint.activate([
-            foundTableView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
-            foundTableView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
-            foundTableView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
-            foundTableView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor)
-        ])
-    }
-}
 
-extension ViewController: UITableViewDataSource {
-    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return found.count
-        
-    }
-    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        return FoundTableViewCell()
-    }
-}
+         netIdText.frame = CGRect(x: 0, y: 0, width: 257, height: 49)
+         netIdText.backgroundColor = .white
+         netIdText.layer.backgroundColor = UIColor(red: 0.941, green: 0.961, blue: 0.976, alpha: 1).cgColor
+         var parent = self.view!
+         parent.addSubview(netIdText)
+         netIdText.translatesAutoresizingMaskIntoConstraints = false
+         netIdText.widthAnchor.constraint(equalToConstant: theWidth).isActive = true
+         netIdText.heightAnchor.constraint(equalToConstant: theHeight).isActive = true
+         netIdText.topAnchor.constraint(equalTo: parent.safeAreaLayoutGuide.topAnchor, constant: 150).isActive = true
+         netIdText.centerXAnchor.constraint(equalTo: parent.safeAreaLayoutGuide.centerXAnchor).isActive = true;
+         netIdText.placeholder = "NetId"
+
+
+         passwordText.frame = CGRect(x: 0, y: 0, width: 257, height: 49)
+         passwordText.backgroundColor = .white
+         passwordText.layer.backgroundColor = UIColor(red: 0.941, green: 0.961, blue: 0.976, alpha: 1).cgColor
+         passwordText.placeholder = "Password";
+         parent.addSubview(passwordText)
+         passwordText.translatesAutoresizingMaskIntoConstraints = false
+         passwordText.widthAnchor.constraint(equalToConstant: theWidth).isActive = true
+         passwordText.heightAnchor.constraint(equalToConstant: theHeight).isActive = true
+         passwordText.topAnchor.constraint(equalTo: netIdText.bottomAnchor, constant: 20).isActive = true
+         passwordText.centerXAnchor.constraint(equalTo: parent.safeAreaLayoutGuide.centerXAnchor).isActive = true
+
+
+         loginButton.backgroundColor = .blue;
+         loginButton.setTitle("Login", for: .normal)
+         loginButton.titleLabel?.textColor = .white;
+         loginButton.layer.cornerRadius = 23;
+ //        loginButton.layer.backgroundColor = UIColor(red: 0.788, green: 0.839, blue: 0.875, alpha: 1).cgColor
+         parent.addSubview(loginButton)
+         loginButton.translatesAutoresizingMaskIntoConstraints = false;
+         loginButton.centerXAnchor.constraint(equalTo: parent.safeAreaLayoutGuide.centerXAnchor).isActive = true;
+         loginButton.topAnchor.constraint(equalTo: passwordText.bottomAnchor, constant: 30).isActive = true;
+         loginButton.widthAnchor.constraint(equalToConstant: CGFloat(150)).isActive = true;
+         loginButton.addTarget(self, action: #selector(loginTapped), for: .touchUpInside)
+
+
+
+
+     }
+     @objc func loginTapped(){
+         //you lack an if let method!
+         let qvc = QuestionViewController();
+                  self.navigationController?.pushViewController(qvc, animated: true)
+     }
+ }
+
 
 //extension ViewController: UITableViewDelegate {
 //
