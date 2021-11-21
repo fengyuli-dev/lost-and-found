@@ -1,3 +1,4 @@
+
 //
 //  ViewController.swift
 //  Lost and Found
@@ -65,9 +66,9 @@ class MainViewController: UIViewController {
     }
     @objc func loginTapped(){
         //you lack an if let method!
-        
+        let qvc = QuestionViewController();
+        self.navigationController?.pushViewController(qvc, animated: true)
     }
 
 
 }
-
