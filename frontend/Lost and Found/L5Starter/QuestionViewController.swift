@@ -48,7 +48,7 @@ class QuestionViewController: UIViewController {
 
         Lost.frame = CGRect(x: 0, y: 0, width: 279, height: 44)
         Lost.layer.backgroundColor = UIColor(red: 0.788, green: 0.839, blue: 0.875, alpha: 1).cgColor
-        Lost.layer.cornerRadius = 30
+        Lost.layer.cornerRadius = 20
         Lost.setTitle("Lost Something?", for: .normal)
         Lost.setTitleColor(.black, for: .normal)
         Lost.addTarget(self, action: #selector(lostTableTapped), for: .touchUpInside)
@@ -61,7 +61,7 @@ class QuestionViewController: UIViewController {
         //Found
         Found.frame = CGRect(x: 0, y: 0, width: 279, height: 44)
         Found.layer.backgroundColor = UIColor(red: 0.788, green: 0.839, blue: 0.875, alpha: 1).cgColor
-        Found.layer.cornerRadius = 30
+        Found.layer.cornerRadius = 20
         Found.setTitle("Found Something?", for: .normal)
         Found.setTitleColor(.black, for: .normal)
         Found.addTarget(self, action: #selector(lostTableTapped), for: .touchUpInside)

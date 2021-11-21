@@ -16,7 +16,7 @@ class Item{
     var contact: String
     var pics: UIImage
     
-    init(objectName: String, location: String, time: String, note: String,contact: String, pics: UIImage) {
+    init(objectName: String, location: String, time: String, note: String, contact: String, pics: UIImage) {
         self.objectName = objectName
         self.location = location
         self.time = time

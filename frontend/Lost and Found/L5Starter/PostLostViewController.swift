@@ -33,7 +33,7 @@ class PostLostViewController: UIViewController {
     var contact_phone_input = UITextField()
     var contact_time_input = UITextField()
     
-    var PostLost_Button = UIButton()
+    var PostL_Button = UIButton()
     
 //    var rec1 = UILabel()
 //    var rec2 = UILabel()
@@ -41,6 +41,10 @@ class PostLostViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         title = "Post Lost"
+        let color: UIColor=UIColor(red: 0.788, green: 0.839, blue: 0.875, alpha: 1)
+        let textAttributes = [NSAttributedString.Key.foregroundColor: color]
+        navigationController?.navigationBar.titleTextAttributes = textAttributes
+        
         view.backgroundColor = UIColor(red: 0.325, green: 0.38, blue: 0.424, alpha: 1)
 
         setupViews()
@@ -52,13 +56,14 @@ class PostLostViewController: UIViewController {
         let border_width : CGFloat = 0.5
         
         //PostLost_Button
-        PostLost_Button.frame = CGRect(x: 0, y: 0, width: 130, height: 46)
-        PostLost_Button.setTitle("Post Lost", for: .normal)
-        PostLost_Button.layer.backgroundColor = color.cgColor
-        PostLost_Button.layer.cornerRadius = 23
-        PostLost_Button.addTarget(self, action: #selector(PostLostTapped), for: .touchUpInside)
-        PostLost_Button.translatesAutoresizingMaskIntoConstraints = false
-        view.addSubview(PostLost_Button)
+        PostL_Button.frame = CGRect(x: 0, y: 0, width: 130, height: 46)
+        PostL_Button.setTitle("Post", for: .normal)
+        PostL_Button.layer.backgroundColor = color.cgColor
+        PostL_Button.setTitleColor(.black, for: .normal)
+        PostL_Button.layer.cornerRadius = 23
+        PostL_Button.addTarget(self, action: #selector(PostLTapped), for: .touchUpInside)
+        PostL_Button.translatesAutoresizingMaskIntoConstraints = false
+        view.addSubview(PostL_Button)
         
         //name
         name.text="Item's name:"
@@ -198,10 +203,10 @@ class PostLostViewController: UIViewController {
     
     }
     
-    @objc func PostLostTapped() {
+    @objc func PostLTapped() {
         //还需要实现如何再增加一行table view
-        let FVC = FoundViewController();
-            self.navigationController?.pushViewController(FVC, animated: true)
+//        let FVC = FoundDescViewController();
+//            self.navigationController?.pushViewController(FVC, animated: true)
     }
 
     func setupConstraints() {
@@ -272,7 +277,7 @@ class PostLostViewController: UIViewController {
             contact.widthAnchor.constraint(equalToConstant: 148),
             contact.heightAnchor.constraint(equalToConstant: 27),
             contact.leadingAnchor.constraint(equalTo: view.leadingAnchor,constant: leading),
-            contact.topAnchor.constraint(equalTo: timeInput.bottomAnchor, constant: 40),
+            contact.topAnchor.constraint(equalTo: timeInput.bottomAnchor, constant: 35),
         ])
         NSLayoutConstraint.activate([
             contact_name.widthAnchor.constraint(equalToConstant: 140),
@@ -306,17 +311,17 @@ class PostLostViewController: UIViewController {
         ])
         NSLayoutConstraint.activate([
             contact_time_input.widthAnchor.constraint(equalToConstant: 319),
-            contact_time_input.heightAnchor.constraint(equalToConstant: 40),
+            contact_time_input.heightAnchor.constraint(equalToConstant: 30),
             contact_time_input.leadingAnchor.constraint(equalTo: view.leadingAnchor,constant: leading),
             contact_time_input.topAnchor.constraint(equalTo: contact_time.bottomAnchor, constant: s_padding),
         ])
         
         //PostLost_Button
         NSLayoutConstraint.activate([
-            PostLost_Button.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-            PostLost_Button.widthAnchor.constraint(equalToConstant: 130),
-            PostLost_Button.heightAnchor.constraint(equalToConstant: 46),
-            PostLost_Button.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -20)
+            PostL_Button.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            PostL_Button.widthAnchor.constraint(equalToConstant: 130),
+            PostL_Button.heightAnchor.constraint(equalToConstant: 46),
+            PostL_Button.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -15)
         ])
         
         

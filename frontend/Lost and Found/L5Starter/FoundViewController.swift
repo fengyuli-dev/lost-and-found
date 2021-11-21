@@ -21,6 +21,9 @@ class FoundViewController: UIViewController, UITableViewDelegate {
     override func viewDidLoad() {
         super.viewDidLoad()
         title = "Found Items"
+        let color: UIColor=UIColor(red: 0.788, green: 0.839, blue: 0.875, alpha: 1)
+        let textAttributes = [NSAttributedString.Key.foregroundColor: color]
+        navigationController?.navigationBar.titleTextAttributes = textAttributes
         view.backgroundColor = UIColor(red: 0.325, green: 0.38, blue: 0.424, alpha: 1)
         
         foundTableView.translatesAutoresizingMaskIntoConstraints = false
@@ -34,6 +37,7 @@ class FoundViewController: UIViewController, UITableViewDelegate {
         PostLost_Button.layer.backgroundColor = UIColor(red: 0.788, green: 0.839, blue: 0.875, alpha: 1).cgColor
         PostLost_Button.layer.cornerRadius = 23
         PostLost_Button.addTarget(self, action: #selector(PostLostTapped), for: .touchUpInside)
+        PostLost_Button.setTitleColor(.black, for: .normal)
         PostLost_Button.translatesAutoresizingMaskIntoConstraints = false
         view.addSubview(PostLost_Button)
         
