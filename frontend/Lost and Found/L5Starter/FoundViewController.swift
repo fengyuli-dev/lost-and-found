@@ -29,8 +29,24 @@ class FoundViewController: UIViewController{
     override func viewDidLoad() {
         super.viewDidLoad()
         title = "Found Items"
+        let navBar = self.navigationController!.navigationBar;
+        navBar.isTranslucent = true;
+        navBar.titleTextAttributes = [.backgroundColor: UIColor(.clear)]//this is of no use!
+        let titleview = UILabel();
+        titleview.text = "Found Items";
+        titleview.textColor = UIColor(red: 0.788, green: 0.839, blue: 0.875, alpha: 1)
+        let titleheight = view.frame.height * 0.026;
+        titleview.font = UIFont(name: "RoundedMplus1c-ExtraBold", size: titleheight);
+        self.navigationItem.titleView = titleview; //in this way the title is properly set.
+        //however.. why is it more to the left everytime I scroll back from the "post lost"?
         view.backgroundColor = UIColor(red: 0.325, green: 0.38, blue: 0.424, alpha: 1)
-        
+        let appearance = UINavigationBarAppearance();
+        appearance.configureWithTransparentBackground();
+        navBar.standardAppearance = appearance;
+        navBar.scrollEdgeAppearance = appearance;
+        navBar.compactAppearance = appearance;
+        //https://developer.apple.com/documentation/uikit/uinavigationcontroller/customizing_your_app_s_navigation_bar
+
         
         
         let sectionpadding : CGFloat = 5;
@@ -52,6 +68,8 @@ class FoundViewController: UIViewController{
         PostLost_Button.layer.cornerRadius = 23
         PostLost_Button.addTarget(self, action: #selector(PostLostTapped), for: .touchUpInside)
         PostLost_Button.translatesAutoresizingMaskIntoConstraints = false
+        PostLost_Button.setTitleColor(.black, for: .normal);
+        PostLost_Button.titleLabel?.font = UIFont(name:"RoundedMplus1c-Medium", size: 18);
         view.addSubview(PostLost_Button)
         
         
@@ -68,7 +86,7 @@ class FoundViewController: UIViewController{
             foundTableView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: viewpadding),
             foundTableView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -viewpadding),
             foundTableView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: viewpadding),
-            foundTableView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor,constant: -viewpadding)
+            foundTableView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor)
         ])
         
         NSLayoutConstraint.activate([
@@ -87,7 +105,19 @@ class FoundViewController: UIViewController{
     
     
     func addDUMMYData(){
+        foundItems.append(Item(objectName: "Porridge", location: "Townhouse", time: "25:61", note: "Handsome BOOOYYYY", contact: "Oopsy, you should find it", pics: UIImage()));
         foundItems.append(Item(objectName: "Porridge", location: "Townhouse", time: "25:61", note: "Handsome BOOOYYYY", contact: "Oopsy, you should find it", pics: UIImage()))
+        foundItems.append(Item(objectName: "Porridge", location: "Townhouse", time: "25:61", note: "Handsome BOOOYYYY", contact: "Oopsy, you should find it", pics: UIImage()))
+        foundItems.append(Item(objectName: "Porridge", location: "Townhouse", time: "25:61", note: "Handsome BOOOYYYY", contact: "Oopsy, you should find it", pics: UIImage()))
+        foundItems.append(Item(objectName: "Porridge", location: "Townhouse", time: "25:61", note: "Handsome BOOOYYYY", contact: "Oopsy, you should find it", pics: UIImage()))
+        foundItems.append(Item(objectName: "Porridge", location: "Townhouse", time: "25:61", note: "Handsome BOOOYYYY", contact: "Oopsy, you should find it", pics: UIImage()))
+        foundItems.append(Item(objectName: "Porridge", location: "Townhouse", time: "25:61", note: "Handsome BOOOYYYY", contact: "Oopsy, you should find it", pics: UIImage()))
+        foundItems.append(Item(objectName: "Porridge", location: "Townhouse", time: "25:61", note: "Handsome BOOOYYYY", contact: "Oopsy, you should find it", pics: UIImage()))
+        foundItems.append(Item(objectName: "Porridge", location: "Townhouse", time: "25:61", note: "Handsome BOOOYYYY", contact: "Oopsy, you should find it", pics: UIImage()))
+        foundItems.append(Item(objectName: "Porridge", location: "Townhouse", time: "25:61", note: "Handsome BOOOYYYY", contact: "Oopsy, you should find it", pics: UIImage()))
+        foundItems.append(Item(objectName: "Porridge", location: "Townhouse", time: "25:61", note: "Handsome BOOOYYYY", contact: "Oopsy, you should find it", pics: UIImage()))
+        foundItems.append(Item(objectName: "Porridge", location: "Townhouse", time: "25:61", note: "Handsome BOOOYYYY", contact: "Oopsy, you should find it", pics: UIImage()))
+        
     }
 }
 
@@ -118,9 +148,15 @@ extension FoundViewController : UICollectionViewDelegate, UICollectionViewDelega
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         let item = foundItems[indexPath.item];
+
         let display = FoundDescViewController();
         display.configure(for: item);
-        present(display, animated: true, completion: nil);
+        if let pC = display.presentationController as? UISheetPresentationController {
+            pC.detents = [.medium()] /// set here!
+        }//look here. This is the way to show half-screen.
+        //https://stackoverflow.com/questions/42106980/how-to-present-a-viewcontroller-on-half-screen
+        
+        present(display, animated: true, completion: nil)
     }
     
 }
