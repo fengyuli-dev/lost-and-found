@@ -60,16 +60,16 @@ def get_specific_found(found_id):
     return success_response(found.serialize())
 
 
-@app.route("/api/lost/<int:user_id>/")
+@app.route("/api/lost/user/<int:user_id>/")
 def get_lost_by_user(user_id):
     user = User.query.filter_by(id=user_id).first()
-    if user in None:
+    if user is None:
         return failure_response({"error": True})
     lost = Lost.query.filter_by(user_id=user_id)
     return success_response([l.serialize() for l in lost])
 
 
-@app.route("/api/found/<int:user_id>/")
+@app.route("/api/found/user/<int:user_id>/")
 def get_found_by_user(user_id):
     user = User.query.filter_by(id=user_id).first()
     if user is None:

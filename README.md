@@ -72,7 +72,7 @@ Response if there is no such item:
     "error": true
 }
 ```
-### `GET /api/lost/{user_id}/`
+### `GET /api/lost/user/{user_id}/`
 Retrive all lost items that belong to a user with the given id.  
 Response if there exists such item:
 ```
@@ -88,7 +88,7 @@ Response if there is no such item:
     "error": true
 }
 ```
-### `GET /api/found/{user_id}/`
+### `GET /api/found/user/{user_id}/`
 Retrive all items that are found by a user with the given id.  
 Response if there exists such item:
 ```
