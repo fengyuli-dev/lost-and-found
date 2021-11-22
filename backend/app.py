@@ -72,7 +72,7 @@ def get_lost_by_user(user_id):
 @app.route("/api/found/<int:user_id>/")
 def get_found_by_user(user_id):
     user = User.query.filter_by(id=user_id).first()
-    if user in None:
+    if user is None:
         return failure_response({"error": True})
     found = Found.query.filter_by(user_id=user_id)
     return success_response([f.serialize() for f in found])
@@ -82,7 +82,7 @@ def get_found_by_user(user_id):
 def post_lost_item(user_id):
 
     user = User.query.filter_by(id=user_id).first()
-    if user in None:
+    if user is None:
         return failure_response({"error": True})
 
     body = json.loads(request.data)
@@ -106,7 +106,7 @@ def post_lost_item(user_id):
 def post_found_item(user_id):
 
     user = User.query.filter_by(id=user_id).first()
-    if user in None:
+    if user is None:
         return failure_response({"error": True})
 
     body = json.loads(request.data)
