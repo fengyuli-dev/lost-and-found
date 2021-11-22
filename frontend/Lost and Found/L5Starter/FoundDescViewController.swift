@@ -4,7 +4,6 @@
 //
 //  Created by Vivian on 11/21/21.
 //
-
 import SwiftUI
 
 class FoundDescViewController: UIViewController{
@@ -20,6 +19,12 @@ class FoundDescViewController: UIViewController{
     var contact_title = UILabel()
     var contact = UILabel()
     
+
+//    override func containerViewDidLayoutSubviews() {
+//        super.containerViewDidLayoutSubviews()
+//        self.presentedView?.frame = frameOfPresentedViewInContainerView
+//
+//    }
     override func viewDidLoad() {
         super.viewDidLoad()
         title = "Found Description"
@@ -29,7 +34,7 @@ class FoundDescViewController: UIViewController{
         setupConstraints()
     }
     
-    func configure(for item: Found_Item) {
+    func configure(for item: Item) {
         name.text = item.objectName
         location.text = item.location
         time.text = item.time
