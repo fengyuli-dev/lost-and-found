@@ -1,5 +1,6 @@
 from flask_sqlalchemy import SQLAlchemy
 import os
+import datetime
 import bcrypt
 import hashlib
 
@@ -14,20 +15,41 @@ class User(db.Model):
     lost = db.relationship("Lost", back_populates="user")
     found = db.relationship("Found", back_populates="user")
 
-    def _init_(self, **kwargs):
-        self.email = kwargs["email"]
+    # Session information
+    session_token = db.Column(db.String, nullable=False, unique=True)
+    session_expiration = db.Column(db.DateTime, nullable=False)
+    update_token = db.Column(db.String, nullable=False, unique=True)
+
+    def _init_(self, email, password):
+        self.email = email
         self.password_digest = bcrypt.hashpw(
-            kwargs["password"].encode("utf8"), bcrypt.gensalt(rounds=13))
+            password.encode("utf8"), bcrypt.gensalt(rounds=13))
         self.renew_session()
 
     # Used to randomly generate session/update tokens
     def _urlsafe_base_64(self):
         return hashlib.sha1(os.urandom(64)).hexdigest()
 
+    # Generates new tokens, and resets expiration time
+    def renew_session(self):
+        self.session_token = self._urlsafe_base_64()
+        self.session_expiration = datetime.datetime.now() + datetime.timedelta(hours=1)
+        self.update_token = self._urlsafe_base_64()
+
+    def verify_password(self, password):
+        return bcrypt.checkpw(password.encode("utf8"), self.password_digest)
+
+    # Checks if session token is valid and hasn't expired
+    def verify_session_token(self, session_token):
+        return session_token == self.session_token and datetime.datetime.now() < self.session_expiration
+
+    def verify_update_token(self, update_token):
+        return update_token == self.update_token
+
     def serialize(self):
         return {
             "id": self.id,
-            "name": self.username,
+            "email": self.username,
             "lost": [l.serialize() for l in self.lost],
             "found": [f.serialize() for f in self.found]
         }

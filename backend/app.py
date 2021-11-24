@@ -11,7 +11,17 @@ app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///%s" % db_filename
 app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
 app.config["SQLALCHEMY_ECHO"] = True
 
-# Generalized response formats
+# Helper methods
+
+
+def extract_token(request):
+    header = request.headers.get("Authorization")
+    if header is None:
+        return False, None
+    bearer_token = header.replace("Bearer ", "").strip()
+    if bearer_token is None:
+        return False, None
+    return True, bearer_token
 
 
 def success_response(response, code=200):
@@ -32,6 +42,61 @@ with app.app_context():
 @app.route("/")
 def home():
     return "Backend server for lost & found"
+
+
+@app.route("/register/", methods=["POST"])
+def register_account():
+    body = json.loads(request.data)
+    if body.keys() < {"email", "password"}:
+        return failure_response({"error": True}, 400)
+    if not User.query.filter_by(email=body["email"]).first() is None:
+        return failure_response({"error": True}, 400)
+    new_user = User(body["email"], body["password"])
+    db.session.add(new_user)
+    db.session.commit()
+    return success_response({
+        "session_token": new_user.session_token,
+        "session_expiration": str(new_user.session_expiration),
+        "update_token": new_user.update_token
+    }, 201)
+
+
+@app.route("/login/", methods=["POST"])
+def login():
+    body = json.loads(request.data)
+    if body.keys() < {"email", "password"}:
+        return failure_response({"error": True}, 400)
+    user = User.query.filter_by(email=body["email"]).first()
+    success = user is not None and user.verify_password(body["password"])
+    if not success:
+        return failure_response({"error": True}, 401)
+    else:
+        return success_response({
+            "session_token": user.session_token,
+            "session_expiration": str(user.session_expiration),
+            "update_token": user.update_token
+        }, )
+
+
+@app.route("/session/", methods=["POST"])
+def update_session():
+    success, update_token = extract_token(request)
+    if not success:
+        return update_token
+    user = User.query.filter_by(update_token=update_token).first()
+    if user is None:
+        return failure_response({"error": True})
+    user.renew_session()
+    db.session.commit()
+    return success_response({
+        "session_token": user.session_token,
+        "session_expiration": str(user.session_expiration),
+        "update_token": user.update_token
+    }, )
+
+@app.route("/secret/", methods=["GET"])
+def secret_message():
+    pass
 
 
 @app.route("/api/lost/")
