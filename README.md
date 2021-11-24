@@ -7,11 +7,12 @@ A lost & found iOS app built during Cornell Appdev's Hack Challenge FA21.
 - [Li Fengyu](https://github.com/fengyuli2002): backend developer
 ## Summary
 To be finished.
-## Databases
+## The Database
 This project contains a SQL database with three tables: user, lost, and found. Table "user" has one-to-many relationships with "lost" and "found".
 ## API Documentation
 A HTTP status code of 500 indicates internal server error and should be reported to the backend developer.  
 For post methods, the field time should be in the format: TBD.
+### `POST /api/register/`
 ### `GET /api/lost/`
 Retrieve all lost items.   
 Response:
