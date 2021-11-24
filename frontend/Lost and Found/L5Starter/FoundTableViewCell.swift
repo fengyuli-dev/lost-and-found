@@ -36,7 +36,6 @@ class FoundTableViewCell: UICollectionViewCell {
         
         let namefont = contentView.frame.height * 0.25
         name.font = UIFont(name: "RoundedMplus1c-ExtraBold", size: namefont)
-//        name.font = .systemFont(ofSize: 25)
         name.translatesAutoresizingMaskIntoConstraints = false
         name.textColor = .black;
         contentView.addSubview(name)
@@ -64,12 +63,13 @@ class FoundTableViewCell: UICollectionViewCell {
     
     func setupConstraints() {
         
-        print("contentview: \(contentView.frame.height), wide\(contentView.frame.width)")
+        //the parameter used in this section. Modify the scaler, the whole thing is adjusted.
         let toppad2 = contentView.frame.height * 0.108
         let nameheight = contentView.frame.height * 0.35
         let namelead = contentView.frame.width * 0.08
         let namewidth = contentView.frame.width * (3/7)
-        print("\(toppad2),\(nameheight),\(namelead)")
+        
+        
         NSLayoutConstraint.activate([
             name.widthAnchor.constraint(equalToConstant: namewidth),
             name.heightAnchor.constraint(equalToConstant: nameheight),
@@ -78,6 +78,7 @@ class FoundTableViewCell: UICollectionViewCell {
         ])
         
         
+        let toppad1 = nameheight * (1/50)
         NSLayoutConstraint.activate([
             location.leadingAnchor.constraint(equalTo: name.leadingAnchor),
             location.topAnchor.constraint(equalTo: name.bottomAnchor),
@@ -85,6 +86,7 @@ class FoundTableViewCell: UICollectionViewCell {
         ])
         
         
+
         NSLayoutConstraint.activate([
             time.topAnchor.constraint(equalTo: location.bottomAnchor, constant: toppad1),
             time.leadingAnchor.constraint(equalTo: name.leadingAnchor),

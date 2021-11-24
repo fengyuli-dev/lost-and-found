@@ -15,6 +15,7 @@ class FoundViewController: UIViewController{
     var PostLost_Button = UIButton()
     var cellPadding : CGFloat = 10
 //    var recButton = UILabel()
+    var theHeight:Float = 15;
     
     init(){
         let foundlayout = UICollectionViewFlowLayout();
@@ -30,8 +31,8 @@ class FoundViewController: UIViewController{
         super.viewDidLoad()
         title = "Found Items"
         let navBar = self.navigationController!.navigationBar;
-        navBar.isTranslucent = true;
-        navBar.titleTextAttributes = [.backgroundColor: UIColor(.clear)]//this is of no use!
+//        navBar.isTranslucent = true;
+//        navBar.titleTextAttributes = [.backgroundColor: UIColor(.clear)]//this is of no use!
         let titleview = UILabel();
         titleview.text = "Found Items";
         titleview.textColor = UIColor(red: 0.788, green: 0.839, blue: 0.875, alpha: 1)
@@ -39,6 +40,7 @@ class FoundViewController: UIViewController{
         titleview.font = UIFont(name: "RoundedMplus1c-ExtraBold", size: titleheight);
         self.navigationItem.titleView = titleview; //in this way the title is properly set.
         //however.. why is it more to the left everytime I scroll back from the "post lost"?
+        titleview.textAlignment = .center;
         view.backgroundColor = UIColor(red: 0.325, green: 0.38, blue: 0.424, alpha: 1)
         let appearance = UINavigationBarAppearance();
         appearance.configureWithTransparentBackground();
@@ -81,10 +83,14 @@ class FoundViewController: UIViewController{
     
 
     func setupConstraints() {
+        
+        //the parameter used in this section. Modify the scaler, the whole thing is adjusted.
         let viewpadding : CGFloat = 10;
+        
+        
         NSLayoutConstraint.activate([
-            foundTableView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: viewpadding),
-            foundTableView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -viewpadding),
+            foundTableView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor),
+            foundTableView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor),
             foundTableView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: viewpadding),
             foundTableView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor)
         ])
@@ -150,6 +156,7 @@ extension FoundViewController : UICollectionViewDelegate, UICollectionViewDelega
         let item = foundItems[indexPath.item];
 
         let display = FoundDescViewController();
+        display.setParaForFont(Float(view.frame.height) * 0.022) //set the font size!
         display.configure(for: item);
         if let pC = display.presentationController as? UISheetPresentationController {
             pC.detents = [.medium()] /// set here!

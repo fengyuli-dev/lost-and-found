@@ -11,7 +11,7 @@ class PostLostViewController: UIViewController {
 //    required init?(coder: NSCoder) {
 //        fatalError("init(coder:) has not been implemented")
 //    }
-//    
+//
     // TODO 1: set up view
     var name = UILabel()
     var nameInput = UITextField()
@@ -37,7 +37,6 @@ class PostLostViewController: UIViewController {
     
 //    var rec1 = UILabel()
 //    var rec2 = UILabel()
-
     override func viewDidLoad() {
         super.viewDidLoad()
         title = "Post Lost"
@@ -210,6 +209,8 @@ class PostLostViewController: UIViewController {
     }
 
     func setupConstraints() {
+        
+        //the parameter used in this section. Modify the scaler, the whole thing is adjusted.
         let width: CGFloat = 285
         let leading: CGFloat = 18
         let s_padding: CGFloat = 1
@@ -334,4 +335,3 @@ class PostLostViewController: UIViewController {
 
     }
 }
-

@@ -3,6 +3,7 @@
 //  LostandFound
 //
 //  Created by Vivian on 11/20/21.
+//  
 //
 import SwiftUI
 
@@ -24,96 +25,76 @@ class QuestionViewController: UIViewController {
     // TODO 1: set up view
     var Lost = UIButton()
     var Found = UIButton()
-//    var rec1 = UILabel()
-//    var rec2 = UILabel()
-
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         //title = "Shapes"
         view.backgroundColor = UIColor(red: 0.325, green: 0.38, blue: 0.424, alpha: 1)
         
-        
 
-        // TODO 3: Setup flow layout
-        // TODO 4: Instantiate collectionView
-        // TODO 5: Create collection view cell and register it here.
-        // TODO 6: Set collection view data source
-        // TODO 7: Set collection view delegate
-        // TODO 8: Register header view
         setupViews()
         setupConstraints()
     }
     
     func setupViews(){
 
-        Lost.frame = CGRect(x: 0, y: 0, width: 279, height: 44)
+        self.navigationItem.hidesBackButton = true;//You may never come back!
+        
+        //Lost
         Lost.layer.backgroundColor = UIColor(red: 0.788, green: 0.839, blue: 0.875, alpha: 1).cgColor
-        Lost.layer.cornerRadius = 20
+        Lost.layer.cornerRadius = 20//weird. when this number gets bigger, the button apperance
+                                    //would become acute on the very left and right corner. verify.
         Lost.setTitle("Lost Something?", for: .normal)
         Lost.setTitleColor(.black, for: .normal)
         Lost.addTarget(self, action: #selector(lostTableTapped), for: .touchUpInside)
         Lost.translatesAutoresizingMaskIntoConstraints = false
-        
-//        Lost.font = UIFont(name: "Inter-Regular", size: 24)
+        //well the font of the text is set in setUpConstraints(). Check to see why. interesting.
         view.addSubview(Lost)
         
     
         //Found
-        Found.frame = CGRect(x: 0, y: 0, width: 279, height: 44)
         Found.layer.backgroundColor = UIColor(red: 0.788, green: 0.839, blue: 0.875, alpha: 1).cgColor
         Found.layer.cornerRadius = 20
         Found.setTitle("Found Something?", for: .normal)
         Found.setTitleColor(.black, for: .normal)
-        Found.addTarget(self, action: #selector(lostTableTapped), for: .touchUpInside)
+//        Found.addTarget(self, action: #selector(lostTableTapped), for: .touchUpInside)
         Found.translatesAutoresizingMaskIntoConstraints = false
-        
-//        Found.font = UIFont(name: "Inter-Regular", size: 24)
         view.addSubview(Found)
         
-        
+ 
     }
 
     func setupConstraints() {
-//        let collectionViewPadding: CGFloat = 12
         
-//        //rec1
-//        NSLayoutConstraint.activate([
-//            rec1.widthAnchor.constraint(equalToConstant: 279),
-//            rec1.heightAnchor.constraint(equalToConstant: 44),
-//            rec1.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-//            rec1.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 200),
-//        ])
-//
-//        //rec2
-//        NSLayoutConstraint.activate([
-//            rec2.widthAnchor.constraint(equalToConstant: 279),
-//            rec2.heightAnchor.constraint(equalToConstant: 44),
-//            rec2.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-//            rec2.topAnchor.constraint(equalTo: rec1.bottomAnchor, constant: 10),
-//        ])
-        
+        //the parameter used in this section. Modify the scaler, the whole thing is adjusted.
+        let theWidth = view.frame.width * 0.744;
+        let theHeight = view.frame.height * 0.054;
+        let titlefont = theHeight * 0.455;
         //lost
         NSLayoutConstraint.activate([
-            Lost.widthAnchor.constraint(equalToConstant: 279),
-            Lost.heightAnchor.constraint(equalToConstant: 44),
+            Lost.widthAnchor.constraint(equalToConstant: theWidth),
+            Lost.heightAnchor.constraint(equalToConstant: theHeight),
             Lost.centerXAnchor.constraint(equalTo: view.centerXAnchor),
             Lost.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 140),
         ])
         
         //found
         NSLayoutConstraint.activate([
-            Found.widthAnchor.constraint(equalToConstant: 279),
-            Found.heightAnchor.constraint(equalToConstant: 44),
+            Found.widthAnchor.constraint(equalToConstant: theWidth),
+            Found.heightAnchor.constraint(equalToConstant: theHeight),
             Found.centerXAnchor.constraint(equalTo: view.centerXAnchor),
             Found.topAnchor.constraint(equalTo: Lost.bottomAnchor, constant: 30),
         ])
-    
+        
+        //here I set up the fonts. It uses the height as a benchmark.
+        
+        Lost.titleLabel?.font = UIFont(name:"RoundedMplus1c-Medium", size: titlefont);
+        Found.titleLabel?.font = UIFont(name:"RoundedMplus1c-Medium", size: titlefont);
     }
     
     @objc func lostTableTapped(){
-        //you lack an if let method!
         let FVC = FoundViewController();
-                 self.navigationController?.pushViewController(FVC, animated: true)
+        self.navigationController?.pushViewController(FVC, animated: true)
     }
     
     
