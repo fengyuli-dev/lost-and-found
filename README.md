@@ -10,11 +10,17 @@ To be finished.
 ## The Database
 This project contains a SQL database with three tables: user, lost, and found. Table "user" has one-to-many relationships with "lost" and "found".
 ## API Documentation
-A HTTP status code of 500 indicates internal server error and should be reported to the backend developer.  
+HTTP status codes accompanying failures:
+- 500 indicates internal server error and should be reported to the backend developer.
+- 401 indicates unauthrozied access due to an invalid authentication token.
+- 404 indicates that the target is not found.
+- 400 means the request format is compromised.
+
 For post methods, the field time should be in the format: TBD.
 ### `POST /api/register/`
 ### `GET /api/lost/`
-Retrieve all lost items.   
+Retrieve all lost items.
+
 Response:
 ```
 <HTTP STATUS CODE 200>
@@ -23,7 +29,8 @@ Response:
 }
 ```
 ### `GET /api/found/`
-Retrieve all found items.   
+Retrieve all found items.
+
 Response:
 ```
 <HTTP STATUS CODE 200>
@@ -32,7 +39,8 @@ Response:
 }
 ```
 ### `GET /api/lost/{lost_id}/`
-Retrive one lost item that matches the given id.  
+Retrive one lost item that matches the given id.
+
 Response if there exists such item:
 ```
 <HTTP STATUS CODE 200>
@@ -53,7 +61,8 @@ Response if there is no such item:
 }
 ```
 ### `GET /api/found/{found_id}/`
-Retrive one found item that matches the given id.  
+Retrive one found item that matches the given id.
+
 Response if there exists such item:
 ```
 <HTTP STATUS CODE 200>
@@ -74,7 +83,8 @@ Response if there is no such item:
 }
 ```
 ### `GET /api/lost/user/{user_id}/`
-Retrive all lost items that belong to a user with the given id.  
+Retrive all lost items that belong to a user with the given id.
+
 Response if there exists such item:
 ```
 <HTTP STATUS CODE 200>
@@ -90,7 +100,8 @@ Response if there is no such item:
 }
 ```
 ### `GET /api/found/user/{user_id}/`
-Retrive all items that are found by a user with the given id.  
+Retrive all items that are found by a user with the given id.
+
 Response if there exists such item:
 ```
 <HTTP STATUS CODE 200>
@@ -106,7 +117,8 @@ Response if there is no such item:
 }
 ```
 ### `POST /api/lost/{user_id}/`
-Let a user post that a item is lost.  
+Let a user post that a item is lost.
+
 Request:
 ```
 {
@@ -117,7 +129,8 @@ Request:
 }
 ```
 Response:  
-Same as `GET /api/lost/{lost_id}/` except that a success post returns HTTP status code 201.  
+Same as `GET /api/lost/{lost_id}/` except that a success post returns HTTP status code 201.
+
 If the request does not have a name, the response is 
 ```
 <HTTP STATUS CODE 400>
@@ -133,7 +146,8 @@ If there is no such user, the response is also:
 }
 ```
 ### `POST /api/found/{user_id}/`
-Let a user post that a item is found.  
+Let a user post that a item is found.
+
 Request:
 ```
 {
@@ -144,7 +158,8 @@ Request:
 }
 ```
 Response:  
-Same as `GET /api/found/{found_id}/` except that a success post returns HTTP status code 201.  
+Same as `GET /api/found/{found_id}/` except that a success post returns HTTP status code 201.
+
 If the request does not have a name, the response is 
 ```
 <HTTP STATUS CODE 400>
@@ -159,25 +174,13 @@ If there is no such user, the response is also:
     "error": true
 }
 ```
-### `POST /api/user/` 
-Add a user to the database.  
-Request:
-```
-{
-    "name": <NAME, NOT NULL>,
-}
-```
-Response:
-```
-{
-    "name": <NAME, NOT NULL>,
-}
-```
 ### `DELETE /api/lost/{lost_id}/`
-Delete a specific lost item.  
+Delete a specific lost item.
+
 Response:  
 Same as `GET /api/lost/{lost_id}/` 
 ### `DELETE /api/found/{found_id}/`
-Delete a specific found item.  
+Delete a specific found item.
+
 Response:  
 Same as `GET /api/found/{found_id}/`
