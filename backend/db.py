@@ -20,7 +20,7 @@ class User(db.Model):
     session_expiration = db.Column(db.DateTime, nullable=False)
     update_token = db.Column(db.String, nullable=False, unique=True)
 
-    def _init_(self, email, password):
+    def __init__(self, email, password):
         self.email = email
         self.password_digest = bcrypt.hashpw(
             password.encode("utf8"), bcrypt.gensalt(rounds=13))
@@ -49,7 +49,7 @@ class User(db.Model):
     def serialize(self):
         return {
             "id": self.id,
-            "email": self.username,
+            "email": self.email,
             "lost": [l.serialize() for l in self.lost],
             "found": [f.serialize() for f in self.found]
         }

@@ -1,3 +1,4 @@
+from hashlib import new
 from flask import Flask, request
 import json
 import os
@@ -44,7 +45,7 @@ def home():
     return "Backend server for lost & found"
 
 
-@app.route("/register/", methods=["POST"])
+@app.route("/api/register/", methods=["POST"])
 def register_account():
     body = json.loads(request.data)
     if body.keys() < {"email", "password"}:
@@ -57,11 +58,12 @@ def register_account():
     return success_response({
         "session_token": new_user.session_token,
         "session_expiration": str(new_user.session_expiration),
-        "update_token": new_user.update_token
+        "update_token": new_user.update_token,
+        "detail": new_user.serialize()
     }, 201)
 
 
-@app.route("/login/", methods=["POST"])
+@app.route("/api/login/", methods=["POST"])
 def login():
     body = json.loads(request.data)
     if body.keys() < {"email", "password"}:
@@ -78,7 +80,7 @@ def login():
         }, )
 
 
-@app.route("/session/", methods=["POST"])
+@app.route("/api/session/", methods=["POST"])
 def update_session():
     success, update_token = extract_token(request)
     if not success:
