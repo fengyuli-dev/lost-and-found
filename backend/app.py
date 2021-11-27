@@ -95,11 +95,6 @@ def update_session():
     }, )
 
 
-@app.route("/secret/", methods=["GET"])
-def secret_message():
-    pass
-
-
 @app.route("/api/lost/")
 def get_all_lost():
     return success_response([l.serialize() for l in Lost.query.all()])
@@ -126,30 +121,44 @@ def get_specific_found(found_id):
     return success_response(found.serialize())
 
 
-@app.route("/api/lost/user/<int:user_id>/")
-def get_lost_by_user(user_id):
-    user = User.query.filter_by(id=user_id).first()
+@app.route("/api/lost/user/")
+def get_lost_by_user():
+    success, session_token = extract_token(request)
+    user = User.query.filter_by(session_token=session_token).first()
     if user is None:
         return failure_response({"error": True})
-    lost = Lost.query.filter_by(user_id=user_id)
+    success = user.verify_session_token(session_token)
+    if not success:
+        return failure_response({"error": True}, 401)
+    lost = Lost.query.filter_by(user_id=user.id)
     return success_response([l.serialize() for l in lost])
 
 
-@app.route("/api/found/user/<int:user_id>/")
-def get_found_by_user(user_id):
-    user = User.query.filter_by(id=user_id).first()
+@app.route("/api/found/user/")
+def get_found_by_user():
+    success, session_token = extract_token(request)
+    user = User.query.filter_by(session_token=session_token).first()
     if user is None:
         return failure_response({"error": True})
-    found = Found.query.filter_by(user_id=user_id)
+    success = user.verify_session_token(session_token)
+    if not success:
+        return failure_response({"error": True}, 401)
+    found = Found.query.filter_by(user_id=user.id)
     return success_response([f.serialize() for f in found])
 
 
-@app.route("/api/lost/<int:user_id>/", methods=['POST'])
-def post_lost_item(user_id):
+@app.route("/api/lost/", methods=['POST'])
+def post_lost_item():
 
-    user = User.query.filter_by(id=user_id).first()
+    success, session_token = extract_token(request)
+
+    user = User.query.filter_by(session_token=session_token).first()
     if user is None:
         return failure_response({"error": True})
+
+    success = user.verify_session_token(session_token)
+    if not success:
+        return failure_response({"error": True}, 401)
 
     body = json.loads(request.data)
     if body.keys() < {"name"}:
@@ -161,19 +170,25 @@ def post_lost_item(user_id):
         # Use String for time?
         time=body.get("time", None),
         location=body.get("location", None),
-        user_id=user_id
+        user_id=user.id
     )
     db.session.add(item)
     db.session.commit()
     return success_response(item.serialize(), 201)
 
 
-@app.route("/api/found/<int:user_id>/", methods=['POST'])
-def post_found_item(user_id):
+@app.route("/api/found/", methods=['POST'])
+def post_found_item():
 
-    user = User.query.filter_by(id=user_id).first()
+    success, session_token = extract_token(request)
+
+    user = User.query.filter_by(session_token=session_token).first()
     if user is None:
         return failure_response({"error": True})
+
+    success = user.verify_session_token(session_token)
+    if not success:
+        return failure_response({"error": True}, 401)
 
     body = json.loads(request.data)
     if body.keys() < {"name"}:
@@ -181,45 +196,58 @@ def post_found_item(user_id):
 
     item = Found(
         name=body["name"],
-        description=body.get("description", None),
+        description=body.get("description"),
         # Use String for time?
         time=body.get("time", None),
-        location=body.get("location", None),
-        user_id=user_id
+        location=body.get("location"),
+        user_id=user.id
     )
     db.session.add(item)
     db.session.commit()
     return success_response(item.serialize(), 201)
 
 
-@app.route("/api/user/", methods=['POST'])
-def post_user():
-    body = json.loads(request.data)
-    if body.keys() < {"name"}:
-        return failure_response({"error": True}, 400)
-    user = User(
-        name=body["name"],
-    )
-    db.session.add(user)
-    db.session.commit()
-    return success_response(user.serialize(), 201)
-
-
-@app.route("/api/found/<int:lost_id>", methods=["DELETE"])
+@app.route("/api/lost/<int:lost_id>/", methods=["DELETE"])
 def delete_lost_item(lost_id):
+
+    success, session_token = extract_token(request)
+
+    user = User.query.filter_by(session_token=session_token).first()
+    if user is None:
+        return failure_response({"error": True})
+
+    success = user.verify_session_token(session_token)
+
+    if not success:
+        return failure_response({"error": True}, 401)
     lost = Lost.query.filter_by(id=lost_id).first()
     if lost is None:
         return failure_response({"error": True})
+    if lost.user_id != user.id:
+        return failure_response({"error": True}, 401)
     db.session.delete(lost)
     db.session.commit()
     return success_response(lost.serialize())
 
 
-@app.route("/api/found/<int:found_id>", methods=["DELETE"])
+@app.route("/api/found/<int:found_id>/", methods=["DELETE"])
 def delete_found_item(found_id):
+
+    success, session_token = extract_token(request)
+
+    user = User.query.filter_by(session_token=session_token).first()
+    if user is None:
+        return failure_response({"error": True})
+
+    success = user.verify_session_token(session_token)
+    if not success:
+        return failure_response({"error": True}, 401)
+
     found = Found.query.filter_by(id=found_id).first()
     if found is None:
         return failure_response({"error": True})
+    if found.user_id != user.id:
+        return failure_response({"error": True}, 401)
     db.session.delete(found)
     db.session.commit()
     return success_response(found.serialize())

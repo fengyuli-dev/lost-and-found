@@ -43,9 +43,6 @@ class User(db.Model):
     def verify_session_token(self, session_token):
         return session_token == self.session_token and datetime.datetime.now() < self.session_expiration
 
-    def verify_update_token(self, update_token):
-        return update_token == self.update_token
-
     def serialize(self):
         return {
             "id": self.id,
