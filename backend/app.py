@@ -16,10 +16,7 @@ app.config["SQLALCHEMY_ECHO"] = True
 
 
 def extract_token(request):
-    header = request.headers.get("Authorization")
-    if header is None:
-        return False, None
-    bearer_token = header.replace("Bearer ", "").strip()
+    bearer_token = request.headers.get("Authorization")
     if bearer_token is None:
         return False, None
     return True, bearer_token
@@ -76,7 +73,8 @@ def login():
         return success_response({
             "session_token": user.session_token,
             "session_expiration": str(user.session_expiration),
-            "update_token": user.update_token
+            "update_token": user.update_token,
+            "detail": user.serialize()
         }, )
 
 
@@ -84,10 +82,10 @@ def login():
 def update_session():
     success, update_token = extract_token(request)
     if not success:
-        return update_token
+        return failure_response({"error": True}, 400)
     user = User.query.filter_by(update_token=update_token).first()
     if user is None:
-        return failure_response({"error": True})
+        return failure_response({"error": True}, 400)
     user.renew_session()
     db.session.commit()
     return success_response({
@@ -95,6 +93,7 @@ def update_session():
         "session_expiration": str(user.session_expiration),
         "update_token": user.update_token
     }, )
+
 
 @app.route("/secret/", methods=["GET"])
 def secret_message():
