@@ -7,24 +7,24 @@
 import Foundation
 import UIKit
 
-class Item{
-    var objectName: String
+class Item:Codable{
+    var id:Int
+    var name: String
     var location: String
-    var time: String
-    var note: String
-    var contact: String
-//    var contact_phone: String
-    var pics: UIImage
+    var time: String?
+    var description: String
+    var user: Int
+//    var pics: UIImage
     
-    init(objectName: String, location: String, time: String, note: String,contact:String,pics: UIImage) {
-        self.objectName = objectName
+    init(id:Int, name: String, location: String, time: String?, description: String,user: Int) {
+        print("trying Item")
+        self.name = name
         self.location = location
         self.time = time
-        self.note=note
-        self.contact=contact
-//        self.contact_name=contact_name
-//        self.contact_phone=contact_phone
-        self.pics=pics
+        self.description=description
+        self.user=user
+//        self.pics=pics
+        self.id = id
     }
     
 }

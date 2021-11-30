@@ -7,16 +7,10 @@
 //
 import SwiftUI
 
-class QuestionViewController: UIViewController {
+class QuestionViewController: UIViewController{
     
-//    init(delegate: UpdateTitleDelegate?, placeholderText: String) {
-//        self.delegate = delegate
-//        self.placeholderText = placeholderText
-//        super.init(nibName: nil, bundle: nil)
-//    }
     init(){
         super.init(nibName: nil, bundle: nil)
-        
     }
     
     required init?(coder: NSCoder) {
@@ -28,7 +22,6 @@ class QuestionViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        //title = "Shapes"
         view.backgroundColor = UIColor(red: 0.325, green: 0.38, blue: 0.424, alpha: 1)
         
 
@@ -38,7 +31,7 @@ class QuestionViewController: UIViewController {
     
     func setupViews(){
 
-        self.navigationItem.hidesBackButton = true;//You may never come back!
+//        self.navigationItem.hidesBackButton = true;//You may never come back!
         
         //Lost
         Lost.layer.backgroundColor = UIColor(red: 0.788, green: 0.839, blue: 0.875, alpha: 1).cgColor
