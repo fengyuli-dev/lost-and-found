@@ -35,7 +35,7 @@ class FoundViewController: UIViewController, UISearchResultsUpdating, UISearchBa
         super.viewDidLoad()
         // title = "Found Items"
         
-      
+        
         let navBar = self.navigationController!.navigationBar;
 //        navBar.isTranslucent = true;
 //        navBar.titleTextAttributes = [.backgroundColor: UIColor(.clear)]//this is of no use!
@@ -64,9 +64,7 @@ class FoundViewController: UIViewController, UISearchResultsUpdating, UISearchBa
         searchController.searchBar.barTintColor = .white
         self.navigationItem.searchController = searchController
         
-        
-        
-        
+
         let sectionpadding : CGFloat = 5;
         let foundlayout = UICollectionViewFlowLayout();
         foundTableView = UICollectionView(frame: .zero, collectionViewLayout: foundlayout)
@@ -155,7 +153,7 @@ class FoundViewController: UIViewController, UISearchResultsUpdating, UISearchBa
     
     
     @objc func PostLostTapped() {
-        let PLVC = PostLostViewController();
+        let PLVC = PostLostViewController(delegate: self, lostItems: losted)
         self.navigationController?.pushViewController(PLVC, animated: true)
     }
     

@@ -25,6 +25,7 @@
 		258D9191274A3A8200764419 /* FoundDescViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 258D9190274A3A8200764419 /* FoundDescViewController.swift */; };
 		258D9195274B1C7300764419 /* font in Resources */ = {isa = PBXBuildFile; fileRef = 258D9194274B1C7300764419 /* font */; };
 		258D9199274B37FA00764419 /* FoundHalfView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 258D9198274B37FA00764419 /* FoundHalfView.swift */; };
+		5E4C44CC2755F6E5008A973A /* PostFoundViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5E4C44CB2755F6E4008A973A /* PostFoundViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -48,6 +49,7 @@
 		258D9190274A3A8200764419 /* FoundDescViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FoundDescViewController.swift; sourceTree = "<group>"; };
 		258D9194274B1C7300764419 /* font */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = font; sourceTree = SOURCE_ROOT; };
 		258D9198274B37FA00764419 /* FoundHalfView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FoundHalfView.swift; sourceTree = "<group>"; };
+		5E4C44CB2755F6E4008A973A /* PostFoundViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostFoundViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -90,6 +92,7 @@
 				258D9190274A3A8200764419 /* FoundDescViewController.swift */,
 				258D918C274A2BC500764419 /* Item.swift */,
 				258D918E274A2BF400764419 /* PostLostViewController.swift */,
+				5E4C44CB2755F6E4008A973A /* PostFoundViewController.swift */,
 				255087292755A05C0088E291 /* LostViewController.swift */,
 				2550872B2755A2240088E291 /* LostTableViewCell.swift */,
 				2550872D2755A3320088E291 /* LostDescViewController.swift */,
@@ -180,6 +183,7 @@
 				258D91772748D1D200764419 /* MainViewController.swift in Sources */,
 				258D91732748D1D200764419 /* AppDelegate.swift in Sources */,
 				258D918D274A2BC500764419 /* Item.swift in Sources */,
+				5E4C44CC2755F6E5008A973A /* PostFoundViewController.swift in Sources */,
 				258D9199274B37FA00764419 /* FoundHalfView.swift in Sources */,
 				258D918F274A2BF400764419 /* PostLostViewController.swift in Sources */,
 				2550872C2755A2240088E291 /* LostTableViewCell.swift in Sources */,
