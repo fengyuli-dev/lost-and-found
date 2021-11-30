@@ -33,7 +33,7 @@ class User(db.Model):
     # Generates new tokens, and resets expiration time
     def renew_session(self):
         self.session_token = self._urlsafe_base_64()
-        self.session_expiration = datetime.datetime.now() + datetime.timedelta(hours=1)
+        self.session_expiration = datetime.datetime.now() + datetime.timedelta(days=7)
         self.update_token = self._urlsafe_base_64()
 
     def verify_password(self, password):
@@ -57,7 +57,7 @@ class Lost(db.Model):
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     name = db.Column(db.String, nullable=False)
     description = db.Column(db.String, nullable=True)
-    time = db.Column(db.Time, nullable=True)
+    time = db.Column(db.String, nullable=True)
     location = db.Column(db.String, nullable=True)
     user_id = db.Column(db.Integer, db.ForeignKey("user.id"))
     user = db.relationship("User", back_populates="lost")
@@ -78,7 +78,7 @@ class Found(db.Model):
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     name = db.Column(db.String, nullable=False)
     description = db.Column(db.String, nullable=True)
-    time = db.Column(db.Time, nullable=True)
+    time = db.Column(db.String, nullable=True)
     location = db.Column(db.String, nullable=True)
     user_id = db.Column(db.Integer, db.ForeignKey("user.id"))
     user = db.relationship("User", back_populates="found")

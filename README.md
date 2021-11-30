@@ -11,7 +11,7 @@ To be finished.
 This project contains a SQL database with three tables: user, lost, and found. Table "user" has one-to-many relationships with "lost" and "found".
 ## API Documentation
 ### Failures
-Failures responses are ALL in this form:
+Failures responses are ALL in this form: 
 ```
 {
     "error": true
@@ -23,7 +23,7 @@ They may have different HTTP status codes, here are their general meanings:
 - 404 indicates that the target is not found.
 - 400 means the request format is compromised.
   
-For post methods, the field time should be in the format: TBD.
+For post methods, the field time should be in the format of strings.
 ### Authentication for User-specific Endpoints
 These endpoint involve operations on a user's data:
 1. Posting a lost or a found item
