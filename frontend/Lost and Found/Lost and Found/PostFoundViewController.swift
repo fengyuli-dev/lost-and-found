@@ -1,7 +1,26 @@
+//
+//  PostFoundViewController.swift
+//  Lost and Found
+//
+//  Created by Vivian on 11/30/21.
+//
+
+import Foundation
+
 import SwiftUI
 
-class PostLostViewController: UIViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate {
-
+class PostFoundViewController: UIViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate {
+    
+//    init(delegate: UpdateTitleDelegate?, placeholderText: String) {
+//        self.delegate = delegate
+//        self.placeholderText = placeholderText
+//        super.init(nibName: nil, bundle: nil)
+//    }
+//
+//    required init?(coder: NSCoder) {
+//        fatalError("init(coder:) has not been implemented")
+//    }
+    
     var name = UILabel()
     var nameInput = UITextField()
     
@@ -27,26 +46,13 @@ class PostLostViewController: UIViewController, UIImagePickerControllerDelegate,
     
     var isPost:Bool = false
     
-    var PostL_Button = UIButton()
-    
-    var lostItems: [Item]=[]
-    weak var delegate: UpdateLostDelegate?
-    
-    init(delegate: UpdateLostDelegate?, lostItems: [Item]) {
-        self.delegate = delegate
-        self.lostItems = lostItems
-        super.init(nibName: nil, bundle: nil)
-    }
-    
-    required init?(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
-    }
+    var PostFound_Button = UIButton()
     
 //    var rec1 = UILabel()
 //    var rec2 = UILabel()
     override func viewDidLoad() {
         super.viewDidLoad()
-        title = "Post Lost"
+        title = "Post Found"
         let color: UIColor=UIColor(red: 0.788, green: 0.839, blue: 0.875, alpha: 1)
         let textAttributes = [NSAttributedString.Key.foregroundColor: color]
         navigationController?.navigationBar.titleTextAttributes = textAttributes
@@ -55,24 +61,6 @@ class PostLostViewController: UIViewController, UIImagePickerControllerDelegate,
 
         setupViews()
         setupConstraints()
-    }
-    
-    @objc func PostLTapped() {
-        //还需要实现如何再增加一行table view
-//        while(nameInput.text == ""){
-//            nameInput.text = promptUserForName()
-//        }
-//        while (contact_phone_input.text==""){
-//            contact_phone_input.text=promptUserForPhone()
-//        }
-        var all_contact = "name:+" + contact_name.text! + ", phone:" + contact_phone.text!;
-        var lost:Item
-        lost = Item(objectName: nameInput.text!, location: locInput.text!,time: timeInput.text!, note: descripInput.text!,contact: all_contact,pics: imageUserProfile.image!);
-        lostItems.append(lost)
-        delegate?.updateLost(lostItems: lostItems)
-        
-        let LVC = LostViewController();
-            self.navigationController?.pushViewController(LVC, animated: true)
     }
     
     //alert
@@ -186,15 +174,15 @@ class PostLostViewController: UIViewController, UIImagePickerControllerDelegate,
             view.addSubview(imageUserProfile);
         }
 
-        //PostLost_Button
-        PostL_Button.frame = CGRect(x: 0, y: 0, width: 130, height: 46)
-        PostL_Button.setTitle("Post", for: .normal)
-        PostL_Button.layer.backgroundColor = color.cgColor
-        PostL_Button.setTitleColor(.black, for: .normal)
-        PostL_Button.layer.cornerRadius = 23
-        PostL_Button.addTarget(self, action: #selector(PostLTapped), for: .touchUpInside)
-        PostL_Button.translatesAutoresizingMaskIntoConstraints = false
-        view.addSubview(PostL_Button)
+        //PostFound_Button
+        PostFound_Button.frame = CGRect(x: 0, y: 0, width: 130, height: 46)
+        PostFound_Button.setTitle("Post", for: .normal)
+        PostFound_Button.layer.backgroundColor = color.cgColor
+        PostFound_Button.setTitleColor(.black, for: .normal)
+        PostFound_Button.layer.cornerRadius = 23
+        PostFound_Button.addTarget(self, action: #selector(PostFTapped), for: .touchUpInside)
+        PostFound_Button.translatesAutoresizingMaskIntoConstraints = false
+        view.addSubview(PostFound_Button)
         
         //name
         name.text="Item's name:"
@@ -233,7 +221,7 @@ class PostLostViewController: UIViewController, UIImagePickerControllerDelegate,
         view.addSubview(descripInput)
         
         //location
-        location.text="Lost Location:"
+        location.text="Found Location:"
         location.font = UIFont(name: "RoundedMplus1c-Medium", size: 18)
         location.textColor = color
         location.textAlignment = .left
@@ -251,7 +239,7 @@ class PostLostViewController: UIViewController, UIImagePickerControllerDelegate,
         view.addSubview(locInput)
         
         //time
-        time.text="Lost time:"
+        time.text="Found time:"
         time.font = UIFont(name: "RoundedMplus1c-Medium", size: 18)
         time.textColor = color
         time.textAlignment = .left
@@ -334,7 +322,18 @@ class PostLostViewController: UIViewController, UIImagePickerControllerDelegate,
     
     }
     
-    
+    @objc func PostFTapped() {
+        //还需要实现如何再增加一行table view
+        while(nameInput.text == ""){
+            nameInput.text = promptUserForName()
+        }
+        while (contact_phone_input.text==""){
+            contact_phone_input.text=promptUserForPhone()
+        }
+        
+        let FVC = FoundViewController();
+        self.navigationController?.pushViewController(FVC, animated: true)
+    }
 
     func setupConstraints() {
         
@@ -465,10 +464,10 @@ class PostLostViewController: UIViewController, UIImagePickerControllerDelegate,
         
         //PostLost_Button
         NSLayoutConstraint.activate([
-            PostL_Button.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-            PostL_Button.widthAnchor.constraint(equalToConstant: 130),
-            PostL_Button.heightAnchor.constraint(equalToConstant: 40),
-            PostL_Button.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -15)
+            PostFound_Button.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            PostFound_Button.widthAnchor.constraint(equalToConstant: 130),
+            PostFound_Button.heightAnchor.constraint(equalToConstant: 40),
+            PostFound_Button.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -15)
         ])
         
         
@@ -481,3 +480,4 @@ class PostLostViewController: UIViewController, UIImagePickerControllerDelegate,
 
     }
 }
+

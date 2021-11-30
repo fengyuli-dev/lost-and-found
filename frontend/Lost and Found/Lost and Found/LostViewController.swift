@@ -8,6 +8,10 @@
 import Foundation
 import UIKit
 
+protocol UpdateLostDelegate: class {
+    func updateLost(lostItems: [Item])
+}
+
 class LostViewController: UIViewController, UISearchResultsUpdating, UISearchBarDelegate{
     // @IBOutlet weak var collectionView: UICollectionView!
     var lostTableView : UICollectionView;
@@ -16,7 +20,7 @@ class LostViewController: UIViewController, UISearchResultsUpdating, UISearchBar
     var lostItems: [Item]=[]
     var filtered:[Item] = []
     
-    var PostLost_Button = UIButton()
+    var PostFound_Button = UIButton()
     var cellPadding : CGFloat = 10
 //    var recButton = UILabel()
     var theHeight:Float = 15;
@@ -93,15 +97,15 @@ class LostViewController: UIViewController, UISearchResultsUpdating, UISearchBar
         view.addSubview(lostTableView)
         
         
-        PostLost_Button.frame = CGRect(x: 0, y: 0, width: 130, height: 46)
-        PostLost_Button.setTitle("Post Lost", for: .normal)
-        PostLost_Button.layer.backgroundColor = UIColor(red: 0.788, green: 0.839, blue: 0.875, alpha: 1).cgColor
-        PostLost_Button.layer.cornerRadius = 23
-        PostLost_Button.addTarget(self, action: #selector(PostLostTapped), for: .touchUpInside)
-        PostLost_Button.translatesAutoresizingMaskIntoConstraints = false
-        PostLost_Button.setTitleColor(.black, for: .normal);
-        PostLost_Button.titleLabel?.font = UIFont(name:"RoundedMplus1c-Medium", size: 18);
-        view.addSubview(PostLost_Button)
+        PostFound_Button.frame = CGRect(x: 0, y: 0, width: 130, height: 46)
+        PostFound_Button.setTitle("Post Found", for: .normal)
+        PostFound_Button.layer.backgroundColor = UIColor(red: 0.788, green: 0.839, blue: 0.875, alpha: 1).cgColor
+        PostFound_Button.layer.cornerRadius = 23
+        PostFound_Button.addTarget(self, action: #selector(PostFoundTapped), for: .touchUpInside)
+        PostFound_Button.translatesAutoresizingMaskIntoConstraints = false
+        PostFound_Button.setTitleColor(.black, for: .normal);
+        PostFound_Button.titleLabel?.font = UIFont(name:"RoundedMplus1c-Medium", size: 18);
+        view.addSubview(PostFound_Button)
         
         
         setupConstraints()
@@ -157,10 +161,10 @@ class LostViewController: UIViewController, UISearchResultsUpdating, UISearchBar
         ])
         
         NSLayoutConstraint.activate([
-            PostLost_Button.widthAnchor.constraint(equalToConstant: 130),
-            PostLost_Button.heightAnchor.constraint(equalToConstant: 46),
-            PostLost_Button.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -20),
-            PostLost_Button.centerXAnchor.constraint(equalTo: view.safeAreaLayoutGuide.centerXAnchor),
+            PostFound_Button.widthAnchor.constraint(equalToConstant: 130),
+            PostFound_Button.heightAnchor.constraint(equalToConstant: 46),
+            PostFound_Button.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -20),
+            PostFound_Button.centerXAnchor.constraint(equalTo: view.safeAreaLayoutGuide.centerXAnchor),
         ])
     }
     
@@ -180,9 +184,9 @@ class LostViewController: UIViewController, UISearchResultsUpdating, UISearchBar
         
     }
     
-    @objc func PostLostTapped() {
-        let PLVC = PostLostViewController();
-        self.navigationController?.pushViewController(PLVC, animated: true)
+    @objc func PostFoundTapped() {
+        let PFVC = PostFoundViewController();
+        self.navigationController?.pushViewController(PFVC, animated: true)
     }
     
 }
@@ -243,8 +247,15 @@ extension LostViewController : UICollectionViewDelegate, UICollectionViewDelegat
 //        if let pC = display.presentationController as? UISheetPresentationController {
 //            pC.detents = [.medium()] /// set here!
 //        }
-        
-        
+    }
+}
+
+extension LostViewController: UpdateLostDelegate {
+
+    func updateLost(lostItems: [Item]) {
+        self.lostItems=lostItems
+        lostTableView.reloadData()
+
     }
     
 }
