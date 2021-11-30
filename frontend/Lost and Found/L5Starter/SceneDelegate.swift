@@ -1,8 +1,8 @@
 //
 //  SceneDelegate.swift
-//  L5Starter
+//  Lost and Found
 //
-//  Created by Amy Chin Siu Huang on 10/25/21.
+//  Created by Haoxuan Zou on 11/20/21.
 //
 
 import UIKit
@@ -19,7 +19,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         guard let windowScene = (scene as? UIWindowScene) else { return }
         let window = UIWindow(windowScene: windowScene)
         self.window = window
-        window.rootViewController = UINavigationController(rootViewController: ViewController())
+        window.rootViewController = UINavigationController(rootViewController: MainViewController())
         window.makeKeyAndVisible()
     }
 

@@ -4,7 +4,7 @@
 //
 //  Created by Haoxuan Zou on 11/21/21.
 //
-
+//This class is never used? It is just an attempt to show half screen things.
 import Foundation
 import UIKit
 class FoundHalfView : UIPresentationController{

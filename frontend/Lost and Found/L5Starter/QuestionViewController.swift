@@ -57,7 +57,7 @@ class QuestionViewController: UIViewController {
         Found.layer.cornerRadius = 20
         Found.setTitle("Found Something?", for: .normal)
         Found.setTitleColor(.black, for: .normal)
-//        Found.addTarget(self, action: #selector(lostTableTapped), for: .touchUpInside)
+        Found.addTarget(self, action: #selector(foundTableTapped), for: .touchUpInside)
         Found.translatesAutoresizingMaskIntoConstraints = false
         view.addSubview(Found)
         
@@ -95,6 +95,12 @@ class QuestionViewController: UIViewController {
     @objc func lostTableTapped(){
         let FVC = FoundViewController();
         self.navigationController?.pushViewController(FVC, animated: true)
+    }
+    
+    
+    @objc func foundTableTapped(){
+        let LVC = LostViewController();
+        self.navigationController?.pushViewController(LVC, animated: true)
     }
     
     

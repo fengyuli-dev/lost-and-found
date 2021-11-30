@@ -1,12 +1,12 @@
 //
-//  FoundTableViewCell.swift
-//  LostandFound
+//  LostTableViewCell.swift
+//  Lost and Found
 //
-//  Created by Vivian on 11/20/21.
+//  Created by Haoxuan Zou on 11/29/21.
 //
 import SwiftUI
 
-class FoundTableViewCell: UICollectionViewCell {
+class LostTableViewCell: UICollectionViewCell {
     
     var name = UILabel()
     var location = UILabel()

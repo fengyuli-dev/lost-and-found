@@ -12,7 +12,6 @@ class PostLostViewController: UIViewController {
 //        fatalError("init(coder:) has not been implemented")
 //    }
 //
-    // TODO 1: set up view
     var name = UILabel()
     var nameInput = UITextField()
     

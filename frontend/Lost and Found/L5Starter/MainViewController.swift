@@ -25,7 +25,7 @@ class MainViewController: UIViewController {
         
         netIdText.backgroundColor = .white
         netIdText.layer.backgroundColor = UIColor(red: 0.941, green: 0.961, blue: 0.976, alpha: 1).cgColor
-        var parent = self.view!
+        let parent = self.view!
         parent.addSubview(netIdText)
         netIdText.translatesAutoresizingMaskIntoConstraints = false
         netIdText.widthAnchor.constraint(equalToConstant: theWidth).isActive = true
@@ -45,6 +45,7 @@ class MainViewController: UIViewController {
         passwordText.widthAnchor.constraint(equalToConstant: theWidth).isActive = true
         passwordText.heightAnchor.constraint(equalToConstant: theHeight).isActive = true
         passwordText.topAnchor.constraint(equalTo: netIdText.bottomAnchor, constant: 20).isActive = true
+        passwordText.layer.cornerRadius = 10;
         passwordText.centerXAnchor.constraint(equalTo: parent.safeAreaLayoutGuide.centerXAnchor).isActive = true
         
         

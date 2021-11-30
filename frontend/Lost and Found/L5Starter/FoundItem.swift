@@ -1,13 +1,15 @@
 //
-//  Item.swift
-//  LostandFound
+//  FoundItem.swift
+//  Lost and Found
 //
-//  Created by Vivian on 11/20/21.
+//  Created by Haoxuan Zou on 11/29/21.
 //
+
 import Foundation
 import UIKit
+//This class is currently unused.
 
-class Item{
+class FoundItem{
     var objectName: String
     var location: String
     var time: String
