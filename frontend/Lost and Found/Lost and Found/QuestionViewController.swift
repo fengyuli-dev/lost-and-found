@@ -92,7 +92,7 @@ class QuestionViewController: UIViewController{
     
     
     @objc func foundTableTapped(){
-        let LVC = LostViewController();
+        let LVC = LostViewController(delegate: nil);
         self.navigationController?.pushViewController(LVC, animated: true)
     }
     

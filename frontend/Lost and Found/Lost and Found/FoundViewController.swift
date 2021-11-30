@@ -89,15 +89,56 @@ class FoundViewController: UIViewController, UISearchResultsUpdating, UISearchBa
         view.addSubview(PostLost_Button)
         
         
-        
         setupConstraints()
-        addDUMMYData();
+        getData();
+    }
+    
+    
+
+    func setupConstraints() {
+        
+        //the parameter used in this section. Modify the scaler, the whole thing is adjusted.
+        let viewpadding : CGFloat = 10;
+        
+        
+        NSLayoutConstraint.activate([
+            foundTableView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor),
+            foundTableView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor),
+            foundTableView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: viewpadding),
+            foundTableView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor)
+        ])
+        
+        NSLayoutConstraint.activate([
+            PostLost_Button.widthAnchor.constraint(equalToConstant: 130),
+            PostLost_Button.heightAnchor.constraint(equalToConstant: 46),
+            PostLost_Button.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -20),
+            PostLost_Button.centerXAnchor.constraint(equalTo: view.safeAreaLayoutGuide.centerXAnchor),
+        ])
+    }
+    
+    
+    @objc func PostLostTapped() {
+        let PLVC = PostLostViewController();
+        self.navigationController?.pushViewController(PLVC, animated: true)
+    }
+    
+    
+    func getData(){
+        foundItems = []
+        NetworkManager.getAllFound { foundItems in
+            print("Found decode succeed")
+            self.foundItems = foundItems;
+            self.foundTableView.reloadData()
+            DispatchQueue.main.async {
+                self.foundTableView.reloadData();
+            }//what is this for??
+        }
     }
     
     func updateSearchResults(for searchController: UISearchController) {
         let searchString = searchController.searchBar.text
         filtered = foundItems.filter({ (item) -> Bool in
-            let countryText: NSString = item.objectName as NSString
+            let countryText: NSString = item.name as NSString
 
                     return (countryText.range(of: searchString!, options: NSString.CompareOptions.caseInsensitive).location) != NSNotFound
                 })
@@ -128,51 +169,6 @@ class FoundViewController: UIViewController, UISearchResultsUpdating, UISearchBa
             searchController.searchBar.resignFirstResponder()
         }
     
-    
-
-    func setupConstraints() {
-        
-        //the parameter used in this section. Modify the scaler, the whole thing is adjusted.
-        let viewpadding : CGFloat = 10;
-        
-        
-        NSLayoutConstraint.activate([
-            foundTableView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor),
-            foundTableView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor),
-            foundTableView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: viewpadding),
-            foundTableView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor)
-        ])
-        
-        NSLayoutConstraint.activate([
-            PostLost_Button.widthAnchor.constraint(equalToConstant: 130),
-            PostLost_Button.heightAnchor.constraint(equalToConstant: 46),
-            PostLost_Button.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -20),
-            PostLost_Button.centerXAnchor.constraint(equalTo: view.safeAreaLayoutGuide.centerXAnchor),
-        ])
-    }
-    
-    
-    @objc func PostLostTapped() {
-        let PLVC = PostLostViewController(delegate: self, lostItems: losted)
-        self.navigationController?.pushViewController(PLVC, animated: true)
-    }
-    
-    
-    func addDUMMYData(){
-        foundItems.append(Item(objectName: "Porridge", location: "Townhouse", time: "25:61", note: "Handsome BOOOYYYY", contact: "Oopsy, you should find it", pics: UIImage()));
-        foundItems.append(Item(objectName: "Porridge", location: "Townhouse", time: "25:61", note: "Handsome BOOOYYYY", contact: "Oopsy, you should find it", pics: UIImage()))
-        foundItems.append(Item(objectName: "Porridge", location: "Townhouse", time: "25:61", note: "Handsome BOOOYYYY", contact: "Oopsy, you should find it", pics: UIImage()))
-        foundItems.append(Item(objectName: "Porridge", location: "Townhouse", time: "25:61", note: "Handsome BOOOYYYY", contact: "Oopsy, you should find it", pics: UIImage()))
-        foundItems.append(Item(objectName: "Porridge", location: "Townhouse", time: "25:61", note: "Handsome BOOOYYYY", contact: "Oopsy, you should find it", pics: UIImage()))
-        foundItems.append(Item(objectName: "Porridge", location: "Townhouse", time: "25:61", note: "Handsome BOOOYYYY", contact: "Oopsy, you should find it", pics: UIImage()))
-        foundItems.append(Item(objectName: "Porridge", location: "Townhouse", time: "25:61", note: "Handsome BOOOYYYY", contact: "Oopsy, you should find it", pics: UIImage()))
-        foundItems.append(Item(objectName: "Porridge", location: "Townhouse", time: "25:61", note: "Handsome BOOOYYYY", contact: "Oopsy, you should find it", pics: UIImage()))
-        foundItems.append(Item(objectName: "Porridge", location: "Townhouse", time: "25:61", note: "Handsome BOOOYYYY", contact: "Oopsy, you should find it", pics: UIImage()))
-        foundItems.append(Item(objectName: "Porridge", location: "Townhouse", time: "25:61", note: "Handsome BOOOYYYY", contact: "Oopsy, you should find it", pics: UIImage()))
-        foundItems.append(Item(objectName: "Porridge", location: "Townhouse", time: "25:61", note: "Handsome BOOOYYYY", contact: "Oopsy, you should find it", pics: UIImage()))
-        foundItems.append(Item(objectName: "Porridge", location: "Townhouse", time: "25:61", note: "Handsome BOOOYYYY", contact: "Oopsy, you should find it", pics: UIImage()))
-        
-    }
 }
 
 
@@ -210,27 +206,17 @@ extension FoundViewController : UICollectionViewDelegate, UICollectionViewDelega
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        if searchActive{
-            let item = filtered[indexPath.item]
-            let display = FoundDescViewController();
-            display.setParaForFont(Float(view.frame.height) * 0.022) //set the font size!
-            display.configure(for: item);
-            present(display, animated: true, completion: nil)
-        }
-        else{
-            let item = foundItems[indexPath.item];
-            let display = FoundDescViewController();
-            display.setParaForFont(Float(view.frame.height) * 0.022) //set the font size!
-            display.configure(for: item);
-            present(display, animated: true, completion: nil)
-        }
+        let item = foundItems[indexPath.item];
 
-//        if let pC = display.presentationController as? UISheetPresentationController {
-//            pC.detents = [.medium()] /// set here!
-//        }//look here. This is the way to show half-screen.
-//        //https://stackoverflow.com/questions/42106980/how-to-present-a-viewcontroller-on-half-screen
-//
-
+        let display = FoundDescViewController();
+        display.setParaForFont(Float(view.frame.height) * 0.022) //set the font size!
+        display.configure(for: item);
+        if let pC = display.presentationController as? UISheetPresentationController {
+            pC.detents = [.medium()] /// set here!
+        }//look here. This is the way to show half-screen.
+        //https://stackoverflow.com/questions/42106980/how-to-present-a-viewcontroller-on-half-screen
+        
+        present(display, animated: true, completion: nil)
     }
     
 }

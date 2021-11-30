@@ -11,6 +11,9 @@ import Alamofire;
 class NetworkManager:Codable{
     static let endpoint = "http://0.0.0.0:3000";
     static let userInfoKey = "userInfo"
+    static var headers:HTTPHeaders = [
+        HTTPHeader(name: "Authorization", value: "")
+    ]
     
     static func register(email:String,password:String,completion: @escaping (User1)->Void, errorHandler:@escaping (String)->Void){
         print(email);print(password)
@@ -20,9 +23,7 @@ class NetworkManager:Codable{
         ]
         print(parameters)
         print("now registering.")
-//        let headers = [
-//            HTTPHeader(name: "Authorization", value: <#T##String#>)
-//        ]
+
         AF.request("\(endpoint)/api/register/", method: .post, parameters: parameters, encoding: JSONEncoding.default)
             .validate(statusCode: 0 ..< 1000) // TODO: make this range smallest possible
             .responseData { response in
@@ -33,10 +34,14 @@ class NetworkManager:Codable{
             case .success(let responseData):
                 print(String(decoding: responseData, as: UTF8.self))
                 do {
+                    
                     let decodedResponse = try JSONDecoder().decode(User1.self, from: responseData)
                     print(decodedResponse)
 //                    UserDefaults.standard.setValue(decodedResponse, forKey: userInfoKey)
+                    self.headers.update(name: "Authorization", value: "\(decodedResponse.session_token)")
+                    print("Now after register, the header is \(self.headers)")
                     completion(decodedResponse)
+                    
                 } catch let jsonError {
                     print("and we are here, in register?")
                     errorHandler("false")
@@ -70,6 +75,8 @@ class NetworkManager:Codable{
                     let decodedResponse = try JSONDecoder().decode(User1.self, from: responseData)
                     print(decodedResponse)
 //                    UserDefaults.standard.setValue(decodedResponse, forKey: userInfoKey)
+                    self.headers.update(name: "Authorization", value: "\(decodedResponse.session_token)")
+                    print("Now after logging in, the header is \(self.headers)")
                     completion(decodedResponse)
                 } catch let jsonError {
                     print("and we are here, in login?")
@@ -126,19 +133,56 @@ class NetworkManager:Codable{
             "time":time,
             "location":location
         ]
-        AF.request("\(endpoint)/api/lost", method: .post, parameters: parameter, encoding: JSONEncoding.default).validate().responseData { response in
+        AF.request("\(endpoint)/api/lost/", method: .post, parameters: parameter, encoding: JSONEncoding.default,headers: self.headers).validate().responseData { response in
             switch response.result{
             case .failure(let error):
                 print(error);
             case .success(let data):
                 let jsonDecoder = JSONDecoder();
                 print("lostPostSucceeds")
+                print(String(decoding:data, as: UTF8.self))
                 if let lostpost = try? jsonDecoder.decode(Item.self, from:data){
                     print("updateLost if let succeeds");
                     let lost = lostpost;
+                    print(lost)
                     completion(lost);
+                }else{
+                    print("lost oopsy.")
                 }
             }
         }
     }
+    
+    
+    static func postFound(name:String,time:String,description:String,location:String,completion: @escaping (Item) -> Void){
+        let parameter = [
+            "name":name,
+            "description":description,
+            "time":time,
+            "location":location
+        ]
+        AF.request("\(endpoint)/api/found/", method: .post, parameters: parameter, encoding: JSONEncoding.default,headers: self.headers).validate().responseData { response in
+            switch response.result{
+            case .failure(let error):
+                print(error);
+            case .success(let data):
+                let jsonDecoder = JSONDecoder();
+                print("lostFoundSucceeds")
+                print(String(decoding:data, as: UTF8.self))
+                if let lostpost = try? jsonDecoder.decode(Item.self, from:data){
+                    print("updateFound if let succeeds");
+                    let lost = lostpost;
+                    print(lost)
+                    completion(lost);
+                }else{
+                    print("found oopsy.")
+                }
+            }
+        }
+    }
+    
+    
+
+    
+    
 }

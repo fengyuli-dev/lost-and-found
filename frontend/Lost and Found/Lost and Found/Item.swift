@@ -11,12 +11,12 @@ class Item:Codable{
     var id:Int
     var name: String
     var location: String
-    var time: String?
+    var time: String
     var description: String
     var user: Int
 //    var pics: UIImage
     
-    init(id:Int, name: String, location: String, time: String?, description: String,user: Int) {
+    init(id:Int, name: String, location: String, time: String, description: String,user: Int) {
         print("trying Item")
         self.name = name
         self.location = location
