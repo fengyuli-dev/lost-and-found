@@ -6,15 +6,11 @@
 //
 import UIKit
 
-class FoundViewController: UIViewController, UISearchResultsUpdating, UISearchBarDelegate{
+class FoundViewController: UIViewController{
     
     var foundTableView : UICollectionView;
     let reuseIdentifier_1 = "foundCellReuse"
     
-    let searchController = UISearchController(searchResultsController: nil);
-    var searchActive: Bool = false
-    
-    var filtered: [Item] = []
     var foundItems: [Item]=[]
     var PostLost_Button = UIButton()
     var cellPadding : CGFloat = 10
@@ -33,9 +29,7 @@ class FoundViewController: UIViewController, UISearchResultsUpdating, UISearchBa
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        // title = "Found Items"
-        
-      
+        title = "Found Items"
         let navBar = self.navigationController!.navigationBar;
 //        navBar.isTranslucent = true;
 //        navBar.titleTextAttributes = [.backgroundColor: UIColor(.clear)]//this is of no use!
@@ -55,16 +49,6 @@ class FoundViewController: UIViewController, UISearchResultsUpdating, UISearchBa
         navBar.compactAppearance = appearance;
         //https://developer.apple.com/documentation/uikit/uinavigationcontroller/customizing_your_app_s_navigation_bar
 
-        //search bar
-        searchController.searchResultsUpdater = self
-        searchController.searchBar.delegate = self
-        searchController.searchBar.placeholder = "Search Items"
-        // 这两行似乎没有起作用
-        searchController.searchBar.tintColor = .black
-        searchController.searchBar.barTintColor = .white
-        self.navigationItem.searchController = searchController
-        
-        
         
         
         let sectionpadding : CGFloat = 5;
@@ -95,40 +79,6 @@ class FoundViewController: UIViewController, UISearchResultsUpdating, UISearchBa
         setupConstraints()
         addDUMMYData();
     }
-    
-    func updateSearchResults(for searchController: UISearchController) {
-        let searchString = searchController.searchBar.text
-        filtered = foundItems.filter({ (item) -> Bool in
-            let countryText: NSString = item.objectName as NSString
-
-                    return (countryText.range(of: searchString!, options: NSString.CompareOptions.caseInsensitive).location) != NSNotFound
-                })
-        foundTableView.reloadData()
-    }
-    
-    func searchBarCancelButtonClicked(_ searchBar: UISearchBar) {
-            searchActive = false
-            self.dismiss(animated: true, completion: nil)
-        }
-    
-    func searchBarTextDidBeginEditing(_ searchBar: UISearchBar) {
-            searchActive = true
-        foundTableView.reloadData()
-        }
-
-        func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
-            searchActive = false
-            foundTableView.reloadData()
-        }
-
-        func searchBarBookmarkButtonClicked(_ searchBar: UISearchBar) {
-            if !searchActive {
-                searchActive = true
-                foundTableView.reloadData()
-            }
-
-            searchController.searchBar.resignFirstResponder()
-        }
     
     
 
@@ -180,22 +130,13 @@ class FoundViewController: UIViewController, UISearchResultsUpdating, UISearchBa
 
 extension FoundViewController : UICollectionViewDataSource{
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        if searchActive{return filtered.count}
-        else{
-            return foundItems.count;}
+        return foundItems.count;
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        let item = foundItems[indexPath.item];
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: reuseIdentifier_1, for: indexPath) as! FoundTableViewCell;
-
-        if searchActive {
-            let item = filtered[indexPath.item]
-            cell.configure(for: item);
-        }
-        else{
-            let item = foundItems[indexPath.item];
-            cell.configure(for: item);
-        }
+        cell.configure(for: item);
         return cell;
     }
     
@@ -212,27 +153,17 @@ extension FoundViewController : UICollectionViewDelegate, UICollectionViewDelega
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        if searchActive{
-            let item = filtered[indexPath.item]
-            let display = FoundDescViewController();
-            display.setParaForFont(Float(view.frame.height) * 0.022) //set the font size!
-            display.configure(for: item);
-            present(display, animated: true, completion: nil)
-        }
-        else{
-            let item = foundItems[indexPath.item];
-            let display = FoundDescViewController();
-            display.setParaForFont(Float(view.frame.height) * 0.022) //set the font size!
-            display.configure(for: item);
-            present(display, animated: true, completion: nil)
-        }
+        let item = foundItems[indexPath.item];
 
-//        if let pC = display.presentationController as? UISheetPresentationController {
-//            pC.detents = [.medium()] /// set here!
-//        }//look here. This is the way to show half-screen.
-//        //https://stackoverflow.com/questions/42106980/how-to-present-a-viewcontroller-on-half-screen
-//
-
+        let display = FoundDescViewController();
+        display.setParaForFont(Float(view.frame.height) * 0.022) //set the font size!
+        display.configure(for: item);
+        if let pC = display.presentationController as? UISheetPresentationController {
+            pC.detents = [.medium()] /// set here!
+        }//look here. This is the way to show half-screen.
+        //https://stackoverflow.com/questions/42106980/how-to-present-a-viewcontroller-on-half-screen
+        
+        present(display, animated: true, completion: nil)
     }
     
 }

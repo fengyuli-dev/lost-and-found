@@ -8,33 +8,16 @@
 import Foundation
 import UIKit
 
-class LostViewController: UIViewController, UISearchResultsUpdating, UISearchBarDelegate{
-    // @IBOutlet weak var collectionView: UICollectionView!
+class LostViewController: UIViewController{
+    
     var lostTableView : UICollectionView;
     let reuseIdentifier_1 = "lostCellReuse"
     
     var lostItems: [Item]=[]
-    var filtered:[Item] = []
-    
     var PostLost_Button = UIButton()
     var cellPadding : CGFloat = 10
 //    var recButton = UILabel()
     var theHeight:Float = 15;
-    
-    // searchbar实现
-    let searchController = UISearchController(searchResultsController: nil);
-    var searchActive: Bool = false
-//    lazy var searchBar: UISearchBar = {
-//        let s = UISearchBar()
-//            s.placeholder = "Search Items"
-//            s.delegate = self
-//            s.tintColor = .white
-//            s.barTintColor = .black
-//            s.barStyle = .default
-//            s.sizeToFit()
-//            //s.frame.size.width = self.collectionView!.frame.size.width
-//        return s
-//    }()
     
     init(){
         let foundlayout = UICollectionViewFlowLayout();
@@ -48,38 +31,26 @@ class LostViewController: UIViewController, UISearchResultsUpdating, UISearchBar
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        view.backgroundColor = UIColor(red: 0.325, green: 0.38, blue: 0.424, alpha: 1)
-        
-        let navBar = self.navigationController!.navigationBar
-        
-        //title = "Lost Items"
-        
-        //search bar
-        searchController.searchResultsUpdater = self
-        searchController.searchBar.delegate = self
-        searchController.searchBar.placeholder = "Search Items"
-        // 这两行似乎没有起作用
-        searchController.searchBar.tintColor = .black
-        searchController.searchBar.barTintColor = .white
-        self.navigationItem.searchController = searchController
-
-
+        let navBar = self.navigationController!.navigationBar;
+//        navBar.isTranslucent = true;
+//        navBar.titleTextAttributes = [.backgroundColor: UIColor(.clear)]//this is of no use!
         let titleview = UILabel();
         titleview.text = "Lost Items";
         titleview.textColor = UIColor(red: 0.788, green: 0.839, blue: 0.875, alpha: 1)
         let titleheight = view.frame.height * 0.026;
-        titleview.font = UIFont(name: "RoundedMplus1c-ExtraBold", size: titleheight)
-        self.navigationItem.titleView = titleview;
+        titleview.font = UIFont(name: "RoundedMplus1c-ExtraBold", size: titleheight);
+        self.navigationItem.titleView = titleview; //in this way the title is properly set.
+        //however.. why is it more to the left everytime I scroll back from the "post lost"?
         titleview.textAlignment = .center;
-        
-        
+        view.backgroundColor = UIColor(red: 0.325, green: 0.38, blue: 0.424, alpha: 1)
         let appearance = UINavigationBarAppearance();
         appearance.configureWithTransparentBackground();
         navBar.standardAppearance = appearance;
         navBar.scrollEdgeAppearance = appearance;
         navBar.compactAppearance = appearance;
 
-    
+        
+        
         let sectionpadding : CGFloat = 5;
         let lostlayout = UICollectionViewFlowLayout();
         lostTableView = UICollectionView(frame: .zero, collectionViewLayout: lostlayout)
@@ -104,43 +75,11 @@ class LostViewController: UIViewController, UISearchResultsUpdating, UISearchBar
         view.addSubview(PostLost_Button)
         
         
+        
         setupConstraints()
         addDUMMYData();
     }
     
-    func updateSearchResults(for searchController: UISearchController) {
-        let searchString = searchController.searchBar.text
-        filtered = lostItems.filter({ (item) -> Bool in
-            let countryText: NSString = item.objectName as NSString
-
-                    return (countryText.range(of: searchString!, options: NSString.CompareOptions.caseInsensitive).location) != NSNotFound
-                })
-        lostTableView.reloadData()
-    }
-    
-    func searchBarCancelButtonClicked(_ searchBar: UISearchBar) {
-            searchActive = false
-            self.dismiss(animated: true, completion: nil)
-        }
-    
-    func searchBarTextDidBeginEditing(_ searchBar: UISearchBar) {
-            searchActive = true
-        lostTableView.reloadData()
-        }
-
-        func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
-            searchActive = false
-            lostTableView.reloadData()
-        }
-
-        func searchBarBookmarkButtonClicked(_ searchBar: UISearchBar) {
-            if !searchActive {
-                searchActive = true
-                lostTableView.reloadData()
-            }
-
-            searchController.searchBar.resignFirstResponder()
-        }
     
 
     func setupConstraints() {
@@ -190,27 +129,16 @@ class LostViewController: UIViewController, UISearchResultsUpdating, UISearchBar
 
 extension LostViewController : UICollectionViewDataSource{
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        if searchActive{return filtered.count}
-        else{
-            return lostItems.count;}
+        return lostItems.count;
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        let item = lostItems[indexPath.item];
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: reuseIdentifier_1, for: indexPath) as! LostTableViewCell;
-        if searchActive {
-            let item = filtered[indexPath.item]
-            cell.configure(for: item);
-        }
-        else{
-            let item = lostItems[indexPath.item];
-            cell.configure(for: item);
-        }
+        cell.configure(for: item);
         return cell;
     }
     
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForHeaderInSection section: Int) -> CGSize {
-        return CGSize(width: view.frame.width, height: 40)
-    }
     
 }
 
@@ -224,27 +152,16 @@ extension LostViewController : UICollectionViewDelegate, UICollectionViewDelegat
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        if searchActive{
-            let item = filtered[indexPath.item]
-            let display = LostDescViewController();
-            display.setParaForFont(Float(view.frame.height) * 0.022) //set the font size!
-            display.configure(for: item);
-            present(display, animated: true, completion: nil)
-        }
-        else{
-            let item = lostItems[indexPath.item];
-            let display = FoundDescViewController();
-            display.setParaForFont(Float(view.frame.height) * 0.022) //set the font size!
-            display.configure(for: item);
-            present(display, animated: true, completion: nil)
-        }
+        let item = lostItems[indexPath.item];
 
+        let display = FoundDescViewController();
+        display.setParaForFont(Float(view.frame.height) * 0.022) //set the font size!
+        display.configure(for: item);
+        if let pC = display.presentationController as? UISheetPresentationController {
+            pC.detents = [.medium()] /// set here!
+        }
         
-//        if let pC = display.presentationController as? UISheetPresentationController {
-//            pC.detents = [.medium()] /// set here!
-//        }
-        
-        
+        present(display, animated: true, completion: nil)
     }
     
 }

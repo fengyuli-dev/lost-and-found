@@ -1,22 +1,23 @@
 import SwiftUI
 
-class PostLostViewController: UIViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate {
+class PostFoundViewController: UIViewController {
     
 //    init(delegate: UpdateTitleDelegate?, placeholderText: String) {
 //        self.delegate = delegate
 //        self.placeholderText = placeholderText
 //        super.init(nibName: nil, bundle: nil)
 //    }
-//
+    
 //    required init?(coder: NSCoder) {
 //        fatalError("init(coder:) has not been implemented")
 //    }
-    
+//
+    // TODO 1: set up view
     var name = UILabel()
     var nameInput = UITextField()
     
-    var descrip = UILabel()
-    var descripInput = UITextField()
+    var note = UILabel()
+    var noteInput = UITextField()
     
     var location = UILabel()
     var locInput = UITextField()
@@ -32,15 +33,11 @@ class PostLostViewController: UIViewController, UIImagePickerControllerDelegate,
     var contact_phone_input = UITextField()
     var contact_time_input = UITextField()
     
-    var lost_image = UIButton()
-    var imageUserProfile = UIImageView()
-    
-    var isPost:Bool = false
-    
-    var PostL_Button = UIButton()
+    var PostF_Button = UIButton()
     
 //    var rec1 = UILabel()
 //    var rec2 = UILabel()
+
     override func viewDidLoad() {
         super.viewDidLoad()
         title = "Post Lost"
@@ -54,83 +51,19 @@ class PostLostViewController: UIViewController, UIImagePickerControllerDelegate,
         setupConstraints()
     }
     
-    //delegate methods for selecting images from gallery
-    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
-
-           // The info dictionary may contain multiple representations of the image. You want to use the original.
-           guard let selectedImage = info[.originalImage] as? UIImage else {
-               fatalError("Expected a dictionary containing an image, but was provided the following: \(info)")
-           }
-
-           // Set photoImageView to display the selected image.
-           imageUserProfile.image = selectedImage
-
-           // Dismiss the picker.
-           dismiss(animated: true, completion: nil)
-           
-            viewDidLoad()
-       }
-    
-    @objc func showActionSheet(){
-            isPost = true
-        
-            //Create the AlertController and add Its action like button in Actionsheet
-            let actionSheetController: UIAlertController = UIAlertController(title: NSLocalizedString("Upload Image", comment: ""), message: nil, preferredStyle: .actionSheet)
-            actionSheetController.view.tintColor = UIColor.black
-            let cancelActionButton: UIAlertAction = UIAlertAction(title: NSLocalizedString("Cancel", comment: ""), style: .cancel) { action -> Void in
-                print("Cancel")
-            }
-            actionSheetController.addAction(cancelActionButton)
-
-            let deleteActionButton: UIAlertAction = UIAlertAction(title: NSLocalizedString("Choose From Gallery", comment: ""), style: .default)
-            { action -> Void in
-                self.gallery()
-            }
-        
-            actionSheetController.addAction(deleteActionButton)
-            self.present(actionSheetController, animated: true, completion: nil)
-        }
-    
-
-    
-    func gallery(){
-        let myPickerControllerGallery = UIImagePickerController()
-        myPickerControllerGallery.delegate = self
-        myPickerControllerGallery.sourceType = UIImagePickerController.SourceType.photoLibrary
-        myPickerControllerGallery.allowsEditing = true
-        self.present(myPickerControllerGallery, animated: true, completion: nil)
-    }
-    
     func setupViews(){
         let color: UIColor=UIColor(red: 0.788, green: 0.839, blue: 0.875, alpha: 1)
         let border_width : CGFloat = 0.5
         
-        //lost_image
-        lost_image.frame = CGRect(x: 0, y: 0, width: 200, height: 35)
-        lost_image.setTitle("Choose image", for: .normal)
-        lost_image.layer.backgroundColor = color.cgColor
-        lost_image.setTitleColor(.black, for: .normal)
-        lost_image.addTarget(self, action: #selector(showActionSheet), for: .touchUpInside)
-        lost_image.translatesAutoresizingMaskIntoConstraints = false
-        view.addSubview(lost_image)
-        
-        
-        // imageViewPic
-        if (isPost){
-            imageUserProfile.clipsToBounds = true
-            imageUserProfile.translatesAutoresizingMaskIntoConstraints = false
-            view.addSubview(imageUserProfile);
-        }
-
-        //PostLost_Button
-        PostL_Button.frame = CGRect(x: 0, y: 0, width: 130, height: 46)
-        PostL_Button.setTitle("Post", for: .normal)
-        PostL_Button.layer.backgroundColor = color.cgColor
-        PostL_Button.setTitleColor(.black, for: .normal)
-        PostL_Button.layer.cornerRadius = 23
-        PostL_Button.addTarget(self, action: #selector(PostLTapped), for: .touchUpInside)
-        PostL_Button.translatesAutoresizingMaskIntoConstraints = false
-        view.addSubview(PostL_Button)
+        //PostF_Button
+        PostF_Button.frame = CGRect(x: 0, y: 0, width: 130, height: 46)
+        PostF_Button.setTitle("Post", for: .normal)
+        PostF_Button.layer.backgroundColor = color.cgColor
+        PostF_Button.setTitleColor(.black, for: .normal)
+        PostF_Button.layer.cornerRadius = 23
+        PostF_Button.addTarget(self, action: #selector(PostFTapped), for: .touchUpInside)
+        PostF_Button.translatesAutoresizingMaskIntoConstraints = false
+        view.addSubview(PostF_Button)
         
         //name
         name.text="Item's name:"
@@ -150,23 +83,23 @@ class PostLostViewController: UIViewController, UIImagePickerControllerDelegate,
         nameInput.translatesAutoresizingMaskIntoConstraints = false
         view.addSubview(nameInput)
         
-        //descrip
-        descrip.text = "Description:"
-        descrip.font = UIFont(name: "RoundedMplus1c-Medium", size: 18)
-        descrip.textColor = color
-        descrip.textAlignment = .left
-        descrip.translatesAutoresizingMaskIntoConstraints = false
-        view.addSubview(descrip)
+        //note
+        note.text = "Description:"
+        note.font = UIFont(name: "RoundedMplus1c-Medium", size: 18)
+        note.textColor = color
+        note.textAlignment = .left
+        note.translatesAutoresizingMaskIntoConstraints = false
+        view.addSubview(note)
         
-        //descripInput
-        descripInput.font = UIFont.systemFont(ofSize: 18)
+        //noteInput
+        noteInput.font = UIFont.systemFont(ofSize: 18)
 //        nameInput.borderStyle =
-        descripInput.textColor = color
-        descripInput.layer.borderColor = color.cgColor
-        descripInput.layer.borderWidth = border_width
-        descripInput.textAlignment = .left
-        descripInput.translatesAutoresizingMaskIntoConstraints = false
-        view.addSubview(descripInput)
+        noteInput.textColor = color
+        noteInput.layer.borderColor = color.cgColor
+        noteInput.layer.borderWidth = border_width
+        noteInput.textAlignment = .left
+        noteInput.translatesAutoresizingMaskIntoConstraints = false
+        view.addSubview(noteInput)
         
         //location
         location.text="Lost Location:"
@@ -270,15 +203,13 @@ class PostLostViewController: UIViewController, UIImagePickerControllerDelegate,
     
     }
     
-    @objc func PostLTapped() {
+    @objc func PostFTapped() {
         //还需要实现如何再增加一行table view
 //        let FVC = FoundDescViewController();
 //            self.navigationController?.pushViewController(FVC, animated: true)
     }
 
     func setupConstraints() {
-        
-        //the parameter used in this section. Modify the scaler, the whole thing is adjusted.
         let width: CGFloat = 285
         let leading: CGFloat = 18
         let s_padding: CGFloat = 1
@@ -294,31 +225,31 @@ class PostLostViewController: UIViewController, UIImagePickerControllerDelegate,
 
         NSLayoutConstraint.activate([
             nameInput.widthAnchor.constraint(equalToConstant: width),
-            nameInput.heightAnchor.constraint(equalToConstant: 23),
+            nameInput.heightAnchor.constraint(equalToConstant: 30),
             nameInput.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor,constant: leading),
             nameInput.topAnchor.constraint(equalTo: name.bottomAnchor, constant: s_padding),
         ])
         
         //descrip & descripInput
         NSLayoutConstraint.activate([
-            descrip.widthAnchor.constraint(equalToConstant: 107),
-            descrip.heightAnchor.constraint(equalToConstant: 24),
-            descrip.leadingAnchor.constraint(equalTo: view.leadingAnchor,constant: leading),
-            descrip.topAnchor.constraint(equalTo: nameInput.bottomAnchor, constant: l_padding),
+            note.widthAnchor.constraint(equalToConstant: 107),
+            note.heightAnchor.constraint(equalToConstant: 27),
+            note.leadingAnchor.constraint(equalTo: view.leadingAnchor,constant: leading),
+            note.topAnchor.constraint(equalTo: nameInput.bottomAnchor, constant: l_padding),
         ])
         NSLayoutConstraint.activate([
-            descripInput.widthAnchor.constraint(equalToConstant: width),
-            descripInput.heightAnchor.constraint(equalToConstant: 50),
-            descripInput.leadingAnchor.constraint(equalTo: view.leadingAnchor,constant: leading),
-            descripInput.topAnchor.constraint(equalTo: descrip.bottomAnchor, constant: s_padding),
+            noteInput.widthAnchor.constraint(equalToConstant: width),
+            noteInput.heightAnchor.constraint(equalToConstant: 30),
+            noteInput.leadingAnchor.constraint(equalTo: view.leadingAnchor,constant: leading),
+            noteInput.topAnchor.constraint(equalTo: note.bottomAnchor, constant: s_padding),
         ])
         
         //location locInput
         NSLayoutConstraint.activate([
-            location.widthAnchor.constraint(equalToConstant: 140),
-            location.heightAnchor.constraint(equalToConstant: 24),
+            location.widthAnchor.constraint(equalToConstant: 121),
+            location.heightAnchor.constraint(equalToConstant: 27),
             location.leadingAnchor.constraint(equalTo: view.leadingAnchor,constant: leading),
-            location.topAnchor.constraint(equalTo: descripInput.bottomAnchor, constant: l_padding),
+            location.topAnchor.constraint(equalTo: noteInput.bottomAnchor, constant: l_padding),
         ])
         NSLayoutConstraint.activate([
             locInput.widthAnchor.constraint(equalToConstant: width),
@@ -330,7 +261,7 @@ class PostLostViewController: UIViewController, UIImagePickerControllerDelegate,
         //time timeInput
         NSLayoutConstraint.activate([
             time.widthAnchor.constraint(equalToConstant: 89),
-            time.heightAnchor.constraint(equalToConstant: 24),
+            time.heightAnchor.constraint(equalToConstant: 27),
             time.leadingAnchor.constraint(equalTo: view.leadingAnchor,constant: leading),
             time.topAnchor.constraint(equalTo: locInput.bottomAnchor, constant: l_padding),
         ])
@@ -341,34 +272,16 @@ class PostLostViewController: UIViewController, UIImagePickerControllerDelegate,
             timeInput.topAnchor.constraint(equalTo: time.bottomAnchor, constant: s_padding),
         ])
         
-        //lost_image
-        NSLayoutConstraint.activate([
-            lost_image.widthAnchor.constraint(equalToConstant: 200),
-            lost_image.heightAnchor.constraint(equalToConstant: 24),
-            lost_image.leadingAnchor.constraint(equalTo: view.leadingAnchor,constant: leading),
-            lost_image.topAnchor.constraint(equalTo: timeInput.bottomAnchor, constant: l_padding),
-        ])
-        
-        //imageUserProfile
-        if (isPost){
-        NSLayoutConstraint.activate([
-            imageUserProfile.widthAnchor.constraint(equalToConstant: 100),
-            imageUserProfile.heightAnchor.constraint(equalToConstant: 100),
-            imageUserProfile.leadingAnchor.constraint(equalTo: view.leadingAnchor,constant: leading),
-            imageUserProfile.topAnchor.constraint(equalTo: lost_image.bottomAnchor, constant: s_padding),
-        ])
-        }
-        
         //contact contact_name_input contact_phone_input contact_time_input
         NSLayoutConstraint.activate([
             contact.widthAnchor.constraint(equalToConstant: 148),
-            contact.heightAnchor.constraint(equalToConstant: 24),
+            contact.heightAnchor.constraint(equalToConstant: 27),
             contact.leadingAnchor.constraint(equalTo: view.leadingAnchor,constant: leading),
-            contact.topAnchor.constraint(equalTo: lost_image.bottomAnchor, constant: 115),
+            contact.topAnchor.constraint(equalTo: timeInput.bottomAnchor, constant: 35),
         ])
         NSLayoutConstraint.activate([
             contact_name.widthAnchor.constraint(equalToConstant: 140),
-            contact_name.heightAnchor.constraint(equalToConstant: 20),
+            contact_name.heightAnchor.constraint(equalToConstant: 22),
             contact_name.leadingAnchor.constraint(equalTo: view.leadingAnchor,constant: leading),
             contact_name.topAnchor.constraint(equalTo: contact.bottomAnchor, constant: s_padding),
         ])
@@ -380,7 +293,7 @@ class PostLostViewController: UIViewController, UIImagePickerControllerDelegate,
         ])
         NSLayoutConstraint.activate([
             contact_phone.widthAnchor.constraint(equalToConstant: 140),
-            contact_phone.heightAnchor.constraint(equalToConstant: 20),
+            contact_phone.heightAnchor.constraint(equalToConstant: 22),
             contact_phone.leadingAnchor.constraint(equalTo: view.leadingAnchor,constant: leading),
             contact_phone.topAnchor.constraint(equalTo: contact_name.bottomAnchor, constant: s_padding),
         ])
@@ -392,23 +305,23 @@ class PostLostViewController: UIViewController, UIImagePickerControllerDelegate,
         ])
         NSLayoutConstraint.activate([
             contact_time.widthAnchor.constraint(equalToConstant: 200),
-            contact_time.heightAnchor.constraint(equalToConstant: 20),
+            contact_time.heightAnchor.constraint(equalToConstant: 22),
             contact_time.leadingAnchor.constraint(equalTo: view.leadingAnchor,constant: leading),
             contact_time.topAnchor.constraint(equalTo: contact_phone.bottomAnchor, constant: s_padding),
         ])
         NSLayoutConstraint.activate([
             contact_time_input.widthAnchor.constraint(equalToConstant: 319),
-            contact_time_input.heightAnchor.constraint(equalToConstant: 25),
+            contact_time_input.heightAnchor.constraint(equalToConstant: 30),
             contact_time_input.leadingAnchor.constraint(equalTo: view.leadingAnchor,constant: leading),
             contact_time_input.topAnchor.constraint(equalTo: contact_time.bottomAnchor, constant: s_padding),
         ])
         
-        //PostLost_Button
+        //PostF_Button
         NSLayoutConstraint.activate([
-            PostL_Button.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-            PostL_Button.widthAnchor.constraint(equalToConstant: 130),
-            PostL_Button.heightAnchor.constraint(equalToConstant: 40),
-            PostL_Button.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -15)
+            PostF_Button.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            PostF_Button.widthAnchor.constraint(equalToConstant: 130),
+            PostF_Button.heightAnchor.constraint(equalToConstant: 46),
+            PostF_Button.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -15)
         ])
         
         
@@ -421,3 +334,4 @@ class PostLostViewController: UIViewController, UIImagePickerControllerDelegate,
 
     }
 }
+

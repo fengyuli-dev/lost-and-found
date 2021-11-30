@@ -340,6 +340,8 @@
 				DEVELOPMENT_TEAM = N9UGGW479D;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = "Lost and Found/Info.plist";
+				INFOPLIST_KEY_NSCameraUsageDescription = " $(PRODUCT_NAME) camera use";
+				INFOPLIST_KEY_NSPhotoLibraryUsageDescription = "$(PRODUCT_NAME) photo use";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UIMainStoryboardFile = LaunchScreen;
@@ -368,6 +370,8 @@
 				DEVELOPMENT_TEAM = N9UGGW479D;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = "Lost and Found/Info.plist";
+				INFOPLIST_KEY_NSCameraUsageDescription = " $(PRODUCT_NAME) camera use";
+				INFOPLIST_KEY_NSPhotoLibraryUsageDescription = "$(PRODUCT_NAME) photo use";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UIMainStoryboardFile = LaunchScreen;

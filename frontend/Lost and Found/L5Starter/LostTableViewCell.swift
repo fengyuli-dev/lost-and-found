@@ -53,11 +53,10 @@ class LostTableViewCell: UICollectionViewCell {
         time.translatesAutoresizingMaskIntoConstraints = false
         contentView.addSubview(time)
         
-        des_image.tintColor = .black
-        //des_image.image = UIImage(named: "noidea")
-        des_image.clipsToBounds = true
-        des_image.translatesAutoresizingMaskIntoConstraints = false
-        contentView.addSubview(des_image)
+        
+//        des_image.translatesAutoresizingMaskIntoConstraints = false
+//        contentView.addSubview(des_image)
+        //haven't figured out how to handle images
         
         setupConstraints()
     }
@@ -71,15 +70,6 @@ class LostTableViewCell: UICollectionViewCell {
         let namelead = contentView.frame.width * 0.08
         let namewidth = contentView.frame.width * (3/7)
         
-        let im_width = contentView.frame.width * (1/5)
-        let im_trail = contentView.frame.width * (2/3)
-        
-        NSLayoutConstraint.activate([
-            des_image.widthAnchor.constraint(equalToConstant: im_width),
-            des_image.heightAnchor.constraint(equalToConstant: im_width),
-            des_image.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: im_trail),
-            des_image.topAnchor.constraint(equalTo: contentView.topAnchor, constant: toppad2),
-        ])
         
         NSLayoutConstraint.activate([
             name.widthAnchor.constraint(equalToConstant: namewidth),
