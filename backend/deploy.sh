@@ -1,8 +1,7 @@
 #! /bin/zsh
 
-docker build -t fengyuli2002/lost_and_found .
-heroku container:push web --app fengyulilostandfound
+docker buildx build --platform linux/amd64 --push -t registry.heroku.com/fengyulilostandfound/web .
 heroku container:release web --app fengyulilostandfound
-docker push fengyuli2002/lost_and_found
+# docker push fengyuli2002/lost_and_found
 
 echo "Deployed a new version of lost_and_found"
