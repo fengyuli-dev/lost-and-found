@@ -6,7 +6,9 @@
 //
 
 import UIKit
-
+let userData = UserDefaults.standard;
+let encoder = JSONEncoder();
+let decoder = JSONDecoder();
 @main
 class AppDelegate: UIResponder, UIApplicationDelegate {
 

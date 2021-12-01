@@ -41,6 +41,12 @@ class NetworkManager:Codable{
                     self.headers.update(name: "Authorization", value: "\(decodedResponse.session_token)")
                     print("Now after register, the header is \(self.headers)")
                     completion(decodedResponse)
+                    if let encodedResponse = try? encoder.encode(decodedResponse){
+                        print("Now encoding user prof-register!")
+                        userData.set(encodedResponse, forKey: "UserProf")
+                    }else{
+                        print("encoding failed.")
+                    }
                     
                 } catch let jsonError {
                     print("and we are here, in register?")
@@ -59,9 +65,6 @@ class NetworkManager:Codable{
         ]
         print(parameters)
         print("now logging in.")
-//        let headers = [
-//            HTTPHeader(name: "Authorization", value: <#T##String#>)
-//        ]
         AF.request("\(endpoint)/api/login/", method: .post, parameters: parameters, encoding: JSONEncoding.default)
             .validate(statusCode: 0 ..< 1000) // TODO: make this range smallest possible
             .responseData { response in
@@ -78,6 +81,12 @@ class NetworkManager:Codable{
                     self.headers.update(name: "Authorization", value: "\(decodedResponse.session_token)")
                     print("Now after logging in, the header is \(self.headers)")
                     completion(decodedResponse)
+                    if let encodedResponse = try? encoder.encode(decodedResponse){
+                        print("Now encoding user prof-login!")
+                        userData.set(encodedResponse, forKey: "UserProf")
+                    }else{
+                        print("encoding failed.")
+                    }
                 } catch let jsonError {
                     print("and we are here, in login?")
                     errorHandler("false")
