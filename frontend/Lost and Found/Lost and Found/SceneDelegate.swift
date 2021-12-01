@@ -19,8 +19,14 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         guard let windowScene = (scene as? UIWindowScene) else { return }
         let window = UIWindow(windowScene: windowScene)
         self.window = window
-        window.rootViewController = UINavigationController(rootViewController: MainViewController())
+        window.rootViewController = UINavigationController(rootViewController: TheMainViewController())
         window.makeKeyAndVisible()
+        
+//        userData.register(defaults:[
+//            "UserProf":User1(session_token: "", session_expiration: "", update_token: "", detail: User1.UserInfo(id: 0, email: "", lost: [], found: []))
+//        ])
+        userData.register(defaults: ["UserProf":Data()])
+        
     }
 
     func sceneDidDisconnect(_ scene: UIScene) {

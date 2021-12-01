@@ -7,16 +7,10 @@
 //
 import SwiftUI
 
-class QuestionViewController: UIViewController {
+class QuestionViewController: UIViewController{
     
-//    init(delegate: UpdateTitleDelegate?, placeholderText: String) {
-//        self.delegate = delegate
-//        self.placeholderText = placeholderText
-//        super.init(nibName: nil, bundle: nil)
-//    }
     init(){
         super.init(nibName: nil, bundle: nil)
-        
     }
     
     required init?(coder: NSCoder) {
@@ -25,20 +19,19 @@ class QuestionViewController: UIViewController {
     // TODO 1: set up view
     var Lost = UIButton()
     var Found = UIButton()
+    var Logout = UIButton()
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        //title = "Shapes"
         view.backgroundColor = UIColor(red: 0.325, green: 0.38, blue: 0.424, alpha: 1)
         
-
         setupViews()
         setupConstraints()
     }
     
     func setupViews(){
 
-        self.navigationItem.hidesBackButton = true;//You may never come back!
+//        self.navigationItem.hidesBackButton = true;//You may never come back!
         
         //Lost
         Lost.layer.backgroundColor = UIColor(red: 0.788, green: 0.839, blue: 0.875, alpha: 1).cgColor
@@ -60,6 +53,15 @@ class QuestionViewController: UIViewController {
         Found.addTarget(self, action: #selector(foundTableTapped), for: .touchUpInside)
         Found.translatesAutoresizingMaskIntoConstraints = false
         view.addSubview(Found)
+        
+        
+        Logout.layer.backgroundColor = UIColor(red: 0.788, green: 0.839, blue: 0.875, alpha: 1).cgColor
+        Logout.layer.cornerRadius = 20
+        Logout.setTitle("Log Out", for: .normal)
+        Logout.setTitleColor(.black, for: .normal)
+        Logout.addTarget(self, action: #selector(logoutTapped), for: .touchUpInside)
+        Logout.translatesAutoresizingMaskIntoConstraints = false
+        view.addSubview(Logout)
         
  
     }
@@ -86,6 +88,14 @@ class QuestionViewController: UIViewController {
             Found.topAnchor.constraint(equalTo: Lost.bottomAnchor, constant: 30),
         ])
         
+        
+        NSLayoutConstraint.activate([
+            Logout.widthAnchor.constraint(equalToConstant: theWidth),
+            Logout.heightAnchor.constraint(equalToConstant: theHeight),
+            Logout.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            Logout.topAnchor.constraint(equalTo: Found.bottomAnchor, constant: 30),
+        ])
+        
         //here I set up the fonts. It uses the height as a benchmark.
         
         Lost.titleLabel?.font = UIFont(name:"RoundedMplus1c-Medium", size: titlefont);
@@ -99,9 +109,15 @@ class QuestionViewController: UIViewController {
     
     
     @objc func foundTableTapped(){
-        let LVC = LostViewController();
+        let LVC = LostViewController(delegate: nil);
         self.navigationController?.pushViewController(LVC, animated: true)
     }
     
+    
+    @objc func logoutTapped(){
+        userData.set(Data(), forKey: "UserProf");
+        let TMVC = TheMainViewController()
+        self.navigationController?.pushViewController(TMVC, animated: true);
+    }
     
 }

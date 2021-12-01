@@ -1,5 +1,6 @@
 import SwiftUI
 
+
 class PostLostViewController: UIViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate {
 
     var name = UILabel()
@@ -26,24 +27,20 @@ class PostLostViewController: UIViewController, UIImagePickerControllerDelegate,
     var imageUserProfile = UIImageView()
     
     var isPost:Bool = false
-    
     var PostL_Button = UIButton()
     
-    var lostItems: [Item]=[]
-    weak var delegate: UpdateLostDelegate?
+    var delegate: UpdateLostDelegate?
     
-    init(delegate: UpdateLostDelegate?, lostItems: [Item]) {
-        self.delegate = delegate
-        self.lostItems = lostItems
-        super.init(nibName: nil, bundle: nil)
+    init() {
+//        self.lostItems = lostItems
+         super.init(nibName: nil, bundle: nil)
     }
-    
+
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
     
-//    var rec1 = UILabel()
-//    var rec2 = UILabel()
+
     override func viewDidLoad() {
         super.viewDidLoad()
         title = "Post Lost"
@@ -58,21 +55,30 @@ class PostLostViewController: UIViewController, UIImagePickerControllerDelegate,
     }
     
     @objc func PostLTapped() {
-        //还需要实现如何再增加一行table view
-//        while(nameInput.text == ""){
-//            nameInput.text = promptUserForName()
+        //实现Alert
+//        while(nameInput.text == ""||nameInput.text == "please enter the name!"){
+//          nameInput.text = promptUserForName()//?
+//            nameInput.text = "please enter the name!"
 //        }
 //        while (contact_phone_input.text==""){
 //            contact_phone_input.text=promptUserForPhone()
 //        }
-        var all_contact = "name:+" + contact_name.text! + ", phone:" + contact_phone.text!;
-        var lost:Item
-        lost = Item(objectName: nameInput.text!, location: locInput.text!,time: timeInput.text!, note: descripInput.text!,contact: all_contact,pics: imageUserProfile.image!);
-        lostItems.append(lost)
-        delegate?.updateLost(lostItems: lostItems)
-        
-        let LVC = LostViewController();
+        var all_contact = "name:+" + contact_name.text! + ", phone:" + contact_phone.text!
+//        var lost = Item(objectName: nameInput.text!, location: locInput.text!,time: timeInput.text!, note: descripInput.text!,contact: all_contact,pics: imageUserProfile.image!);
+//
+//        delegate?.updateLost(newLost: lost)
+        let name = nameInput.text ?? ""
+        let description = descripInput.text ?? ""
+        let time = timeInput.text ?? ""
+        let location = locInput.text ?? ""
+        NetworkManager.postLost(name: name, time: time, description: description, location: location) { item in
+            print("postLostComplete!")
+            print(item)
+            let LVC = LostViewController(delegate: self.delegate);
             self.navigationController?.pushViewController(LVC, animated: true)
+            LVC.viewDidLoad();
+        }
+
     }
     
     //alert
@@ -164,6 +170,8 @@ class PostLostViewController: UIViewController, UIImagePickerControllerDelegate,
         myPickerControllerGallery.allowsEditing = true
         self.present(myPickerControllerGallery, animated: true, completion: nil)
     }
+    
+    
     
     func setupViews(){
         let color: UIColor=UIColor(red: 0.788, green: 0.839, blue: 0.875, alpha: 1)
@@ -470,14 +478,8 @@ class PostLostViewController: UIViewController, UIImagePickerControllerDelegate,
             PostL_Button.heightAnchor.constraint(equalToConstant: 40),
             PostL_Button.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -15)
         ])
-        
-        
-        
-        
-        
-        
-        
-        
+             
 
     }
 }
+

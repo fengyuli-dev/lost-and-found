@@ -23,10 +23,10 @@ class FoundTableViewCell: UICollectionViewCell {
     }
     
     func configure(for item: Item) {
-        name.text = item.objectName
+        name.text = item.name
         location.text = item.location
         time.text = "\(item.time)"
-        des_image.image = item.pics
+//        des_image.image = item.pics
         contentView.backgroundColor = .white
         contentView.layer.cornerRadius = 25;
         

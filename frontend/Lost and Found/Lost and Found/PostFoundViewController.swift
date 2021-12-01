@@ -324,15 +324,23 @@ class PostFoundViewController: UIViewController, UIImagePickerControllerDelegate
     
     @objc func PostFTapped() {
         //还需要实现如何再增加一行table view
-        while(nameInput.text == ""){
-            nameInput.text = promptUserForName()
+//        while(nameInput.text == ""){
+//            nameInput.text = promptUserForName()
+//        }
+//        while (contact_phone_input.text==""){
+//            contact_phone_input.text=promptUserForPhone()
+//        }
+        let name = nameInput.text ?? ""
+        let description = descripInput.text ?? ""
+        let time = timeInput.text ?? ""
+        let location = locInput.text ?? ""
+        NetworkManager.postFound(name: name, time: time, description: description, location: location) { item in
+            print("postFoundComplete!")
+            print(item)
+            let FVC = FoundViewController();
+            self.navigationController?.pushViewController(FVC, animated: true)
+            FVC.viewDidLoad();
         }
-        while (contact_phone_input.text==""){
-            contact_phone_input.text=promptUserForPhone()
-        }
-        
-        let FVC = FoundViewController();
-        self.navigationController?.pushViewController(FVC, animated: true)
     }
 
     func setupConstraints() {
@@ -480,4 +488,3 @@ class PostFoundViewController: UIViewController, UIImagePickerControllerDelegate
 
     }
 }
-

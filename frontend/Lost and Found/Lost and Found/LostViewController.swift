@@ -7,16 +7,17 @@
 
 import Foundation
 import UIKit
+import Alamofire
 
 protocol UpdateLostDelegate: class {
-    func updateLost(lostItems: [Item])
+    func updateLost(newLost: Item)
+    func getLost()->Item
 }
 
 class LostViewController: UIViewController, UISearchResultsUpdating, UISearchBarDelegate{
     // @IBOutlet weak var collectionView: UICollectionView!
     var lostTableView : UICollectionView;
     let reuseIdentifier_1 = "lostCellReuse"
-    
     var lostItems: [Item]=[]
     var filtered:[Item] = []
     
@@ -28,21 +29,15 @@ class LostViewController: UIViewController, UISearchResultsUpdating, UISearchBar
     // searchbar实现
     let searchController = UISearchController(searchResultsController: nil);
     var searchActive: Bool = false
-//    lazy var searchBar: UISearchBar = {
-//        let s = UISearchBar()
-//            s.placeholder = "Search Items"
-//            s.delegate = self
-//            s.tintColor = .white
-//            s.barTintColor = .black
-//            s.barStyle = .default
-//            s.sizeToFit()
-//            //s.frame.size.width = self.collectionView!.frame.size.width
-//        return s
-//    }()
+
+    weak var delegate: UpdateLostDelegate?
+    //init(delegate:UpdateLostDelegate){
     
-    init(){
+    init(delegate:UpdateLostDelegate?){
+        self.delegate = delegate
         let foundlayout = UICollectionViewFlowLayout();
         lostTableView = UICollectionView(frame: .zero, collectionViewLayout: foundlayout)//this is of no use.
+        
         super.init(nibName: nil, bundle: nil);
     }
     
@@ -53,6 +48,8 @@ class LostViewController: UIViewController, UISearchResultsUpdating, UISearchBar
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = UIColor(red: 0.325, green: 0.38, blue: 0.424, alpha: 1)
+        
+        lostTableView.delegate=self
         
         let navBar = self.navigationController!.navigationBar
         
@@ -66,6 +63,8 @@ class LostViewController: UIViewController, UISearchResultsUpdating, UISearchBar
         searchController.searchBar.tintColor = .black
         searchController.searchBar.barTintColor = .white
         self.navigationItem.searchController = searchController
+        
+        
 
 
         let titleview = UILabel();
@@ -106,16 +105,63 @@ class LostViewController: UIViewController, UISearchResultsUpdating, UISearchBar
         PostFound_Button.setTitleColor(.black, for: .normal);
         PostFound_Button.titleLabel?.font = UIFont(name:"RoundedMplus1c-Medium", size: 18);
         view.addSubview(PostFound_Button)
-        
-        
+       
         setupConstraints()
-        addDUMMYData();
+        getData();
+        
     }
+    
+    
+
+    func setupConstraints() {
+        
+        //the parameter used in this section. Modify the scaler, the whole thing is adjusted.
+        let viewpadding : CGFloat = 10;
+        
+        
+        NSLayoutConstraint.activate([
+            lostTableView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor),
+            lostTableView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor),
+            lostTableView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: viewpadding),
+            lostTableView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor)
+        ])
+        
+        NSLayoutConstraint.activate([
+            PostFound_Button.widthAnchor.constraint(equalToConstant: 130),
+            PostFound_Button.heightAnchor.constraint(equalToConstant: 46),
+            PostFound_Button.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -20),
+            PostFound_Button.centerXAnchor.constraint(equalTo: view.safeAreaLayoutGuide.centerXAnchor),
+        ])
+    }
+    
+    func sortData(){
+        self.lostItems.sort{(leftItem,rightItem)->Bool in
+            return leftItem.id > rightItem.id;
+        }
+    }
+    func getData(){
+        lostItems = []
+        NetworkManager.getAllLost { lostItems in
+            print("decode succeed")
+            self.lostItems = lostItems;
+            self.lostTableView.reloadData()
+            DispatchQueue.main.async {
+                self.lostTableView.reloadData();
+            }//what is this for??
+        }
+        
+    }
+    
+    @objc func PostFoundTapped() {
+        let PLVC = PostFoundViewController();
+        self.navigationController?.pushViewController(PLVC, animated: true)
+    }
+    
     
     func updateSearchResults(for searchController: UISearchController) {
         let searchString = searchController.searchBar.text
         filtered = lostItems.filter({ (item) -> Bool in
-            let countryText: NSString = item.objectName as NSString
+            let countryText: NSString = item.name as NSString
 
                     return (countryText.range(of: searchString!, options: NSString.CompareOptions.caseInsensitive).location) != NSNotFound
                 })
@@ -146,48 +192,6 @@ class LostViewController: UIViewController, UISearchResultsUpdating, UISearchBar
             searchController.searchBar.resignFirstResponder()
         }
     
-
-    func setupConstraints() {
-        
-        //the parameter used in this section. Modify the scaler, the whole thing is adjusted.
-        let viewpadding : CGFloat = 10;
-        
-        
-        NSLayoutConstraint.activate([
-            lostTableView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor),
-            lostTableView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor),
-            lostTableView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: viewpadding),
-            lostTableView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor)
-        ])
-        
-        NSLayoutConstraint.activate([
-            PostFound_Button.widthAnchor.constraint(equalToConstant: 130),
-            PostFound_Button.heightAnchor.constraint(equalToConstant: 46),
-            PostFound_Button.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -20),
-            PostFound_Button.centerXAnchor.constraint(equalTo: view.safeAreaLayoutGuide.centerXAnchor),
-        ])
-    }
-    
-    
-    func addDUMMYData(){
-        lostItems.append(Item(objectName: "Porridge", location: "Townhouse", time: "25:61", note: "Handsome BOOOYYYY", contact: "Oopsy, you should find it", pics: UIImage()));
-        lostItems.append(Item(objectName: "Porridge", location: "Townhouse", time: "25:61", note: "Handsome BOOOYYYY", contact: "Oopsy, you should find it", pics: UIImage()));
-        lostItems.append(Item(objectName: "Porridge", location: "Townhouse", time: "25:61", note: "Handsome BOOOYYYY", contact: "Oopsy, you should find it", pics: UIImage()));
-        lostItems.append(Item(objectName: "Porridge", location: "Townhouse", time: "25:61", note: "Handsome BOOOYYYY", contact: "Oopsy, you should find it", pics: UIImage()));
-        lostItems.append(Item(objectName: "Porridge", location: "Townhouse", time: "25:61", note: "Handsome BOOOYYYY", contact: "Oopsy, you should find it", pics: UIImage()));
-        lostItems.append(Item(objectName: "Porridge", location: "Townhouse", time: "25:61", note: "Handsome BOOOYYYY", contact: "Oopsy, you should find it", pics: UIImage()));
-        lostItems.append(Item(objectName: "Porridge", location: "Townhouse", time: "25:61", note: "Handsome BOOOYYYY", contact: "Oopsy, you should find it", pics: UIImage()));
-        lostItems.append(Item(objectName: "Porridge", location: "Townhouse", time: "25:61", note: "Handsome BOOOYYYY", contact: "Oopsy, you should find it", pics: UIImage()));
-        lostItems.append(Item(objectName: "Porridge", location: "Townhouse", time: "25:61", note: "Handsome BOOOYYYY", contact: "Oopsy, you should find it", pics: UIImage()));
-        lostItems.append(Item(objectName: "Porridge", location: "Townhouse", time: "25:61", note: "Handsome BOOOYYYY", contact: "Oopsy, you should find it", pics: UIImage()));
-        lostItems.append(Item(objectName: "Porridge", location: "Townhouse", time: "25:61", note: "Handsome BOOOYYYY", contact: "Oopsy, you should find it", pics: UIImage()));
-        
-    }
-    
-    @objc func PostFoundTapped() {
-        let PFVC = PostFoundViewController();
-        self.navigationController?.pushViewController(PFVC, animated: true)
-    }
     
 }
 
@@ -216,6 +220,7 @@ extension LostViewController : UICollectionViewDataSource{
         return CGSize(width: view.frame.width, height: 40)
     }
     
+    
 }
 
 
@@ -228,34 +233,16 @@ extension LostViewController : UICollectionViewDelegate, UICollectionViewDelegat
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        if searchActive{
-            let item = filtered[indexPath.item]
-            let display = LostDescViewController();
-            display.setParaForFont(Float(view.frame.height) * 0.022) //set the font size!
-            display.configure(for: item);
-            present(display, animated: true, completion: nil)
-        }
-        else{
-            let item = lostItems[indexPath.item];
-            let display = FoundDescViewController();
-            display.setParaForFont(Float(view.frame.height) * 0.022) //set the font size!
-            display.configure(for: item);
-            present(display, animated: true, completion: nil)
-        }
+        let item = lostItems[indexPath.item];
 
+        let display = LostDescViewController();
+        display.setParaForFont(Float(view.frame.height) * 0.022) //set the font size!
+        display.configure(for: item);
+        if let pC = display.presentationController as? UISheetPresentationController {
+            pC.detents = [.medium()] /// set here!
+        }
         
-//        if let pC = display.presentationController as? UISheetPresentationController {
-//            pC.detents = [.medium()] /// set here!
-//        }
-    }
-}
-
-extension LostViewController: UpdateLostDelegate {
-
-    func updateLost(lostItems: [Item]) {
-        self.lostItems=lostItems
-        lostTableView.reloadData()
-
+        present(display, animated: true, completion: nil)
     }
     
 }

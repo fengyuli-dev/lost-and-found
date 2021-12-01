@@ -1,26 +1,42 @@
-
 //
-//  ViewController.swift
+//  RegisterController.swift
 //  Lost and Found
 //
-//  Created by Haoxuan Zou on 11/19/21.
+//  Created by Haoxuan Zou on 11/30/21.
 //
 
+import Foundation
 import UIKit
 
-class MainViewController: UIViewController{
+protocol UserDelegate:class{
+    func updateToken(token:String);
+//    func updateId(id:Int);
+//    func updateEmail(email:String);
+    func getToken()->String;
+//    func getId()->Int;
+//    func getEmail()->String;
+}
+
+class RegisterController: UIViewController{
+    
     
     private var netIdText = UITextField();
     private var passwordText = UITextField();
-    private var loginButton = UIButton();
     private var registerButton = UIButton();
     private var token = ""
     private var id = 0
     private var email = ""
+    private var delegate:UserDelegate
     
-
+    init(delegate:UserDelegate){
+        self.delegate=delegate
+        super.init(nibName: nil, bundle: nil)
+    }
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
     override func viewDidLoad() {
-        print("shit.now we go again.")
         super.viewDidLoad()
         // Do any additional setup after loading the view.
         view.backgroundColor = UIColor(red: 0.325, green: 0.38, blue: 0.424, alpha: 1)
@@ -54,17 +70,6 @@ class MainViewController: UIViewController{
         passwordText.centerXAnchor.constraint(equalTo: parent.safeAreaLayoutGuide.centerXAnchor).isActive = true
         
         
-        loginButton.backgroundColor = UIColor(red: 0.788, green: 0.839, blue: 0.875, alpha: 1)
-        loginButton.setTitle("Login", for: .normal)
-        loginButton.setTitleColor(.black, for: .normal)
-        loginButton.layer.cornerRadius = 23;
-        parent.addSubview(loginButton)
-        loginButton.translatesAutoresizingMaskIntoConstraints = false;
-        loginButton.centerXAnchor.constraint(equalTo: parent.safeAreaLayoutGuide.centerXAnchor).isActive = true;
-        loginButton.topAnchor.constraint(equalTo: passwordText.bottomAnchor, constant: 30).isActive = true;
-        loginButton.widthAnchor.constraint(equalToConstant: CGFloat(150)).isActive = true;
-        loginButton.addTarget(self, action: #selector(loginTapped), for: .touchUpInside)
-        
         registerButton.backgroundColor = UIColor(red: 0.788, green: 0.839, blue: 0.875, alpha: 1)
         registerButton.setTitle("Register", for: .normal)
         registerButton.setTitleColor(.black, for: .normal)
@@ -72,83 +77,64 @@ class MainViewController: UIViewController{
         parent.addSubview(registerButton)
         registerButton.translatesAutoresizingMaskIntoConstraints = false;
         registerButton.centerXAnchor.constraint(equalTo: parent.safeAreaLayoutGuide.centerXAnchor).isActive = true;
-        registerButton.topAnchor.constraint(equalTo: loginButton.bottomAnchor, constant: 30).isActive = true;
+        registerButton.topAnchor.constraint(equalTo: passwordText.bottomAnchor, constant: 30).isActive = true;
         registerButton.widthAnchor.constraint(equalToConstant: CGFloat(150)).isActive = true;
         registerButton.addTarget(self, action: #selector(registerTapped), for: .touchUpInside)
-        
-        
-        let theFont = theHeight * 0.367;
-        netIdText.font = UIFont(name: "RoundedMplus1c-Medium", size: theFont)
-        loginButton.titleLabel?.font = UIFont(name:"RoundedMplus1c-Medium", size: theFont);
-        passwordText.font = UIFont(name: "RoundedMplus1c-Medium", size: theFont)
-        registerButton.titleLabel?.font = UIFont(name: "RoundedMplus1c-Medium", size: theFont)
- 
-        
-    }
-    @objc func loginTapped(){
-        //you lack an if let method!
-        if let netId = netIdText.text, let password = passwordText.text{
-            print("login iflet good.")
-            print(netId);print(password)
-
-            NetworkManager.login(email: netId, password: password, completion: { user in
-                print("success!!??!!")
-                self.updateToken(token: user.session_token);
-//                self.updateId(id: user.detail.id);
-//                self.updateEmail(email: user.detail.email)
-                print(user.session_token)
-                print(user.detail.id)
-                let qvc = QuestionViewController();
-                self.navigationController?.pushViewController(qvc, animated: true)
-            },errorHandler: { boolresult in
-                if boolresult=="false"{
-                    let createAlert = UIAlertController(title: "Login Failed!", message: nil, preferredStyle: .alert)
-                    createAlert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
-                    self.present(createAlert,animated: true)
-                }
-                
-            }
-            )
-            
-        }else{
-            let createAlert = UIAlertController(title: "Register Failed!", message: nil, preferredStyle: .alert)
-            createAlert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
-            present(createAlert,animated: true)
-        }
-
     }
     
     @objc func registerTapped(){
-        let rvc = RegisterController(delegate: self);
-        self.navigationController?.pushViewController(rvc, animated: true)
+        if let netId = netIdText.text, let password = passwordText.text{
+            print("register iflet good.")
+            print(netId);print(password)
+            NetworkManager.register(email: netId, password: password, completion: { user in
+                print("success,network,register")
+                self.delegate.updateToken(token: user.session_token);
+//                self.delegate.updateId(id: user.detail.id);
+//                self.delegate.updateEmail(email: user.detail.email)
+                print(user.session_token)
+                self.updateToken(token: user.session_token)
+                print(self.token)
+                print(user.detail.id)
+            }, errorHandler: { boolresult in
+                
+                if boolresult=="false"{
+                    print("now the bool is false")
+                    let createAlert = UIAlertController(title: "Register Failed!", message: .none, preferredStyle: .alert)
+                    createAlert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
+                    self.present(createAlert,animated: true)
+                    //create an alert.
+                }
+            })
+        }
     }
+    
 
-
+        
 }
 
-extension MainViewController:UserDelegate{
-//    func getId() -> Int {
-//        return self.id
-//    }
-//
-//    func getEmail() -> String {
-//        return self.email
-//    }
-//
 
+extension RegisterController:UserDelegate{
+    func getId() -> Int {
+        return self.id
+    }
     
-//    func updateId(id: Int) {
-//        self.id=id
-//    }
-//
-//    func updateEmail(email: String) {
-//        self.email=email
-//    }
+    func getEmail() -> String {
+        return self.email
+    }
+    
     func updateToken(token: String) {
         self.token=token
+    }
+    
+    func updateId(id: Int) {
+        self.id=id
+    }
+    
+    func updateEmail(email: String) {
+        self.email=email
     }
     func getToken() -> String{
         return self.token;
     }
+    
 }
-
