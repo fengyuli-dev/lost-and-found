@@ -57,6 +57,7 @@ class Lost(db.Model):
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     name = db.Column(db.String, nullable=False)
     description = db.Column(db.String, nullable=True)
+    contact = db.Column(db.String, nullable=True)
     time = db.Column(db.String, nullable=True)
     location = db.Column(db.String, nullable=True)
     user_id = db.Column(db.Integer, db.ForeignKey("user.id"))
@@ -67,6 +68,7 @@ class Lost(db.Model):
             "id": self.id,
             "name": self.name,
             "description": self.description,
+            "contact": self.contact,
             "time": self.time,
             "location": self.location,
             "user": self.user_id
@@ -78,6 +80,7 @@ class Found(db.Model):
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     name = db.Column(db.String, nullable=False)
     description = db.Column(db.String, nullable=True)
+    contact = db.Column(db.String, nullable=True)
     time = db.Column(db.String, nullable=True)
     location = db.Column(db.String, nullable=True)
     user_id = db.Column(db.Integer, db.ForeignKey("user.id"))
@@ -88,6 +91,7 @@ class Found(db.Model):
             "id": self.id,
             "name": self.name,
             "description": self.description,
+            "contact": self.contact,
             "time": self.time,
             "location": self.location,
             "user": self.user_id

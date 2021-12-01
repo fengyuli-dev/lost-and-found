@@ -168,7 +168,7 @@ def post_lost_item():
     item = Lost(
         name=body["name"],
         description=body.get("description", None),
-        # Use String for time?
+        contact=body.get("contact", None),
         time=body.get("time", None),
         location=body.get("location", None),
         user_id=user.id
@@ -198,7 +198,7 @@ def post_found_item():
     item = Found(
         name=body["name"],
         description=body.get("description"),
-        # Use String for time?
+        contact=body.get("contact", None),
         time=body.get("time", None),
         location=body.get("location"),
         user_id=user.id
