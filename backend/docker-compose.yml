@@ -1,5 +1,0 @@
-services:    
-    web:        
-        image: fengyuli2002/lost_and_found         
-        ports:                
-            - "8080:8080"     
