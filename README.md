@@ -111,6 +111,7 @@ Response if there exists such item:
     "id": <ID>,
     "name": <NAME OF THE LOST ITEM, NOT NULL>,
     "description": <DESCRPTION OF THE LOST ITEM, COULD BE NULL>,
+    "contact": <CONTACT OF THE LOST ITEM, COULD BE NULL>,
     "time": <TIME WHEN THE ITEM WAS LOST, COULD BE NULL>,
     "location": <WHERE THE ITEM WAS LOST, COULD BE NULL>,
     "user": <SERIALIZED USER, NOT NULL>
@@ -126,6 +127,7 @@ Response if there exists such item:
     "id": <ID>,
     "name": <NAME OF THE FOUND ITEM, NOT NULL>,
     "description": <DESCRPTION OF THE FOUND ITEM, COULD BE NULL>,
+    "contact": <CONTACT OF THE LOST ITEM, COULD BE NULL>,
     "time": <TIME WHEN THE ITEM WAS FOUND, COULD BE NULL>,
     "location": <WHERE THE ITEM WAS FOUND, COULD BE NULL>,
     "user": <SERIALIZED USER, NOT NULL>
@@ -159,6 +161,7 @@ Request:
 {
     "name": <NAME, NOT NULL>,
     "description": <DISCRIPTION>,
+    "contact": <CONTACT>,
     "time": <TIME>,
     "location": <LOCATION>
 }
@@ -173,6 +176,7 @@ Request:
 {
     "name": <NAME, NOT NULL>,
     "description": <DISCRIPTION>,
+    "contact": <CONTACT>,
     "time": <TIME>,
     "location": <LOCATION>
 }
