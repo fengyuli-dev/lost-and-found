@@ -162,6 +162,7 @@ Request:
     "name": <NAME, NOT NULL>,
     "description": <DISCRIPTION>,
     "contact": <CONTACT>,
+    "image": <IMAGE>,
     "time": <TIME>,
     "location": <LOCATION>
 }
@@ -177,6 +178,7 @@ Request:
     "name": <NAME, NOT NULL>,
     "description": <DISCRIPTION>,
     "contact": <CONTACT>,
+    "image": <IMAGE>,
     "time": <TIME>,
     "location": <LOCATION>
 }

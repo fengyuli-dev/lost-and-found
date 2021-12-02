@@ -169,6 +169,7 @@ def post_lost_item():
         name=body["name"],
         description=body.get("description", None),
         contact=body.get("contact", None),
+        image=body.get("image", None),
         time=body.get("time", None),
         location=body.get("location", None),
         user_id=user.id
@@ -199,6 +200,7 @@ def post_found_item():
         name=body["name"],
         description=body.get("description"),
         contact=body.get("contact", None),
+        image=body.get("image", None),
         time=body.get("time", None),
         location=body.get("location"),
         user_id=user.id

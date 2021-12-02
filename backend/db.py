@@ -47,8 +47,8 @@ class User(db.Model):
         return {
             "id": self.id,
             "email": self.email,
-            "lost": [l.serialize() for l in self.lost],
-            "found": [f.serialize() for f in self.found]
+            # "lost": [l.serialize() for l in self.lost],
+            # "found": [f.serialize() for f in self.found]
         }
 
 
@@ -58,6 +58,7 @@ class Lost(db.Model):
     name = db.Column(db.String, nullable=False)
     description = db.Column(db.String, nullable=True)
     contact = db.Column(db.String, nullable=True)
+    image = db.Column(db.String, nullable=True)
     time = db.Column(db.String, nullable=True)
     location = db.Column(db.String, nullable=True)
     user_id = db.Column(db.Integer, db.ForeignKey("user.id"))
@@ -69,6 +70,7 @@ class Lost(db.Model):
             "name": self.name,
             "description": self.description,
             "contact": self.contact,
+            "image": self.image,
             "time": self.time,
             "location": self.location,
             "user": self.user_id
@@ -81,6 +83,7 @@ class Found(db.Model):
     name = db.Column(db.String, nullable=False)
     description = db.Column(db.String, nullable=True)
     contact = db.Column(db.String, nullable=True)
+    image = db.Column(db.String, nullable=True)
     time = db.Column(db.String, nullable=True)
     location = db.Column(db.String, nullable=True)
     user_id = db.Column(db.Integer, db.ForeignKey("user.id"))
@@ -92,6 +95,7 @@ class Found(db.Model):
             "name": self.name,
             "description": self.description,
             "contact": self.contact,
+            "image": self.image,
             "time": self.time,
             "location": self.location,
             "user": self.user_id
