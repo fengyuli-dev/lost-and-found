@@ -24,8 +24,8 @@ class QuestionViewController: UIViewController{
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        view.backgroundColor = UIColor(red: 0.325, green: 0.38, blue: 0.424, alpha: 1)
-        
+//        view.backgroundColor = UIColor(red: 0.325, green: 0.38, blue: 0.424, alpha: 1)
+        view.backgroundColor = .white
         setupViews()
         setupConstraints()
     }

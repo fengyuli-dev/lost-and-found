@@ -59,7 +59,7 @@ class FoundViewController: UIViewController, UISearchResultsUpdating, UISearchBa
         searchController.searchResultsUpdater = self
         searchController.searchBar.delegate = self
         searchController.searchBar.placeholder = "Search Items"
-        // 这两行似乎没有起作用
+        //not working!
         searchController.searchBar.backgroundColor = .white
         searchController.searchBar.tintColor = .black
         searchController.searchBar.barTintColor = .white
@@ -182,7 +182,7 @@ extension FoundViewController : UICollectionViewDataSource{
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: reuseIdentifier_1, for: indexPath) as! FoundTableViewCell;
-
+        
         if searchActive {
             let item = filtered[indexPath.item]
             cell.configure(for: item);
