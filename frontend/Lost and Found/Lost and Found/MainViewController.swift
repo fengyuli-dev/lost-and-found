@@ -17,6 +17,8 @@ class MainViewController: UIViewController{
     private var token = ""
     private var id = 0
     private var email = ""
+    private var ProfileImage = UIImageView()
+    // private var registerLine = UITextField()
     
 
     override func viewDidLoad() {
@@ -27,15 +29,27 @@ class MainViewController: UIViewController{
         let theWidth = view.frame.width * 0.685;
         let theHeight = view.frame.height * 0.06;
         
+        ProfileImage.image = UIImage(named: "profile")
+        ProfileImage.translatesAutoresizingMaskIntoConstraints = false
+        ProfileImage.contentMode = .scaleAspectFill
+        ProfileImage.clipsToBounds = true
+        let parent = self.view!
+        parent.addSubview(ProfileImage)
+        ProfileImage.widthAnchor.constraint(equalToConstant: view.frame.width / 12).isActive = true
+        ProfileImage.heightAnchor.constraint(equalToConstant: view.frame.height / 23).isActive = true
+        ProfileImage.topAnchor.constraint(equalTo: parent.safeAreaLayoutGuide.topAnchor, constant: 150).isActive = true
+        ProfileImage.centerXAnchor.constraint(equalTo: parent.safeAreaLayoutGuide.centerXAnchor).isActive = true;
+        
         
         netIdText.backgroundColor = .white
         netIdText.layer.backgroundColor = UIColor(red: 0.941, green: 0.961, blue: 0.976, alpha: 1).cgColor
-        let parent = self.view!
+//        let parent = self.view!
+        netIdText.layer.cornerRadius = 10;
         parent.addSubview(netIdText)
         netIdText.translatesAutoresizingMaskIntoConstraints = false
         netIdText.widthAnchor.constraint(equalToConstant: theWidth).isActive = true
         netIdText.heightAnchor.constraint(equalToConstant: theHeight).isActive = true
-        netIdText.topAnchor.constraint(equalTo: parent.safeAreaLayoutGuide.topAnchor, constant: 150).isActive = true
+        netIdText.topAnchor.constraint(equalTo: ProfileImage.bottomAnchor, constant: 30).isActive = true
         netIdText.centerXAnchor.constraint(equalTo: parent.safeAreaLayoutGuide.centerXAnchor).isActive = true;
         netIdText.placeholder = "  NetId"
         //the font is set in the rear part.
@@ -65,15 +79,28 @@ class MainViewController: UIViewController{
         loginButton.widthAnchor.constraint(equalToConstant: CGFloat(150)).isActive = true;
         loginButton.addTarget(self, action: #selector(loginTapped), for: .touchUpInside)
         
-        registerButton.backgroundColor = UIColor(red: 0.788, green: 0.839, blue: 0.875, alpha: 1)
-        registerButton.setTitle("Register", for: .normal)
-        registerButton.setTitleColor(.black, for: .normal)
+//        registerLine.
+//
+        registerButton.backgroundColor = UIColor(red: 0.325, green: 0.38, blue: 0.424, alpha: 1)
+        //registerButton.setTitle("Register", for: .normal)
+        registerButton.setTitleColor(.white, for: .normal)
+        let yourAttributes: [NSAttributedString.Key: Any] = [
+             .font: UIFont.systemFont(ofSize: 10),
+             .foregroundColor:  UIColor(red: 0.505, green: 0.524, blue: 0.637, alpha: 1),
+             .underlineStyle: NSUnderlineStyle.single.rawValue
+         ]
+        let attributeString = NSMutableAttributedString(
+                string: "Do not have an account? Click here to create first!",
+                attributes: yourAttributes
+             )
+        registerButton.setAttributedTitle(attributeString, for: .normal)
+        
         registerButton.layer.cornerRadius = 23;
         parent.addSubview(registerButton)
         registerButton.translatesAutoresizingMaskIntoConstraints = false;
         registerButton.centerXAnchor.constraint(equalTo: parent.safeAreaLayoutGuide.centerXAnchor).isActive = true;
-        registerButton.topAnchor.constraint(equalTo: loginButton.bottomAnchor, constant: 30).isActive = true;
-        registerButton.widthAnchor.constraint(equalToConstant: CGFloat(150)).isActive = true;
+        registerButton.topAnchor.constraint(equalTo: loginButton.bottomAnchor, constant: 20).isActive = true;
+        registerButton.widthAnchor.constraint(equalToConstant: view.frame.width*0.7).isActive = true;
         registerButton.addTarget(self, action: #selector(registerTapped), for: .touchUpInside)
         
         

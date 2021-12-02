@@ -28,6 +28,8 @@ class RegisterController: UIViewController{
     private var email = ""
     private var delegate:UserDelegate
     
+    private var ProfileImage = UIImageView();
+    
     init(delegate:UserDelegate){
         self.delegate=delegate
         super.init(nibName: nil, bundle: nil)
@@ -43,22 +45,38 @@ class RegisterController: UIViewController{
         let theWidth = view.frame.width * 0.685;
         let theHeight = view.frame.height * 0.06;
         
-        
-        netIdText.backgroundColor = .white
-        netIdText.layer.backgroundColor = UIColor(red: 0.941, green: 0.961, blue: 0.976, alpha: 1).cgColor
+        ProfileImage.image = UIImage(named: "profile")
+        ProfileImage.translatesAutoresizingMaskIntoConstraints = false
+        ProfileImage.contentMode = .scaleAspectFill
+        ProfileImage.clipsToBounds = true
         let parent = self.view!
+        parent.addSubview(ProfileImage)
+        ProfileImage.widthAnchor.constraint(equalToConstant: view.frame.width / 12).isActive = true
+        ProfileImage.heightAnchor.constraint(equalToConstant: view.frame.height / 23).isActive = true
+        ProfileImage.topAnchor.constraint(equalTo: parent.safeAreaLayoutGuide.topAnchor, constant: 150).isActive = true
+        ProfileImage.centerXAnchor.constraint(equalTo: parent.safeAreaLayoutGuide.centerXAnchor).isActive = true;
+        
+        
+        // netIdText.backgroundColor = .white
+        // netIdText.font = UIFont(name:"RoundedMplus1c-Black",size: 22)
+        netIdText.font = .systemFont(ofSize: 20)
+        netIdText.layer.backgroundColor = UIColor(red: 0.941, green: 0.961, blue: 0.976, alpha: 1).cgColor
+        netIdText.textColor = UIColor(red: 0.505, green: 0.524, blue: 0.637, alpha: 1)
+
         parent.addSubview(netIdText)
         netIdText.translatesAutoresizingMaskIntoConstraints = false
         netIdText.widthAnchor.constraint(equalToConstant: theWidth).isActive = true
         netIdText.heightAnchor.constraint(equalToConstant: theHeight).isActive = true
-        netIdText.topAnchor.constraint(equalTo: parent.safeAreaLayoutGuide.topAnchor, constant: 150).isActive = true
+        netIdText.topAnchor.constraint(equalTo: ProfileImage.bottomAnchor, constant: 30).isActive = true
         netIdText.centerXAnchor.constraint(equalTo: parent.safeAreaLayoutGuide.centerXAnchor).isActive = true;
-        netIdText.placeholder = "  NetId"
+        netIdText.layer.cornerRadius = 10;
+        netIdText.placeholder = "  CUNetId"
         //the font is set in the rear part.
         
-        
-        
-        passwordText.backgroundColor = .white
+
+        // passwordText.backgroundColor = .white
+        // passwordText.font = UIFont(name:"RoundedMplus1c-Black",size: 22)
+        passwordText.font = .systemFont(ofSize: 20)
         passwordText.layer.backgroundColor = UIColor(red: 0.941, green: 0.961, blue: 0.976, alpha: 1).cgColor
         passwordText.placeholder = "  Password";
         parent.addSubview(passwordText)
@@ -79,6 +97,7 @@ class RegisterController: UIViewController{
         registerButton.centerXAnchor.constraint(equalTo: parent.safeAreaLayoutGuide.centerXAnchor).isActive = true;
         registerButton.topAnchor.constraint(equalTo: passwordText.bottomAnchor, constant: 30).isActive = true;
         registerButton.widthAnchor.constraint(equalToConstant: CGFloat(150)).isActive = true;
+        registerButton.heightAnchor.constraint(equalToConstant: CGFloat(50)).isActive = true;
         registerButton.addTarget(self, action: #selector(registerTapped), for: .touchUpInside)
     }
     
