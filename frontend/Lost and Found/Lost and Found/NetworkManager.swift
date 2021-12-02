@@ -135,14 +135,15 @@ class NetworkManager:Codable{
     }
     
     
-    static func postLost(name:String,time:String,description:String,location:String,completion: @escaping (Item) -> Void){
+    static func postLost(name:String,time:String?,description:String,location:String,completion: @escaping (Item) -> Void){
+        update()
         let parameter = [
             "name":name,
             "description":description,
             "time":time,
             "location":location
         ]
-        AF.request("\(endpoint)/api/lost/", method: .post, parameters: parameter, encoding: JSONEncoding.default,headers: self.headers).validate().responseData { response in
+        AF.request("\(endpoint)/api/lost/", method: .post, parameters: parameter, encoding: JSONEncoding.default,headers: self.headers).validate(statusCode: 0..<1000).responseData { response in
             switch response.result{
             case .failure(let error):
                 print(error);
@@ -163,20 +164,21 @@ class NetworkManager:Codable{
     }
     
     
-    static func postFound(name:String,time:String,description:String,location:String,completion: @escaping (Item) -> Void){
+    static func postFound(name:String,time:String?,description:String,location:String,completion: @escaping (Item) -> Void){
+        update()
         let parameter = [
             "name":name,
             "description":description,
             "time":time,
             "location":location
         ]
-        AF.request("\(endpoint)/api/found/", method: .post, parameters: parameter, encoding: JSONEncoding.default,headers: self.headers).validate().responseData { response in
+        AF.request("\(endpoint)/api/found/", method: .post, parameters: parameter, encoding: JSONEncoding.default,headers: self.headers).validate(statusCode: 0..<1000).responseData { response in
             switch response.result{
             case .failure(let error):
                 print(error);
             case .success(let data):
                 let jsonDecoder = JSONDecoder();
-                print("lostFoundSucceeds")
+                print("foundPostSucceeds")
                 print(String(decoding:data, as: UTF8.self))
                 if let lostpost = try? jsonDecoder.decode(Item.self, from:data){
                     print("updateFound if let succeeds");
@@ -188,6 +190,108 @@ class NetworkManager:Codable{
                 }
             }
         }
+    }
+    
+    
+    static func getUserFound(completion: @escaping ([Item])->Void) {
+        update()
+        print(self.headers)
+        AF.request("\(endpoint)/api/found/user/", method: .get, headers: self.headers).validate(statusCode: 0..<1000).responseData { response in
+            switch response.result{
+            case .failure(let error):
+                print(error);
+            case .success(let data):
+                print("getuser found succeeds")
+                let jsonDecoder = JSONDecoder();
+                print(String(decoding:data, as: UTF8.self))
+                jsonDecoder.keyDecodingStrategy = .convertFromSnakeCase;
+                if let foundResponse = try? jsonDecoder.decode([Item].self, from: data){
+                    let foundItems = foundResponse;
+                    print("getuser Found if let succeeds")
+                    completion(foundItems);
+                }else{
+                    print("get user if let fails")
+                }
+            }
+        }
+    }
+    
+    
+    static func getUserLost(completion: @escaping ([Item])->Void) {
+        update()
+        print(self.headers)
+        AF.request("\(endpoint)/api/lost/user/", method: .get, headers: self.headers).validate(statusCode: 0..<1000).responseData { response in
+            switch response.result{
+            case .failure(let error):
+                print(error);
+            case .success(let data):
+                print("getuser lost succeeds")
+                let jsonDecoder = JSONDecoder();
+                print(String(decoding:data, as: UTF8.self))
+                jsonDecoder.keyDecodingStrategy = .convertFromSnakeCase;
+                if let foundResponse = try? jsonDecoder.decode([Item].self, from: data){
+                    let foundItems = foundResponse;
+                    print("getuser lost if let succeeds")
+                    completion(foundItems);
+                }else{
+                    print("get user if let fails")
+                }
+            }
+        }
+    }
+    
+    
+    static func deleteFound(id:Int,completion: @escaping (Item)->Void) {
+        update()
+        print(self.headers)
+        AF.request("\(endpoint)/api/found/\(id)/", method: .delete, headers: self.headers).validate().responseData { response in
+            switch response.result{
+            case .failure(let error):
+                print(error);
+            case .success(let data):
+                print("delete found succeeds")
+                let jsonDecoder = JSONDecoder();
+                print(String(decoding:data, as: UTF8.self))
+                jsonDecoder.keyDecodingStrategy = .convertFromSnakeCase;
+                if let foundResponse = try? jsonDecoder.decode(Item.self, from: data){
+                    let foundItems = foundResponse;
+                    print("delete found if let succeeds")
+                    completion(foundItems);
+                }else{
+                    print("delete found if let fails")
+                }
+            }
+        }
+    }
+    
+    
+    static func deleteLost(id:Int,completion: @escaping (Item)->Void) {
+        update()
+        print(self.headers)
+        AF.request("\(endpoint)/api/lost/\(id)/", method: .delete, headers: self.headers).validate().responseData { response in
+            switch response.result{
+            case .failure(let error):
+                print(error);
+            case .success(let data):
+                print("delete lost succeeds")
+                let jsonDecoder = JSONDecoder();
+                print(String(decoding:data, as: UTF8.self))
+                jsonDecoder.keyDecodingStrategy = .convertFromSnakeCase;
+                if let foundResponse = try? jsonDecoder.decode(Item.self, from: data){
+                    let foundItems = foundResponse;
+                    print("delete lost if let succeeds")
+                    completion(foundItems);
+                }else{
+                    print("delete lost if let fails")
+                }
+            }
+        }
+    }
+    
+    
+    static func update(){
+        print("updating header now the userdata is:")
+        self.headers.update(name: "Authorization", value: userData.string(forKey: "Authorization") ?? "")
     }
     
     

@@ -15,6 +15,8 @@ class TheMainViewController:UIViewController{
     override func viewDidLoad() {
         if let decodeSuccess = try? decoder.decode(User1.self, from: userData.object(forKey: "UserProf") as! Data){
             print(decodeSuccess)
+            userData.set(decodeSuccess.session_token, forKey: "Authorization")
+            print(decodeSuccess.session_token)
             print("decode user succeed! go to main page!")
             let QVC = QuestionViewController()
             self.navigationController?.pushViewController(QVC, animated: true)

@@ -15,7 +15,7 @@ protocol UserDelegate:class{
     func getToken()->String;
 //    func getId()->Int;
 //    func getEmail()->String;
-}
+}//this protocol seems redundant.
 
 class RegisterController: UIViewController{
     

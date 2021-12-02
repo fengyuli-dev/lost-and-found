@@ -60,6 +60,7 @@ class FoundViewController: UIViewController, UISearchResultsUpdating, UISearchBa
         searchController.searchBar.delegate = self
         searchController.searchBar.placeholder = "Search Items"
         // 这两行似乎没有起作用
+        searchController.searchBar.backgroundColor = .white
         searchController.searchBar.tintColor = .black
         searchController.searchBar.barTintColor = .white
         self.navigationItem.searchController = searchController

@@ -17,7 +17,6 @@ class Item:Codable{
 //    var pics: UIImage
     
     init(id:Int, name: String, location: String, time: String, description: String,user: Int) {
-        print("trying Item")
         self.name = name
         self.location = location
         self.time = time

@@ -57,7 +57,8 @@ class PostLostViewController: UIViewController, UIImagePickerControllerDelegate,
     @objc func PostLTapped() {
         //实现Alert
 //        while(nameInput.text == ""||nameInput.text == "please enter the name!"){
-//          nameInput.text = promptUserForName()//?
+//          nameInput.text = promptUserForName()
+//            //?
 //            nameInput.text = "please enter the name!"
 //        }
 //        while (contact_phone_input.text==""){
@@ -82,47 +83,47 @@ class PostLostViewController: UIViewController, UIImagePickerControllerDelegate,
     }
     
     //alert
-    private func promptUserForName() -> String {
-        let alert = UIAlertController(title: "Enter your name:", message: nil, preferredStyle: .alert)
-
-        // Presents a keyboard for user to enter name
-        var userInputField: UITextField?
-        alert.addTextField { (textField: UITextField!) in
-            userInputField = textField
-        }
-
-        var name: String = ""
-        let defaultAction = UIAlertAction(title: "OK", style: .default, handler: {(action) -> Void in
-            if let userInfo = userInputField!.text {
-                name = userInfo
-            }
-        })
-
-        alert.addAction(defaultAction)
-        self.present(alert, animated: true, completion: nil)
-        return name
-    }
-    
-    private func promptUserForPhone() -> String {
-        let alert = UIAlertController(title: "Enter phone number:", message: nil, preferredStyle: .alert)
-
-        // Presents a keyboard for user to enter name
-        var userInputField: UITextField?
-        alert.addTextField { (textField: UITextField!) in
-            userInputField = textField
-        }
-
-        var phone: String = ""
-        let defaultAction = UIAlertAction(title: "OK", style: .default, handler: {(action) -> Void in
-            if let userInfo = userInputField!.text {
-                phone = userInfo
-            }
-        })
-
-        alert.addAction(defaultAction)
-        self.present(alert, animated: true, completion: nil)
-        return phone
-    }
+//    private func promptUserForName() -> String {
+//        let alert = UIAlertController(title: "Enter your name:", message: nil, preferredStyle: .alert)
+//
+//        // Presents a keyboard for user to enter name
+//        var userInputField: UITextField?
+//        alert.addTextField { (textField: UITextField!) in
+//            userInputField = textField
+//        }
+//
+//        var name: String = ""
+//        let defaultAction = UIAlertAction(title: "OK", style: .default, handler: {(action) -> Void in
+//            if let userInfo = userInputField!.text {
+//                name = userInfo
+//            }
+//        })
+//
+//        alert.addAction(defaultAction)
+//        self.present(alert, animated: true, completion: nil)
+//        return name
+//    }
+//    
+//    private func promptUserForPhone() -> String {
+//        let alert = UIAlertController(title: "Enter phone number:", message: nil, preferredStyle: .alert)
+//
+//        // Presents a keyboard for user to enter name
+//        var userInputField: UITextField?
+//        alert.addTextField { (textField: UITextField!) in
+//            userInputField = textField
+//        }
+//
+//        var phone: String = ""
+//        let defaultAction = UIAlertAction(title: "OK", style: .default, handler: {(action) -> Void in
+//            if let userInfo = userInputField!.text {
+//                phone = userInfo
+//            }
+//        })
+//
+//        alert.addAction(defaultAction)
+//        self.present(alert, animated: true, completion: nil)
+//        return phone
+//    }
     
     //delegate methods for selecting images from gallery
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {

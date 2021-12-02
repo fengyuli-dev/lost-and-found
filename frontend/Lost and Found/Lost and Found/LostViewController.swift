@@ -30,6 +30,10 @@ class LostViewController: UIViewController, UISearchResultsUpdating, UISearchBar
     let searchController = UISearchController(searchResultsController: nil);
     var searchActive: Bool = false
 
+    //refresh control
+    let refreshControl = UIRefreshControl()
+    
+    
     weak var delegate: UpdateLostDelegate?
     //init(delegate:UpdateLostDelegate){
     
@@ -65,7 +69,13 @@ class LostViewController: UIViewController, UISearchResultsUpdating, UISearchBar
         self.navigationItem.searchController = searchController
         
         
-
+        if #available(iOS 10.0, *) {
+            lostTableView.refreshControl = refreshControl
+        } else {
+            lostTableView.addSubview(refreshControl)
+        }
+        refreshControl.addTarget(self, action: #selector(refreshData), for: .valueChanged)
+        
 
         let titleview = UILabel();
         titleview.text = "Lost Items";
@@ -192,6 +202,10 @@ class LostViewController: UIViewController, UISearchResultsUpdating, UISearchBar
             searchController.searchBar.resignFirstResponder()
         }
     
+    @objc func refreshData(){
+        self.getData();
+    }
+    
     
 }
 
@@ -217,7 +231,7 @@ extension LostViewController : UICollectionViewDataSource{
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForHeaderInSection section: Int) -> CGSize {
-        return CGSize(width: view.frame.width, height: 40)
+        return CGSize(width: view.frame.width, height: 0)
     }
     
     

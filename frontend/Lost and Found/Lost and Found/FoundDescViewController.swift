@@ -30,11 +30,11 @@ class FoundDescViewController: UIViewController{
     }
     
     func configure(for item: Item) {
-        name.text = item.objectName
+        name.text = item.name
         location.text = item.location
         time.text = item.time
-        contact.text = item.contact
-        note.text = item.note
+//        contact.text = String(item.user?? 0)
+        note.text = item.description
     }
     
     func setParaForFont(_ size: Float){

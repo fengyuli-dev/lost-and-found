@@ -31,11 +31,11 @@ class LostDescViewController: UIViewController{
     }
     
     func configure(for item: Item) {
-        name.text = item.objectName
+        name.text = item.name
         location.text = item.location
         time.text = item.time
-        contact.text = item.contact
-        note.text = item.note
+//        contact.text = item.user
+        note.text = item.description
     }
     
     func setParaForFont(_ size: Float){

@@ -120,7 +120,7 @@ class PostFoundViewController: UIViewController, UIImagePickerControllerDelegate
            // Dismiss the picker.
            dismiss(animated: true, completion: nil)
            
-            viewDidLoad()
+           viewDidLoad()
        }
     
     @objc func showActionSheet(){

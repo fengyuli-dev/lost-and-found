@@ -20,6 +20,7 @@ class QuestionViewController: UIViewController{
     var Lost = UIButton()
     var Found = UIButton()
     var Logout = UIButton()
+    var UserProf = UIButton();
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -63,6 +64,15 @@ class QuestionViewController: UIViewController{
         Logout.translatesAutoresizingMaskIntoConstraints = false
         view.addSubview(Logout)
         
+        
+        UserProf.layer.backgroundColor = UIColor(red: 0.788, green: 0.839, blue: 0.875, alpha: 1).cgColor
+        UserProf.layer.cornerRadius = 20
+        UserProf.setTitle("Log Out", for: .normal)
+        UserProf.setTitleColor(.black, for: .normal)
+        UserProf.addTarget(self, action: #selector(userprofTapped), for: .touchUpInside)
+        UserProf.translatesAutoresizingMaskIntoConstraints = false
+        view.addSubview(UserProf)
+        
  
     }
 
@@ -96,6 +106,14 @@ class QuestionViewController: UIViewController{
             Logout.topAnchor.constraint(equalTo: Found.bottomAnchor, constant: 30),
         ])
         
+        
+        NSLayoutConstraint.activate([
+            UserProf.widthAnchor.constraint(equalToConstant: theWidth),
+            UserProf.heightAnchor.constraint(equalToConstant: theHeight),
+            UserProf.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            UserProf.topAnchor.constraint(equalTo: Logout.bottomAnchor, constant: 30),
+        ])
+        
         //here I set up the fonts. It uses the height as a benchmark.
         
         Lost.titleLabel?.font = UIFont(name:"RoundedMplus1c-Medium", size: titlefont);
@@ -118,6 +136,12 @@ class QuestionViewController: UIViewController{
         userData.set(Data(), forKey: "UserProf");
         let TMVC = TheMainViewController()
         self.navigationController?.pushViewController(TMVC, animated: true);
+    }
+    
+    
+    @objc func userprofTapped(){
+        let UVC = UserViewController();
+        self.navigationController?.pushViewController(UVC, animated: true);
     }
     
 }
