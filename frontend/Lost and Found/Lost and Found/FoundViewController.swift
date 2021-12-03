@@ -128,7 +128,7 @@ class FoundViewController: UIViewController, UISearchResultsUpdating, UISearchBa
         PostLost_Button.titleLabel?.font = UIFont(name:"RoundedMplus1c-Medium", size: 18);
         
         PostLost_Button.layer.shadowColor = UIColor(red: 0, green: 0, blue: 0, alpha: 0.25).cgColor
-        PostLost_Button.layer.shadowOpacity = 1
+        PostLost_Button.layer.shadowOpacity = 0.5
         PostLost_Button.layer.shadowRadius = 0
         PostLost_Button.layer.shadowOffset = CGSize(width: 0, height: 3)
         PostLost_Button.layer.masksToBounds = false

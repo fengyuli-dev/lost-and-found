@@ -36,7 +36,7 @@ class MainViewController: UIViewController{
         parent.addSubview(ProfileImage)
         ProfileImage.widthAnchor.constraint(equalToConstant: view.frame.width / 12).isActive = true
         ProfileImage.heightAnchor.constraint(equalToConstant: view.frame.height / 23).isActive = true
-        ProfileImage.topAnchor.constraint(equalTo: parent.safeAreaLayoutGuide.topAnchor, constant: 150).isActive = true
+        ProfileImage.topAnchor.constraint(equalTo: parent.safeAreaLayoutGuide.topAnchor, constant: 110).isActive = true
         ProfileImage.centerXAnchor.constraint(equalTo: parent.safeAreaLayoutGuide.centerXAnchor).isActive = true;
         
         
@@ -70,7 +70,13 @@ class MainViewController: UIViewController{
         loginButton.backgroundColor = UIColor(red: 0.788, green: 0.839, blue: 0.875, alpha: 1)
         loginButton.setTitle("Login", for: .normal)
         loginButton.setTitleColor(.black, for: .normal)
-        loginButton.layer.cornerRadius = 23;
+        loginButton.layer.cornerRadius = 10;
+        loginButton.layer.shadowColor = UIColor(red: 0, green: 0, blue: 0, alpha: 0.25).cgColor
+        loginButton.layer.shadowOpacity = 0.5
+        loginButton.layer.shadowRadius = 0
+        loginButton.layer.shadowOffset = CGSize(width: 0, height: 3)
+        loginButton.layer.masksToBounds = false
+
         parent.addSubview(loginButton)
         loginButton.translatesAutoresizingMaskIntoConstraints = false;
         loginButton.centerXAnchor.constraint(equalTo: parent.safeAreaLayoutGuide.centerXAnchor).isActive = true;

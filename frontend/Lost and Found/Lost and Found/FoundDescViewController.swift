@@ -109,15 +109,15 @@ class FoundDescViewController: UIViewController{
     func setupConstraints(){
         
         //the parameter used in this section. Modify the scaler, the whole thing is adjusted.
-        let s_padding: CGFloat = 6
-        let l_padding: CGFloat = 16
+        let s_padding: CGFloat = 2
+        let l_padding: CGFloat = 12
         let leading: CGFloat = 40
         
         NSLayoutConstraint.activate([
             name_title.widthAnchor.constraint(equalToConstant: 200),
             name_title.heightAnchor.constraint(equalToConstant: 28),
             name_title.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor,constant: leading),
-            name_title.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 30),
+            name_title.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 15),
         ])
         
         NSLayoutConstraint.activate([

@@ -64,18 +64,20 @@ class QuestionViewController: UIViewController{
         layer0.position = shadows.center
         shadows.layer.addSublayer(layer0)
 
-
+        let textcolor: UIColor = UIColor(red: 0.063, green: 0.193, blue: 0.283, alpha: 1)
+        
+        
         //Lost
         Lost.layer.backgroundColor = UIColor(red: 0.722, green: 0.803, blue: 0.858, alpha: 1).cgColor
-        Lost.layer.cornerRadius = 20//weird. when this number gets bigger, the button apperance
+        Lost.layer.cornerRadius = 15//weird. when this number gets bigger, the button apperance
                                     //would become acute on the very left and right corner. verify.
         Lost.setTitle("Lost Something?", for: .normal)
-        Lost.setTitleColor(.black, for: .normal)
+        Lost.setTitleColor(textcolor, for: .normal)
         Lost.addTarget(self, action: #selector(lostTableTapped), for: .touchUpInside)
         Lost.translatesAutoresizingMaskIntoConstraints = false
         //well the font of the text is set in setUpConstraints(). Check to see why. interesting.
         Lost.layer.shadowColor = UIColor(red: 0, green: 0, blue: 0, alpha: 0.25).cgColor
-        Lost.layer.shadowOpacity = 1
+        Lost.layer.shadowOpacity = 0.5
         Lost.layer.shadowRadius = 0
         Lost.layer.shadowOffset = CGSize(width: 0, height: 3)
         Lost.layer.masksToBounds = false
@@ -84,13 +86,14 @@ class QuestionViewController: UIViewController{
     
         //Found
         Found.layer.backgroundColor = UIColor(red: 0.722, green: 0.803, blue: 0.858, alpha: 1).cgColor
-        Found.layer.cornerRadius = 20
+        Found.layer.cornerRadius = 15
         Found.setTitle("Found Something?", for: .normal)
-        Found.setTitleColor(.black, for: .normal)
+        Found.setTitleColor(textcolor, for: .normal)
         Found.addTarget(self, action: #selector(foundTableTapped), for: .touchUpInside)
         
+
         Found.layer.shadowColor = UIColor(red: 0, green: 0, blue: 0, alpha: 0.25).cgColor
-        Found.layer.shadowOpacity = 1
+        Found.layer.shadowOpacity = 0.5
         Found.layer.shadowRadius = 0
         Found.layer.shadowOffset = CGSize(width: 0, height: 3)
         Found.layer.masksToBounds = false
@@ -99,9 +102,9 @@ class QuestionViewController: UIViewController{
         
         
         Logout.layer.backgroundColor = UIColor(red: 0.788, green: 0.839, blue: 0.875, alpha: 1).cgColor
-        Logout.layer.cornerRadius = 20
+        Logout.layer.cornerRadius = 15
         Logout.setTitle("Log Out", for: .normal)
-        Logout.setTitleColor(.black, for: .normal)
+        Logout.setTitleColor(textcolor, for: .normal)
         Logout.addTarget(self, action: #selector(logoutTapped), for: .touchUpInside)
         Logout.translatesAutoresizingMaskIntoConstraints = false
         view.addSubview(Logout)

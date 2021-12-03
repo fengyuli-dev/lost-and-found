@@ -109,9 +109,9 @@ class LostDescViewController: UIViewController{
     func setupConstraints(){
         
         //the parameter used in this section. Modify the scaler, the whole thing is adjusted.
-        let s_padding: CGFloat = 1
-        let l_padding: CGFloat = 6
-        let leading: CGFloat = 18
+        let s_padding: CGFloat = 2
+        let l_padding: CGFloat = 12
+        let leading: CGFloat = 40
         
         NSLayoutConstraint.activate([
             name_title.widthAnchor.constraint(equalToConstant: 200),
