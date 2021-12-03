@@ -32,30 +32,69 @@ class RegisterController: UIViewController{
         fatalError("init(coder:) has not been implemented")
     }
     
+    func assignbackground(){
+            let background = UIImage(named: "login")
+            var imageView : UIImageView!
+            imageView = UIImageView(frame: view.bounds)
+            imageView.contentMode =  UIView.ContentMode.scaleAspectFill
+            imageView.backgroundColor = UIColor(red: 0, green: 0, blue: 0, alpha: 0.3)
+            imageView.clipsToBounds = true
+            imageView.image = background
+            imageView.center = view.center
+            view.addSubview(imageView)
+            self.view.sendSubviewToBack(imageView)
+        }
+    
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
-        view.backgroundColor = UIColor(red: 0.325, green: 0.38, blue: 0.424, alpha: 1)
+        // view.backgroundColor = UIColor(red: 0.325, green: 0.38, blue: 0.424, alpha: 1)
+        assignbackground();
+        
+//        var shadows = UIView()
+//        shadows.frame = view.frame
+//        shadows.clipsToBounds = false
+//        view.addSubview(shadows)
+//
+//        let shadowPath0 = UIBezierPath(roundedRect: shadows.bounds, cornerRadius: 0)
+//        let layer0 = CALayer()
+//        layer0.shadowPath = shadowPath0.cgPath
+//        layer0.shadowColor = UIColor(red: 0, green: 0, blue: 0, alpha: 0.2).cgColor
+//        layer0.shadowOpacity = 0.5
+//        layer0.shadowRadius = 4
+//        layer0.shadowOffset = CGSize(width: 0, height: 4)
+//        layer0.bounds = shadows.bounds
+//        layer0.position = shadows.center
+//        shadows.layer.addSublayer(layer0)
+//
+//
+        
         let theWidth = view.frame.width * 0.685;
         let theHeight = view.frame.height * 0.06;
         
+        
+        let textColor = UIColor(red: 0.063, green: 0.193, blue: 0.283, alpha: 1)
+        let buttonColor = UIColor(red: 0.859, green: 0.875, blue: 0.922, alpha: 1)
+        
         ProfileImage.image = UIImage(named: "profile")
+        
         ProfileImage.translatesAutoresizingMaskIntoConstraints = false
         ProfileImage.contentMode = .scaleAspectFill
         ProfileImage.clipsToBounds = true
         let parent = self.view!
         parent.addSubview(ProfileImage)
-        ProfileImage.widthAnchor.constraint(equalToConstant: view.frame.width / 12).isActive = true
-        ProfileImage.heightAnchor.constraint(equalToConstant: view.frame.height / 23).isActive = true
-        ProfileImage.topAnchor.constraint(equalTo: parent.safeAreaLayoutGuide.topAnchor, constant: 150).isActive = true
+        ProfileImage.widthAnchor.constraint(equalToConstant: view.frame.width / 10).isActive = true
+        ProfileImage.heightAnchor.constraint(equalToConstant: view.frame.height / 21).isActive = true
+        ProfileImage.topAnchor.constraint(equalTo: parent.safeAreaLayoutGuide.topAnchor, constant: 120).isActive = true
         ProfileImage.centerXAnchor.constraint(equalTo: parent.safeAreaLayoutGuide.centerXAnchor).isActive = true;
         
         
         // netIdText.backgroundColor = .white
         // netIdText.font = UIFont(name:"RoundedMplus1c-Black",size: 22)
-        netIdText.font = .systemFont(ofSize: 20)
-        netIdText.layer.backgroundColor = UIColor(red: 0.941, green: 0.961, blue: 0.976, alpha: 1).cgColor
-        netIdText.textColor = UIColor(red: 0.505, green: 0.524, blue: 0.637, alpha: 1)
+        netIdText.font = .systemFont(ofSize: 15)
+        netIdText.layer.backgroundColor = buttonColor.cgColor
+        netIdText.textColor = textColor
 
         parent.addSubview(netIdText)
         netIdText.translatesAutoresizingMaskIntoConstraints = false
@@ -70,9 +109,11 @@ class RegisterController: UIViewController{
 
         // passwordText.backgroundColor = .white
         // passwordText.font = UIFont(name:"RoundedMplus1c-Black",size: 22)
-        passwordText.font = .systemFont(ofSize: 20)
-        passwordText.layer.backgroundColor = UIColor(red: 0.941, green: 0.961, blue: 0.976, alpha: 1).cgColor
+        passwordText.font = .systemFont(ofSize: 15)
+        passwordText.layer.backgroundColor = buttonColor.cgColor
         passwordText.placeholder = "  Password";
+        passwordText.textColor = textColor
+
         parent.addSubview(passwordText)
         passwordText.translatesAutoresizingMaskIntoConstraints = false
         passwordText.widthAnchor.constraint(equalToConstant: theWidth).isActive = true
@@ -82,21 +123,29 @@ class RegisterController: UIViewController{
         passwordText.centerXAnchor.constraint(equalTo: parent.safeAreaLayoutGuide.centerXAnchor).isActive = true
         
         
-        registerButton.backgroundColor = UIColor(red: 0.788, green: 0.839, blue: 0.875, alpha: 1)
+        registerButton.backgroundColor = buttonColor
         registerButton.setTitle("Register", for: .normal)
-        registerButton.setTitleColor(.black, for: .normal)
-        registerButton.layer.cornerRadius = 23;
+        registerButton.setTitleColor(textColor, for: .normal)
+        registerButton.layer.cornerRadius = 15;
+        registerButton.layer.shadowColor = UIColor(red: 0, green: 0, blue: 0, alpha: 0.25).cgColor
+        registerButton.layer.shadowOpacity = 0.5
+        registerButton.layer.shadowRadius = 0
+        registerButton.layer.shadowOffset = CGSize(width: 0, height: 5)
+        registerButton.layer.masksToBounds = false
+        
         parent.addSubview(registerButton)
         registerButton.translatesAutoresizingMaskIntoConstraints = false;
         registerButton.centerXAnchor.constraint(equalTo: parent.safeAreaLayoutGuide.centerXAnchor).isActive = true;
         registerButton.topAnchor.constraint(equalTo: passwordText.bottomAnchor, constant: 30).isActive = true;
-        registerButton.widthAnchor.constraint(equalToConstant: CGFloat(150)).isActive = true;
-        registerButton.heightAnchor.constraint(equalToConstant: CGFloat(50)).isActive = true;
+        registerButton.widthAnchor.constraint(equalToConstant: CGFloat(120)).isActive = true;
+        registerButton.heightAnchor.constraint(equalToConstant: CGFloat(40)).isActive = true;
         registerButton.addTarget(self, action: #selector(registerTapped), for: .touchUpInside)
+        
         
         
         self.navigationController?.navigationBar.tintColor = UIColor(red: 0.505, green: 0.524, blue: 0.637, alpha: 1)
         /*** If needed Assign Title Here ***/
+        self.navigationController?.navigationBar.backgroundColor = self.view.backgroundColor
         self.navigationItem.backBarButtonItem = UIBarButtonItem(title: "", style: UIBarButtonItem.Style.plain, target: nil, action: nil)
     }
     

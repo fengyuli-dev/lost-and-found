@@ -20,11 +20,19 @@ class MainViewController: UIViewController{
     // private var registerLine = UITextField()
     
 
+    
+    
     override func viewDidLoad() {
         print("shit.now we go again.")
         super.viewDidLoad()
         // Do any additional setup after loading the view.
-        view.backgroundColor = UIColor(red: 0.325, green: 0.38, blue: 0.424, alpha: 1)
+        assignbackground();
+        
+        let textColor = UIColor(red: 0.063, green: 0.193, blue: 0.283, alpha: 1)
+        let buttonColor = UIColor(red: 0.859, green: 0.875, blue: 0.922, alpha: 1)
+        
+        
+        // view.backgroundColor = UIColor(red: 0.722, green: 0.803, blue: 0.858, alpha: 1)
         let theWidth = view.frame.width * 0.685;
         let theHeight = view.frame.height * 0.06;
         
@@ -36,13 +44,14 @@ class MainViewController: UIViewController{
         parent.addSubview(ProfileImage)
         ProfileImage.widthAnchor.constraint(equalToConstant: view.frame.width / 12).isActive = true
         ProfileImage.heightAnchor.constraint(equalToConstant: view.frame.height / 23).isActive = true
-        ProfileImage.topAnchor.constraint(equalTo: parent.safeAreaLayoutGuide.topAnchor, constant: 150).isActive = true
+        ProfileImage.topAnchor.constraint(equalTo: parent.safeAreaLayoutGuide.topAnchor, constant: 110).isActive = true
         ProfileImage.centerXAnchor.constraint(equalTo: parent.safeAreaLayoutGuide.centerXAnchor).isActive = true;
         
         
-        netIdText.backgroundColor = .white
-        netIdText.layer.backgroundColor = UIColor(red: 0.941, green: 0.961, blue: 0.976, alpha: 1).cgColor
+        //netIdText.backgroundColor = UIColor(red: 0.859, green: 0.875, blue: 0.922, alpha: 1)
+        netIdText.layer.backgroundColor = buttonColor.cgColor
 //        let parent = self.view!
+        netIdText.textColor = textColor
         netIdText.layer.cornerRadius = 10;
         parent.addSubview(netIdText)
         netIdText.translatesAutoresizingMaskIntoConstraints = false
@@ -56,8 +65,9 @@ class MainViewController: UIViewController{
         
         
         passwordText.backgroundColor = .white
-        passwordText.layer.backgroundColor = UIColor(red: 0.941, green: 0.961, blue: 0.976, alpha: 1).cgColor
+        passwordText.layer.backgroundColor = buttonColor.cgColor
         passwordText.placeholder = "  Password";
+        passwordText.textColor = textColor
         parent.addSubview(passwordText)
         passwordText.translatesAutoresizingMaskIntoConstraints = false
         passwordText.widthAnchor.constraint(equalToConstant: theWidth).isActive = true
@@ -67,20 +77,26 @@ class MainViewController: UIViewController{
         passwordText.centerXAnchor.constraint(equalTo: parent.safeAreaLayoutGuide.centerXAnchor).isActive = true
         
         
-        loginButton.backgroundColor = UIColor(red: 0.788, green: 0.839, blue: 0.875, alpha: 1)
+        loginButton.backgroundColor = buttonColor
         loginButton.setTitle("Login", for: .normal)
-        loginButton.setTitleColor(.black, for: .normal)
-        loginButton.layer.cornerRadius = 23;
+        loginButton.setTitleColor(UIColor(red: 0.063, green: 0.193, blue: 0.283, alpha: 1), for: .normal)
+        loginButton.layer.cornerRadius = 15;
+        loginButton.layer.shadowColor = UIColor(red: 0, green: 0, blue: 0, alpha: 0.25).cgColor
+        loginButton.layer.shadowOpacity = 0.5
+        loginButton.layer.shadowRadius = 0
+        loginButton.layer.shadowOffset = CGSize(width: 0, height: 5)
+        loginButton.layer.masksToBounds = false
+
         parent.addSubview(loginButton)
         loginButton.translatesAutoresizingMaskIntoConstraints = false;
         loginButton.centerXAnchor.constraint(equalTo: parent.safeAreaLayoutGuide.centerXAnchor).isActive = true;
         loginButton.topAnchor.constraint(equalTo: passwordText.bottomAnchor, constant: 30).isActive = true;
-        loginButton.widthAnchor.constraint(equalToConstant: CGFloat(150)).isActive = true;
+        loginButton.widthAnchor.constraint(equalToConstant: CGFloat(75)).isActive = true;
         loginButton.addTarget(self, action: #selector(loginTapped), for: .touchUpInside)
         
 //        registerLine.
 //
-        registerButton.backgroundColor = UIColor(red: 0.325, green: 0.38, blue: 0.424, alpha: 1)
+        registerButton.backgroundColor = .clear
         //registerButton.setTitle("Register", for: .normal)
         registerButton.setTitleColor(.white, for: .normal)
         let yourAttributes: [NSAttributedString.Key: Any] = [
@@ -89,7 +105,7 @@ class MainViewController: UIViewController{
              .underlineStyle: NSUnderlineStyle.single.rawValue
          ]
         let attributeString = NSMutableAttributedString(
-                string: "Do not have an account? Click here to create first!",
+                string: "Do not have an account? Click to create first!",
                 attributes: yourAttributes
              )
         registerButton.setAttributedTitle(attributeString, for: .normal)
@@ -111,10 +127,25 @@ class MainViewController: UIViewController{
         
         self.navigationController?.navigationBar.tintColor = UIColor(red: 0.505, green: 0.524, blue: 0.637, alpha: 1)
         /*** If needed Assign Title Here ***/
+        self.navigationController?.navigationBar.backgroundColor = self.view.backgroundColor
         self.navigationItem.backBarButtonItem = UIBarButtonItem(title: "", style: UIBarButtonItem.Style.plain, target: nil, action: nil)
  
         
     }
+    
+    func assignbackground(){
+            let background = UIImage(named: "login")
+            var imageView : UIImageView!
+            imageView = UIImageView(frame: view.bounds)
+            imageView.contentMode =  UIView.ContentMode.scaleAspectFill
+            imageView.backgroundColor = UIColor(red: 0, green: 0, blue: 0, alpha: 0.3)
+            imageView.clipsToBounds = true
+            imageView.image = background
+            imageView.center = view.center
+            view.addSubview(imageView)
+            self.view.sendSubviewToBack(imageView)
+        }
+    
     @objc func loginTapped(){
         //you lack an if let method!
         if let netId = netIdText.text, let password = passwordText.text{
