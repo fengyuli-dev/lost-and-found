@@ -36,14 +36,14 @@ class ContentController: UIViewController{
         super.viewDidLoad()
         // title = "Found Items"
     
-        view.backgroundColor = UIColor(red: 0.325, green: 0.38, blue: 0.424, alpha: 1)
+        view.backgroundColor = UIColor(red: 0.505, green: 0.524, blue: 0.637, alpha: 1)
         let sectionpadding : CGFloat = 5;
         let foundlayout = UICollectionViewFlowLayout();
         foundTableView = UICollectionView(frame: .zero, collectionViewLayout: foundlayout)
         foundTableView.translatesAutoresizingMaskIntoConstraints = false
         foundTableView.dataSource = self
         foundTableView.delegate = self
-        foundTableView.backgroundColor = view.backgroundColor;
+        foundTableView.backgroundColor = UIColor(red: 0.505, green: 0.524, blue: 0.637, alpha: 1)
         foundTableView.register(UserItemCell.self, forCellWithReuseIdentifier: reuseIdentifier_1)
         foundlayout.minimumLineSpacing = cellPadding;
         foundlayout.scrollDirection = .vertical;

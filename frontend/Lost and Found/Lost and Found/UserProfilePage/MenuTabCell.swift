@@ -20,6 +20,18 @@ class MenuTabCell: UICollectionViewCell {
             UIView.animate(withDuration: 0.30) {
                 self.indicatorView.backgroundColor = self.isSelected ? UIColor.blue : UIColor.clear
                 self.layoutIfNeeded()
+                //UIColor(red: 0.505, green: 0.524, blue: 0.637, alpha: 1)
+//
+//                // underline when selected
+//                var attributedString = NSMutableAttributedString.init(string: self.titleLabel.text!)
+//
+//                // Add Underline Style Attribute.
+//                if (self.isSelected){
+//                    attributedString.addAttribute(NSAttributedString.Key.underlineStyle, value: 1, range:
+//                    NSRange.init(location: 0, length: attributedString.length));
+//                    self.titleLabel.attributedText = attributedString
+//                }
+                
             }
         }
         
@@ -28,6 +40,8 @@ class MenuTabCell: UICollectionViewCell {
     override init(frame: CGRect) {
         super.init(frame: frame)
         titleLabel.textAlignment = .center
+        titleLabel.textColor = UIColor(red: 0.859, green: 0.875, blue: 0.922, alpha: 1)
+        titleLabel.font = UIFont(name: "RoundedMplus1c-ExtraBold", size: 18)
         addSubview(titleLabel)
         addConstraintsWithFormatString(formate: "H:|[v0]|", views: titleLabel)
         addConstraintsWithFormatString(formate: "V:|[v0]|", views: titleLabel)

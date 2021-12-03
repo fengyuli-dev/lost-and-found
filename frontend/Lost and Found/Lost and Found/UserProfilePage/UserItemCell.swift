@@ -7,7 +7,7 @@ class UserItemCell: UICollectionViewCell {
     var time = UILabel()
     var des_image = UIImageView()
     var rec = UILabel()
-    var delete = UIButton();
+    var delete = UIButton(type: UIButton.ButtonType.custom) as UIButton;
     var id = 0;
     var pageindex = -1;
     
@@ -56,9 +56,17 @@ class UserItemCell: UICollectionViewCell {
         contentView.addSubview(time)
         
         
-        delete.setTitle("go!", for: .normal);
+        let image = UIImage(named: "delete") as UIImage?
+//      button.frame = CGRectMake(100, 100, 100, 100)
+        delete.setImage(image,for:.normal)
+        delete.imageView?.contentMode = .scaleAspectFill
+        delete.imageView?.clipsToBounds = true
+//        button.addTarget(self, action: "btnTouched:", forControlEvents:.TouchUpInside)
+//        self.view.addSubview(button)
+        
+//        delete.setTitle("go!", for: .normal);
         delete.translatesAutoresizingMaskIntoConstraints=false;
-        delete.setTitleColor(.red, for: .normal)
+//        delete.setTitleColor(.red, for: .normal)
         contentView.addSubview(delete)
         delete.addTarget(self, action: #selector(deleteTapped), for: .touchUpInside)
         
@@ -119,9 +127,9 @@ class UserItemCell: UICollectionViewCell {
         
 
         NSLayoutConstraint.activate([
-            delete.leadingAnchor.constraint(equalTo: rec.trailingAnchor, constant: 10),
-            delete.heightAnchor.constraint(equalToConstant: 20),
-            delete.widthAnchor.constraint(equalToConstant: 40),
+            delete.leadingAnchor.constraint(equalTo: rec.trailingAnchor, constant: 25),
+            delete.heightAnchor.constraint(equalToConstant: 35),
+            delete.widthAnchor.constraint(equalToConstant: 30),
             delete.centerYAnchor.constraint(equalTo: rec.centerYAnchor)
         ])
         
