@@ -35,6 +35,8 @@ class NetworkManager:Codable{
             case .success(let responseData):
                 print(String(decoding: responseData, as: UTF8.self))
                 do {
+                    print(email)
+                    print("now decoding username")
                     userData.set(email, forKey: "UserName")
                     let decodedResponse = try JSONDecoder().decode(User1.self, from: responseData)
                     print(decodedResponse)
@@ -76,6 +78,8 @@ class NetworkManager:Codable{
             case .success(let responseData):
                 print(String(decoding: responseData, as: UTF8.self))
                 do {
+                    print(email)
+                    print("now decoding username")
                     userData.set(email, forKey: "UserName")
                     let decodedResponse = try JSONDecoder().decode(User1.self, from: responseData)
                     print(decodedResponse)
@@ -208,12 +212,6 @@ class NetworkManager:Codable{
                 print("getuser found succeeds")
                 let jsonDecoder = JSONDecoder();
                 jsonDecoder.keyDecodingStrategy = .convertFromSnakeCase;
-                do{
-                    let foundResponse1 = try? jsonDecoder.decode([Item].self, from: data)
-                }catch let jsonerror{
-                    print("I know you will come here.")
-                    print(jsonerror)
-                }
                 if let foundResponse = try? jsonDecoder.decode([Item].self, from: data){
                     let foundItems = foundResponse;
                     print("getuser Found if let succeeds")

@@ -337,14 +337,18 @@ class PostFoundViewController: UIViewController, UIImagePickerControllerDelegate
         let location = locInput.text ?? ""
         var imageTrans:String? = nil;
         var finalContact = ""
+        var username = ""
         let image:UIImage? = imageUserProfile.image
         print(contact_name_input.text)
         let contact:String? = contact_name_input.text
-        print("\(contact)@cornell.edu")
-        print(userData.string(forKey: "UserName"))
-        print("the contact is:\(contact)");
+        if let userProf = try? decoder.decode(User1.self, from: userData.object(forKey: "UserProf") as! Data){
+            print("postfound, decode success")
+            username = userProf.detail.email
+        }else{
+            print("postfound decode, if let fails")
+        }
         if contact == ""{
-            finalContact = "\(String(describing: userData.string(forKey: "UserName")))@cornell.edu"
+            finalContact = "\(username)@cornell.edu"
         }else{
             finalContact = contact!
         }
