@@ -45,10 +45,11 @@ class FoundDescViewController: UIViewController{
         
         //the parameter used in this section. Modify the scaler, the whole thing is adjusted.
         let theFont = CGFloat(self.fontSizeBase * 1);//here the fontSizeBase is set by the setter function above (setParaForFont), which is called in the very last part of FoundViewController.
+        let color: UIColor = UIColor(red: 0.071, green: 0.298, blue: 0.455, alpha: 1)
         
         //name_title
         name_title.text="Item's Name:"
-        name_title.textColor = .black
+        name_title.textColor = color
         name_title.font = UIFont(name: "RoundedMplus1c-Medium", size: theFont)
         name_title.adjustsFontForContentSizeCategory = true;
         name_title.translatesAutoresizingMaskIntoConstraints = false
@@ -60,29 +61,29 @@ class FoundDescViewController: UIViewController{
         view.addSubview(name)
         
         loc_title.text="Found Location:"
-        loc_title.textColor = .black
+        loc_title.textColor = color
         loc_title.font = UIFont(name: "RoundedMplus1c-Medium", size: theFont)
         loc_title.translatesAutoresizingMaskIntoConstraints = false
         view.addSubview(loc_title)
         
-        location.textColor = .black
+        location.textColor = color
         location.font = UIFont(name: "RoundedMplus1c-Medium", size: theFont*(4/5))
         location.translatesAutoresizingMaskIntoConstraints = false
         view.addSubview(location)
         
         time_title.text="Found Time:"
-        time_title.textColor = .black
+        time_title.textColor = color
         time_title.font = UIFont(name: "RoundedMplus1c-Medium", size: theFont)
         time_title.translatesAutoresizingMaskIntoConstraints = false
         view.addSubview(time_title)
         
-        time.textColor = .black
+        time.textColor = color
         time.font = UIFont(name: "RoundedMplus1c-Medium", size: theFont*(4/5))
         time.translatesAutoresizingMaskIntoConstraints = false
         view.addSubview(time)
         
         note_title.text="Founder's Note:"
-        note_title.textColor = .black
+        note_title.textColor = color
         note_title.font = UIFont(name: "RoundedMplus1c-Medium", size: theFont)
         note_title.translatesAutoresizingMaskIntoConstraints = false
         view.addSubview(note_title)
@@ -93,12 +94,12 @@ class FoundDescViewController: UIViewController{
         view.addSubview(note)
 
         contact_title.text="Contact:"
-        contact_title.textColor = .black
+        contact_title.textColor = color
         contact_title.font = UIFont(name: "RoundedMplus1c-Medium", size: theFont)
         contact_title.translatesAutoresizingMaskIntoConstraints = false
         view.addSubview(contact_title)
         
-        contact.textColor = .black
+        contact.textColor = color
         contact.font = UIFont(name: "RoundedMplus1c-Medium", size: theFont*(4/5))
         contact.translatesAutoresizingMaskIntoConstraints = false
         view.addSubview(contact)
@@ -108,15 +109,15 @@ class FoundDescViewController: UIViewController{
     func setupConstraints(){
         
         //the parameter used in this section. Modify the scaler, the whole thing is adjusted.
-        let s_padding: CGFloat = 1
-        let l_padding: CGFloat = 6
-        let leading: CGFloat = 18
+        let s_padding: CGFloat = 6
+        let l_padding: CGFloat = 16
+        let leading: CGFloat = 40
         
         NSLayoutConstraint.activate([
             name_title.widthAnchor.constraint(equalToConstant: 200),
             name_title.heightAnchor.constraint(equalToConstant: 28),
             name_title.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor,constant: leading),
-            name_title.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 10),
+            name_title.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 30),
         ])
         
         NSLayoutConstraint.activate([

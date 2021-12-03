@@ -27,8 +27,16 @@ class LostTableViewCell: UICollectionViewCell {
         location.text = item.location
         time.text = "\(item.time)"
 //        des_image.image = item.pics
-        contentView.backgroundColor = .white
+        contentView.backgroundColor = UIColor(red: 0.722, green: 0.803, blue: 0.858, alpha: 1)
         contentView.layer.cornerRadius = 25;
+        
+        contentView.layer.shadowColor = UIColor(red: 0, green: 0, blue: 0, alpha: 0.25).cgColor
+        contentView.layer.shadowOpacity = 1
+        contentView.layer.shadowRadius = 0
+        contentView.layer.shadowOffset = CGSize(width: 0, height: 5)
+        contentView.layer.masksToBounds = false
+        
+
         
         rec.layer.backgroundColor = UIColor(red: 0.941, green: 0.961, blue: 0.976, alpha: 1).cgColor
         rec.layer.cornerRadius = 25

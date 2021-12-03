@@ -1,8 +1,27 @@
-import SwiftUI
+//
+//  PostFoundViewController.swift
+//  Lost and Found
+//
+//  Created by Vivian on 11/30/21.
+//
 
+import Foundation
+
+import SwiftUI
+import SnapKit
 
 class PostLostViewController: UIViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate {
-
+    
+//    init(delegate: UpdateTitleDelegate?, placeholderText: String) {
+//        self.delegate = delegate
+//        self.placeholderText = placeholderText
+//        super.init(nibName: nil, bundle: nil)
+//    }
+//
+//    required init?(coder: NSCoder) {
+//        fatalError("init(coder:) has not been implemented")
+//    }
+    
     var name = UILabel()
     var nameInput = UITextField()
     
@@ -20,118 +39,85 @@ class PostLostViewController: UIViewController, UIImagePickerControllerDelegate,
     var contact_phone = UILabel()
     var contact_time = UILabel()
     var contact_name_input = UITextField()
-    var contact_phone_input = UITextField()
-    var contact_time_input = UITextField()
+//    var contact_phone_input = UITextField()
+//    var contact_time_input = UITextField()
+    var contactSign = UILabel()
     
+    var imagelabel = UILabel()
     var lost_image = UIButton()
+
     var imageUserProfile = UIImageView()
     
     var isPost:Bool = false
-    var PostL_Button = UIButton()
-    
-    var delegate: UpdateLostDelegate?
-    
-    init() {
-//        self.lostItems = lostItems
-         super.init(nibName: nil, bundle: nil)
-    }
 
-    required init?(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
-    }
+    var PostFound_Button = UIButton()
     
-
+//    var rec1 = UILabel()
+//    var rec2 = UILabel()
     override func viewDidLoad() {
         super.viewDidLoad()
-        title = "Post Lost"
-        let color: UIColor=UIColor(red: 0.788, green: 0.839, blue: 0.875, alpha: 1)
-        let textAttributes = [NSAttributedString.Key.foregroundColor: color]
-        navigationController?.navigationBar.titleTextAttributes = textAttributes
-        view.backgroundColor = UIColor(red: 0.325, green: 0.38, blue: 0.424, alpha: 1)
+        //title = "Post Found"
+        let navBar = self.navigationController!.navigationBar;
+//        navBar.isTranslucent = true;
+//        navBar.titleTextAttributes = [.backgroundColor: UIColor(.clear)]//this is of no use!
+        let titleview = UILabel();
+        titleview.text = "Post Lost";
+        titleview.textColor = UIColor(red: 0.071, green: 0.298, blue: 0.455, alpha: 1)
+        
+        let titleheight = view.frame.height * 0.026;
+        titleview.font = UIFont(name: "RoundedMplus1c-ExtraBold", size: titleheight);
+        self.navigationItem.titleView = titleview; //in this way the title is properly set.
+        titleview.translatesAutoresizingMaskIntoConstraints=false;
+        view.addSubview(titleview)
+        
+        let layer0 = CAGradientLayer()
+        layer0.colors = [
+            UIColor(red: 0.788, green: 0.839, blue: 0.875, alpha: 1).cgColor,
+            UIColor(red: 0.898, green: 0.898, blue: 0.898, alpha: 1).cgColor
+        ]
+        layer0.locations = [0, 0.73]
+        layer0.startPoint = CGPoint(x: 0.25, y: 0.5)
+        layer0.endPoint = CGPoint(x: 0.55, y: 0.5)
+        layer0.transform = CATransform3DMakeAffineTransform(CGAffineTransform(a: 0, b: 1, c: -1, d: 0, tx: 1, ty: 0))
+        layer0.bounds = view.bounds.insetBy(dx: -0.5*view.bounds.size.width, dy: -0.5*view.bounds.size.height)
+        layer0.position = view.center
+        view.layer.addSublayer(layer0)
 
         
+        titleview.textAlignment = .center;
+        let titletop = view.frame.height * 0.04
+        
+        titleview.topAnchor.constraint(equalTo: view.topAnchor, constant: titletop).isActive=true
+//        view.backgroundColor = UIColor(red: 0.325, green: 0.38, blue: 0.424, alpha: 1)
+        
+        let appearance = UINavigationBarAppearance();
+        appearance.configureWithTransparentBackground();
+        navBar.standardAppearance = appearance;
+        navBar.scrollEdgeAppearance = appearance;
+        navBar.compactAppearance = appearance;
+        
+//        let color: UIColor=UIColor(red: 0.788, green: 0.839, blue: 0.875, alpha: 1)
+//        let textAttributes = [NSAttributedString.Key.foregroundColor: color]
+//        navigationController?.navigationBar.titleTextAttributes = textAttributes
+//
+        view.backgroundColor = UIColor(red: 0.325, green: 0.38, blue: 0.424, alpha: 1)
+
         setupViews()
         setupConstraints()
     }
     
-    @objc func PostLTapped() {
-        //实现Alert
-//        while(nameInput.text == ""||nameInput.text == "please enter the name!"){
-//          nameInput.text = promptUserForName()
-//            //?
-//            nameInput.text = "please enter the name!"
-//        }
-//        while (contact_phone_input.text==""){
-//            contact_phone_input.text=promptUserForPhone()
-//        }
-        var all_contact = "name:+" + contact_name.text! + ", phone:" + contact_phone.text!
-//        var lost = Item(objectName: nameInput.text!, location: locInput.text!,time: timeInput.text!, note: descripInput.text!,contact: all_contact,pics: imageUserProfile.image!);
-//
-//        delegate?.updateLost(newLost: lost)
-        let name = nameInput.text ?? ""
-        let description = descripInput.text ?? ""
-        let time = timeInput.text ?? ""
-        let location = locInput.text ?? ""
-        var imageTrans:String? = nil;
-        let image1:UIImage = imageUserProfile.image ?? UIImage();
-        let imageData = image1.jpegData(compressionQuality: 0.5)
-//        if let imageResult = try? encoder.encode(image1.jpegData(compressionQuality: 1)){
-//            print("post lost image, encode good")
-//            imageTrans = String(decoding:imageResult, as:UTF8.self)
-//        }
-        imageTrans = imageData?.base64EncodedString(options: .lineLength64Characters)
-        NetworkManager.postLost(name: name, time: time, description: description, location: location, contact: "", image:imageTrans) { item in
-            print("postLostComplete!")
-            print(item)
-            let LVC = LostViewController(delegate: self.delegate);
-            self.navigationController?.pushViewController(LVC, animated: true)
-            LVC.viewDidLoad();
-        }
-
-    }
-    
     //alert
-//    private func promptUserForName() -> String {
-//        let alert = UIAlertController(title: "Enter your name:", message: nil, preferredStyle: .alert)
-//
-//        // Presents a keyboard for user to enter name
-//        var userInputField: UITextField?
-//        alert.addTextField { (textField: UITextField!) in
-//            userInputField = textField
-//        }
-//
-//        var name: String = ""
-//        let defaultAction = UIAlertAction(title: "OK", style: .default, handler: {(action) -> Void in
-//            if let userInfo = userInputField!.text {
-//                name = userInfo
-//            }
-//        })
-//
-//        alert.addAction(defaultAction)
-//        self.present(alert, animated: true, completion: nil)
-//        return name
-//    }
-//    
-//    private func promptUserForPhone() -> String {
-//        let alert = UIAlertController(title: "Enter phone number:", message: nil, preferredStyle: .alert)
-//
-//        // Presents a keyboard for user to enter name
-//        var userInputField: UITextField?
-//        alert.addTextField { (textField: UITextField!) in
-//            userInputField = textField
-//        }
-//
-//        var phone: String = ""
-//        let defaultAction = UIAlertAction(title: "OK", style: .default, handler: {(action) -> Void in
-//            if let userInfo = userInputField!.text {
-//                phone = userInfo
-//            }
-//        })
-//
-//        alert.addAction(defaultAction)
-//        self.present(alert, animated: true, completion: nil)
-//        return phone
-//    }
+    private func promptUserForName()  {
+        let alert = UIAlertController(title: "Enter your name:", message: nil, preferredStyle: .alert)
+        alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
+        self.present(alert, animated: true, completion: nil)
+    }
+
+    private func promptUserForPhone() {
+        let alert = UIAlertController(title: "Enter phone number:", message: nil, preferredStyle: .alert)
+        alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
+        self.present(alert, animated: true, completion: nil)
+    }
     
     //delegate methods for selecting images from gallery
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
@@ -143,11 +129,11 @@ class PostLostViewController: UIViewController, UIImagePickerControllerDelegate,
 
            // Set photoImageView to display the selected image.
            imageUserProfile.image = selectedImage
-
+        print("imageuserprofile image set.")
            // Dismiss the picker.
            dismiss(animated: true, completion: nil)
            
-            viewDidLoad()
+           viewDidLoad()
        }
     
     @objc func showActionSheet(){
@@ -181,37 +167,60 @@ class PostLostViewController: UIViewController, UIImagePickerControllerDelegate,
     }
     
     
+    @objc func afterposted(){
+        let deletealert = UIAlertController(title: "", message: "DeleteImage?", preferredStyle: .alert);
+        deletealert.addAction(UIAlertAction(title: "Nop", style: .cancel, handler: nil));
+        deletealert.addAction(UIAlertAction(title: "Yep!", style: .default, handler: { alertaction in
+            print("surprise.")
+            self.isPost=false;
+            self.imageUserProfile.image = nil
+            self.viewDidLoad()
+        }))
+        present(deletealert, animated: true, completion: nil)
+    }
     
     func setupViews(){
-        let color: UIColor=UIColor(red: 0.788, green: 0.839, blue: 0.875, alpha: 1)
+        let color: UIColor = UIColor(red: 0.071, green: 0.298, blue: 0.455, alpha: 1)
         let border_width : CGFloat = 0.5
         
+        
+        imagelabel.text = "Image:"
+        imagelabel.translatesAutoresizingMaskIntoConstraints=false;
+        imagelabel.textColor = color;
+        view.addSubview(imagelabel)
+        
         //lost_image
-        lost_image.frame = CGRect(x: 0, y: 0, width: 200, height: 35)
         lost_image.setTitle("Choose image", for: .normal)
-        lost_image.layer.backgroundColor = color.cgColor
-        lost_image.setTitleColor(.black, for: .normal)
+        lost_image.layer.backgroundColor = .none
+        lost_image.setTitleColor(color, for: .normal)
         lost_image.addTarget(self, action: #selector(showActionSheet), for: .touchUpInside)
+        lost_image.layer.borderColor = UIColor(red: 0.571, green: 0.571, blue: 0.571, alpha: 0.5).cgColor
+        lost_image.layer.borderWidth = 4;
+        lost_image.layer.cornerRadius = 5
+        lost_image.layer.borderColor = UIColor(red: 0.957, green: 0.863, blue: 0.816, alpha: 1).cgColor
         lost_image.translatesAutoresizingMaskIntoConstraints = false
         view.addSubview(lost_image)
         
-        
         // imageViewPic
         if (isPost){
+            lost_image.layer.borderWidth = 0;
+            lost_image.setTitle("", for: .normal)
+            lost_image.removeTarget(self, action: #selector(showActionSheet), for: .touchUpInside)
+            lost_image.addTarget(self, action: #selector(afterposted), for: .touchUpInside)
             imageUserProfile.clipsToBounds = true
             imageUserProfile.translatesAutoresizingMaskIntoConstraints = false
             view.addSubview(imageUserProfile);
         }
 
-        //PostLost_Button
-        PostL_Button.frame = CGRect(x: 0, y: 0, width: 130, height: 46)
-        PostL_Button.setTitle("Post", for: .normal)
-        PostL_Button.layer.backgroundColor = color.cgColor
-        PostL_Button.setTitleColor(.black, for: .normal)
-        PostL_Button.layer.cornerRadius = 23
-        PostL_Button.addTarget(self, action: #selector(PostLTapped), for: .touchUpInside)
-        PostL_Button.translatesAutoresizingMaskIntoConstraints = false
-        view.addSubview(PostL_Button)
+        //PostFound_Button
+        PostFound_Button.frame = CGRect(x: 0, y: 0, width: 130, height: 46)
+        PostFound_Button.setTitle("Post", for: .normal)
+        PostFound_Button.layer.backgroundColor = color.cgColor
+        PostFound_Button.setTitleColor(UIColor(red: 0.937, green: 0.937, blue: 0.937, alpha: 1), for: .normal)
+        PostFound_Button.layer.cornerRadius = 23
+        PostFound_Button.addTarget(self, action: #selector(PostFTapped), for: .touchUpInside)
+        PostFound_Button.translatesAutoresizingMaskIntoConstraints = false
+        view.addSubview(PostFound_Button)
         
         //name
         name.text="Item's name:"
@@ -225,14 +234,16 @@ class PostLostViewController: UIViewController, UIImagePickerControllerDelegate,
         nameInput.font = UIFont.systemFont(ofSize: 18)
 //        nameInput.borderStyle =
         nameInput.textColor = color
+//        nameInput.backgroundColor = UIColor(red: 0.937, green: 0.937, blue: 0.937, alpha: 1)
         nameInput.layer.borderColor = color.cgColor
         nameInput.layer.borderWidth = border_width
         nameInput.textAlignment = .left
+        nameInput.layer.cornerRadius = 5;
         nameInput.translatesAutoresizingMaskIntoConstraints = false
         view.addSubview(nameInput)
         
         //descrip
-        descrip.text = "Description:"
+        descrip.text = "Note:"
         descrip.font = UIFont(name: "RoundedMplus1c-Medium", size: 18)
         descrip.textColor = color
         descrip.textAlignment = .left
@@ -246,6 +257,9 @@ class PostLostViewController: UIViewController, UIImagePickerControllerDelegate,
         descripInput.layer.borderColor = color.cgColor
         descripInput.layer.borderWidth = border_width
         descripInput.textAlignment = .left
+        descripInput.layer.cornerRadius = 5;
+        descripInput.placeholder = "   Optional";
+        descripInput.tintColor = .gray;
         descripInput.translatesAutoresizingMaskIntoConstraints = false
         view.addSubview(descripInput)
         
@@ -264,6 +278,7 @@ class PostLostViewController: UIViewController, UIImagePickerControllerDelegate,
         locInput.layer.borderColor = color.cgColor
         locInput.layer.borderWidth = border_width
         locInput.textAlignment = .left
+        locInput.layer.cornerRadius = 5;
         locInput.translatesAutoresizingMaskIntoConstraints = false
         view.addSubview(locInput)
         
@@ -282,6 +297,7 @@ class PostLostViewController: UIViewController, UIImagePickerControllerDelegate,
         timeInput.layer.borderColor = color.cgColor
         timeInput.layer.borderWidth = border_width
         timeInput.textAlignment = .left
+        timeInput.layer.cornerRadius = 5;
         timeInput.translatesAutoresizingMaskIntoConstraints = false
         view.addSubview(timeInput)
         
@@ -293,202 +309,187 @@ class PostLostViewController: UIViewController, UIImagePickerControllerDelegate,
         contact.translatesAutoresizingMaskIntoConstraints = false
         view.addSubview(contact)
         
-        
-        //contact_name
-        contact_name.text="Contact's name"
-        contact_name.font = UIFont(name: "RoundedMplus1c-Medium", size: 12)
-        contact_name.textColor = color
-        contact_name.textAlignment = .left
-        contact_name.translatesAutoresizingMaskIntoConstraints = false
-        view.addSubview(contact_name)
-        
         //contact_name_input
-        contact_name_input.font = UIFont.systemFont(ofSize: 12)
-//        nameInput.borderStyle =
+        contact_name_input.font = UIFont.systemFont(ofSize: 18)
+        contact_name_input.placeholder = "   Optional"
+        contact_name_input.tintColor = .gray
         contact_name_input.textColor = color
         contact_name_input.layer.borderColor = color.cgColor
         contact_name_input.layer.borderWidth = border_width
         contact_name_input.textAlignment = .left
+        contact_name_input.layer.cornerRadius=5
         contact_name_input.translatesAutoresizingMaskIntoConstraints = false
         view.addSubview(contact_name_input)
         
-        //contact_phone
-        contact_phone.text="Email/Phone:"
-        contact_phone.font = UIFont(name: "RoundedMplus1c-Medium", size: 12)
-        contact_phone.textColor = color
-        contact_phone.textAlignment = .left
-        contact_phone.translatesAutoresizingMaskIntoConstraints = false
-        view.addSubview(contact_phone)
+
+        contactSign.text = "Or automatically fill in your cornell email address"
+        //TODO: decide.
         
-        //contact_phone_input
-        contact_phone_input.font = UIFont.systemFont(ofSize: 12)
-//        nameInput.borderStyle =
-        contact_phone_input.textColor = color
-        contact_phone_input.layer.borderColor = color.cgColor
-        contact_phone_input.layer.borderWidth = border_width
-        contact_phone_input.textAlignment = .left
-        contact_phone_input.translatesAutoresizingMaskIntoConstraints = false
-        view.addSubview(contact_phone_input)
-        
-        //contact_time
-        contact_time.text="Preferred Contact Time"
-        contact_time.font = UIFont(name: "RoundedMplus1c-Medium", size: 12)
-        contact_time.textColor = color
-        contact_time.textAlignment = .left
-        contact_time.translatesAutoresizingMaskIntoConstraints = false
-        view.addSubview(contact_time)
-        
-        //contact_time_input
-        contact_time_input.font = UIFont.systemFont(ofSize: 12)
-//        nameInput.borderStyle =
-        contact_time_input.textColor = color
-        contact_time_input.layer.borderColor = color.cgColor
-        contact_time_input.layer.borderWidth = border_width
-        contact_time_input.textAlignment = .left
-        contact_time_input.translatesAutoresizingMaskIntoConstraints = false
-        view.addSubview(contact_time_input)
-        
+        let backBarButtton = UIBarButtonItem(title: "", style: .plain, target: nil, action: nil)
+        navigationItem.backBarButtonItem = backBarButtton
     
     }
     
-    
+    @objc func PostFTapped() {
+        if(nameInput.text == ""){
+            promptUserForName()
+        }
+        if (contact_name_input.text==""){
+            promptUserForPhone()
+        }
+        print("post found tapped, now trying to post.")
+        let name = nameInput.text ?? ""
+        let description = descripInput.text ?? ""
+        let time = timeInput.text ?? ""
+        let location = locInput.text ?? ""
+        var imageTrans:String? = nil;
+        var finalContact = ""
+        var username = ""
+        let image:UIImage? = imageUserProfile.image
+        print(contact_name_input.text)
+        let contact:String? = contact_name_input.text
+        if let userProf = try? decoder.decode(User1.self, from: userData.object(forKey: "UserProf") as! Data){
+            print("postLost, decode success")
+            username = userProf.detail.email
+        }else{
+            print("postLost decode, if let fails")
+        }
+        if contact == ""{
+            finalContact = "\(username)@cornell.edu"
+        }else{
+            finalContact = contact!
+        }
+        imageTrans=image?.jpegData(compressionQuality: 0.1)?.base64EncodedString() ?? ""
+        print(imageTrans)
+        NetworkManager.postFound(name: name, time: time, description: description, location: location, contact: finalContact, image:imageTrans) { item in
+            print("postLostComplete!")
+            let FVC = FoundViewController();
+            
+            self.navigationController?.pushViewController(FVC, animated: true)
+            
+        }
+    }
 
     func setupConstraints() {
         
         //the parameter used in this section. Modify the scaler, the whole thing is adjusted.
-        let width: CGFloat = 285
-        let leading: CGFloat = 18
-        let s_padding: CGFloat = 1
-        let l_padding: CGFloat = 8
+        let leading: CGFloat = 24
+        let width: CGFloat = view.frame.width-2*leading
+        let s_padding: CGFloat = 2
+        let l_padding: CGFloat = 10
+        let theheight :CGFloat = view.frame.height * 0.033
+        let theheight2 : CGFloat = view.frame.height * 0.043
         
 //        //name
         NSLayoutConstraint.activate([
             name.widthAnchor.constraint(equalToConstant: 132),
-            name.heightAnchor.constraint(equalToConstant: 24),
+            name.heightAnchor.constraint(equalToConstant: theheight),
             name.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor,constant: leading),
-            name.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 5),
+            name.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 15),
         ])
 
         NSLayoutConstraint.activate([
             nameInput.widthAnchor.constraint(equalToConstant: width),
-            nameInput.heightAnchor.constraint(equalToConstant: 23),
+            nameInput.heightAnchor.constraint(equalToConstant: theheight2),
             nameInput.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor,constant: leading),
             nameInput.topAnchor.constraint(equalTo: name.bottomAnchor, constant: s_padding),
-        ])
-        
-        //descrip & descripInput
-        NSLayoutConstraint.activate([
-            descrip.widthAnchor.constraint(equalToConstant: 107),
-            descrip.heightAnchor.constraint(equalToConstant: 24),
-            descrip.leadingAnchor.constraint(equalTo: view.leadingAnchor,constant: leading),
-            descrip.topAnchor.constraint(equalTo: nameInput.bottomAnchor, constant: l_padding),
-        ])
-        NSLayoutConstraint.activate([
-            descripInput.widthAnchor.constraint(equalToConstant: width),
-            descripInput.heightAnchor.constraint(equalToConstant: 50),
-            descripInput.leadingAnchor.constraint(equalTo: view.leadingAnchor,constant: leading),
-            descripInput.topAnchor.constraint(equalTo: descrip.bottomAnchor, constant: s_padding),
         ])
         
         //location locInput
         NSLayoutConstraint.activate([
             location.widthAnchor.constraint(equalToConstant: 140),
-            location.heightAnchor.constraint(equalToConstant: 24),
+            location.heightAnchor.constraint(equalToConstant: theheight),
             location.leadingAnchor.constraint(equalTo: view.leadingAnchor,constant: leading),
-            location.topAnchor.constraint(equalTo: descripInput.bottomAnchor, constant: l_padding),
+            location.topAnchor.constraint(equalTo: nameInput.bottomAnchor, constant: l_padding),
         ])
         NSLayoutConstraint.activate([
             locInput.widthAnchor.constraint(equalToConstant: width),
-            locInput.heightAnchor.constraint(equalToConstant: 23),
+            locInput.heightAnchor.constraint(equalToConstant: theheight2),
             locInput.leadingAnchor.constraint(equalTo: view.leadingAnchor,constant: leading),
             locInput.topAnchor.constraint(equalTo: location.bottomAnchor, constant: s_padding),
         ])
         
+        
         //time timeInput
         NSLayoutConstraint.activate([
-            time.widthAnchor.constraint(equalToConstant: 89),
-            time.heightAnchor.constraint(equalToConstant: 24),
+            time.widthAnchor.constraint(equalToConstant: 200),
+            time.heightAnchor.constraint(equalToConstant: theheight),
             time.leadingAnchor.constraint(equalTo: view.leadingAnchor,constant: leading),
             time.topAnchor.constraint(equalTo: locInput.bottomAnchor, constant: l_padding),
         ])
         NSLayoutConstraint.activate([
             timeInput.widthAnchor.constraint(equalToConstant: width),
-            timeInput.heightAnchor.constraint(equalToConstant: 23),
+            timeInput.heightAnchor.constraint(equalToConstant: theheight2),
             timeInput.leadingAnchor.constraint(equalTo: view.leadingAnchor,constant: leading),
             timeInput.topAnchor.constraint(equalTo: time.bottomAnchor, constant: s_padding),
         ])
         
-        //lost_image
+        
+        //descrip & descripInput
         NSLayoutConstraint.activate([
-            lost_image.widthAnchor.constraint(equalToConstant: 200),
-            lost_image.heightAnchor.constraint(equalToConstant: 24),
-            lost_image.leadingAnchor.constraint(equalTo: view.leadingAnchor,constant: leading),
-            lost_image.topAnchor.constraint(equalTo: timeInput.bottomAnchor, constant: l_padding),
+            descrip.widthAnchor.constraint(equalToConstant: 107),
+            descrip.heightAnchor.constraint(equalToConstant: theheight),
+            descrip.leadingAnchor.constraint(equalTo: view.leadingAnchor,constant: leading),
+            descrip.topAnchor.constraint(equalTo: timeInput.bottomAnchor, constant: l_padding),
+        ])
+        NSLayoutConstraint.activate([
+            descripInput.widthAnchor.constraint(equalToConstant: width),
+            descripInput.heightAnchor.constraint(equalToConstant: theheight2),
+            descripInput.leadingAnchor.constraint(equalTo: view.leadingAnchor,constant: leading),
+            descripInput.topAnchor.constraint(equalTo: descrip.bottomAnchor, constant: s_padding),
         ])
         
+        
+        //contact contact_input
+        NSLayoutConstraint.activate([
+            contact.widthAnchor.constraint(equalToConstant: 148),
+            contact.heightAnchor.constraint(equalToConstant: theheight),
+            contact.leadingAnchor.constraint(equalTo: view.leadingAnchor,constant: leading),
+            contact.topAnchor.constraint(equalTo: descripInput.bottomAnchor, constant: l_padding),
+        ])
+        NSLayoutConstraint.activate([
+            contact_name_input.widthAnchor.constraint(equalToConstant: width),
+            contact_name_input.heightAnchor.constraint(equalToConstant: theheight2),
+            contact_name_input.leadingAnchor.constraint(equalTo: view.leadingAnchor,constant: leading),
+            contact_name_input.topAnchor.constraint(equalTo: contact.bottomAnchor, constant: s_padding),
+        ])
+        
+        NSLayoutConstraint.activate([
+            imagelabel.topAnchor.constraint(equalTo: contact_name_input.bottomAnchor, constant: l_padding),
+            imagelabel.widthAnchor.constraint(equalToConstant: 60),
+            imagelabel.heightAnchor.constraint(equalToConstant: theheight),
+            imagelabel.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: leading)
+        ])
+        
+        let theheight3 = view.frame.height * 0.209
+        //lost_image
+        NSLayoutConstraint.activate([
+            lost_image.widthAnchor.constraint(equalToConstant: width),
+            lost_image.heightAnchor.constraint(equalToConstant: theheight3),
+            lost_image.leadingAnchor.constraint(equalTo: view.leadingAnchor,constant: leading),
+            lost_image.topAnchor.constraint(equalTo: imagelabel.bottomAnchor, constant: l_padding),
+        ])
+
         //imageUserProfile
         if (isPost){
         NSLayoutConstraint.activate([
-            imageUserProfile.widthAnchor.constraint(equalToConstant: 100),
-            imageUserProfile.heightAnchor.constraint(equalToConstant: 100),
+            imageUserProfile.widthAnchor.constraint(equalToConstant: width),
+            imageUserProfile.heightAnchor.constraint(equalToConstant: theheight3),
             imageUserProfile.leadingAnchor.constraint(equalTo: view.leadingAnchor,constant: leading),
-            imageUserProfile.topAnchor.constraint(equalTo: lost_image.bottomAnchor, constant: s_padding),
+            imageUserProfile.topAnchor.constraint(equalTo: imagelabel.bottomAnchor, constant: s_padding),
         ])
         }
-        
-        //contact contact_name_input contact_phone_input contact_time_input
-        NSLayoutConstraint.activate([
-            contact.widthAnchor.constraint(equalToConstant: 148),
-            contact.heightAnchor.constraint(equalToConstant: 24),
-            contact.leadingAnchor.constraint(equalTo: view.leadingAnchor,constant: leading),
-            contact.topAnchor.constraint(equalTo: lost_image.bottomAnchor, constant: 115),
-        ])
-        NSLayoutConstraint.activate([
-            contact_name.widthAnchor.constraint(equalToConstant: 140),
-            contact_name.heightAnchor.constraint(equalToConstant: 20),
-            contact_name.leadingAnchor.constraint(equalTo: view.leadingAnchor,constant: leading),
-            contact_name.topAnchor.constraint(equalTo: contact.bottomAnchor, constant: s_padding),
-        ])
-        NSLayoutConstraint.activate([
-            contact_name_input.widthAnchor.constraint(equalToConstant: 144),
-            contact_name_input.heightAnchor.constraint(equalToConstant: 20),
-            contact_name_input.leadingAnchor.constraint(equalTo: contact_name.trailingAnchor,constant: 3),
-            contact_name_input.topAnchor.constraint(equalTo: contact.bottomAnchor, constant: s_padding),
-        ])
-        NSLayoutConstraint.activate([
-            contact_phone.widthAnchor.constraint(equalToConstant: 140),
-            contact_phone.heightAnchor.constraint(equalToConstant: 20),
-            contact_phone.leadingAnchor.constraint(equalTo: view.leadingAnchor,constant: leading),
-            contact_phone.topAnchor.constraint(equalTo: contact_name.bottomAnchor, constant: s_padding),
-        ])
-        NSLayoutConstraint.activate([
-            contact_phone_input.widthAnchor.constraint(equalToConstant: 144),
-            contact_phone_input.heightAnchor.constraint(equalToConstant: 20),
-            contact_phone_input.leadingAnchor.constraint(equalTo: contact_phone.trailingAnchor,constant: 3),
-            contact_phone_input.topAnchor.constraint(equalTo: contact_name.bottomAnchor, constant: s_padding),
-        ])
-        NSLayoutConstraint.activate([
-            contact_time.widthAnchor.constraint(equalToConstant: 200),
-            contact_time.heightAnchor.constraint(equalToConstant: 20),
-            contact_time.leadingAnchor.constraint(equalTo: view.leadingAnchor,constant: leading),
-            contact_time.topAnchor.constraint(equalTo: contact_phone.bottomAnchor, constant: s_padding),
-        ])
-        NSLayoutConstraint.activate([
-            contact_time_input.widthAnchor.constraint(equalToConstant: 319),
-            contact_time_input.heightAnchor.constraint(equalToConstant: 25),
-            contact_time_input.leadingAnchor.constraint(equalTo: view.leadingAnchor,constant: leading),
-            contact_time_input.topAnchor.constraint(equalTo: contact_time.bottomAnchor, constant: s_padding),
-        ])
-        
+
         //PostLost_Button
         NSLayoutConstraint.activate([
-            PostL_Button.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-            PostL_Button.widthAnchor.constraint(equalToConstant: 130),
-            PostL_Button.heightAnchor.constraint(equalToConstant: 40),
-            PostL_Button.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -15)
+            PostFound_Button.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            PostFound_Button.widthAnchor.constraint(equalToConstant: 130),
+            PostFound_Button.heightAnchor.constraint(equalToConstant: 40),
+            PostFound_Button.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -15)
         ])
-             
+        
+        
+        
 
     }
 }
-

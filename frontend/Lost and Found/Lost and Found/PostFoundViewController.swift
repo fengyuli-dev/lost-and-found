@@ -56,11 +56,36 @@ class PostFoundViewController: UIViewController, UIImagePickerControllerDelegate
 //    var rec2 = UILabel()
     override func viewDidLoad() {
         super.viewDidLoad()
-        title = "Post Found"
-        let color: UIColor=UIColor(red: 0.788, green: 0.839, blue: 0.875, alpha: 1)
-        let textAttributes = [NSAttributedString.Key.foregroundColor: color]
-        navigationController?.navigationBar.titleTextAttributes = textAttributes
+        //title = "Post Found"
+        let navBar = self.navigationController!.navigationBar;
+//        navBar.isTranslucent = true;
+//        navBar.titleTextAttributes = [.backgroundColor: UIColor(.clear)]//this is of no use!
+        let titleview = UILabel();
+        titleview.text = "Post Found";
+        titleview.textColor = UIColor(red: 0.788, green: 0.839, blue: 0.875, alpha: 1)
         
+        let titleheight = view.frame.height * 0.026;
+        titleview.font = UIFont(name: "RoundedMplus1c-ExtraBold", size: titleheight);
+        self.navigationItem.titleView = titleview; //in this way the title is properly set.
+        titleview.translatesAutoresizingMaskIntoConstraints=false;
+        view.addSubview(titleview)
+        
+        titleview.textAlignment = .center;
+        let titletop = view.frame.height * 0.04
+        
+        titleview.topAnchor.constraint(equalTo: view.topAnchor, constant: titletop).isActive=true
+        view.backgroundColor = UIColor(red: 0.325, green: 0.38, blue: 0.424, alpha: 1)
+        
+        let appearance = UINavigationBarAppearance();
+        appearance.configureWithTransparentBackground();
+        navBar.standardAppearance = appearance;
+        navBar.scrollEdgeAppearance = appearance;
+        navBar.compactAppearance = appearance;
+        
+//        let color: UIColor=UIColor(red: 0.788, green: 0.839, blue: 0.875, alpha: 1)
+//        let textAttributes = [NSAttributedString.Key.foregroundColor: color]
+//        navigationController?.navigationBar.titleTextAttributes = textAttributes
+//
         view.backgroundColor = UIColor(red: 0.325, green: 0.38, blue: 0.424, alpha: 1)
 
         setupViews()
@@ -68,46 +93,16 @@ class PostFoundViewController: UIViewController, UIImagePickerControllerDelegate
     }
     
     //alert
-    private func promptUserForName() -> String {
+    private func promptUserForName()  {
         let alert = UIAlertController(title: "Enter your name:", message: nil, preferredStyle: .alert)
-
-        // Presents a keyboard for user to enter name
-        var userInputField: UITextField?
-        alert.addTextField { (textField: UITextField!) in
-            userInputField = textField
-        }
-
-        var name: String = ""
-        let defaultAction = UIAlertAction(title: "OK", style: .default, handler: {(action) -> Void in
-            if let userInfo = userInputField!.text {
-                name = userInfo
-            }
-        })
-
-        alert.addAction(defaultAction)
+        alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
         self.present(alert, animated: true, completion: nil)
-        return name
     }
-    
-    private func promptUserForPhone() -> String {
+
+    private func promptUserForPhone() {
         let alert = UIAlertController(title: "Enter phone number:", message: nil, preferredStyle: .alert)
-
-        // Presents a keyboard for user to enter name
-        var userInputField: UITextField?
-        alert.addTextField { (textField: UITextField!) in
-            userInputField = textField
-        }
-
-        var phone: String = ""
-        let defaultAction = UIAlertAction(title: "OK", style: .default, handler: {(action) -> Void in
-            if let userInfo = userInputField!.text {
-                phone = userInfo
-            }
-        })
-
-        alert.addAction(defaultAction)
+        alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
         self.present(alert, animated: true, completion: nil)
-        return phone
     }
     
     //delegate methods for selecting images from gallery
@@ -171,21 +166,22 @@ class PostFoundViewController: UIViewController, UIImagePickerControllerDelegate
     }
     
     func setupViews(){
-        let color: UIColor=UIColor(red: 0.788, green: 0.839, blue: 0.875, alpha: 1)
+        let color: UIColor = UIColor(red: 0.788, green: 0.839, blue: 0.875, alpha: 1)
         let border_width : CGFloat = 0.5
         
         
         imagelabel.text = "Image:"
         imagelabel.translatesAutoresizingMaskIntoConstraints=false;
-        imagelabel.textColor = .black;
+        imagelabel.textColor = color;
         view.addSubview(imagelabel)
         
         //lost_image
         lost_image.setTitle("Choose image", for: .normal)
         lost_image.layer.backgroundColor = .none
-        lost_image.setTitleColor(.black, for: .normal)
+        lost_image.setTitleColor(color, for: .normal)
         lost_image.addTarget(self, action: #selector(showActionSheet), for: .touchUpInside)
         lost_image.layer.borderWidth = 4;
+        lost_image.layer.cornerRadius = 5
         lost_image.layer.borderColor = UIColor(red: 0.957, green: 0.863, blue: 0.816, alpha: 1).cgColor
         lost_image.translatesAutoresizingMaskIntoConstraints = false
         view.addSubview(lost_image)
@@ -199,8 +195,6 @@ class PostFoundViewController: UIViewController, UIImagePickerControllerDelegate
             imageUserProfile.clipsToBounds = true
             imageUserProfile.translatesAutoresizingMaskIntoConstraints = false
             view.addSubview(imageUserProfile);
-        }else{
- 
         }
 
         //PostFound_Button
@@ -312,9 +306,6 @@ class PostFoundViewController: UIViewController, UIImagePickerControllerDelegate
         view.addSubview(contact_name_input)
         
 
-        
-        
-        
         contactSign.text = "Or automatically fill in your cornell email address"
         //TODO: decide.
         
@@ -324,12 +315,12 @@ class PostFoundViewController: UIViewController, UIImagePickerControllerDelegate
     }
     
     @objc func PostFTapped() {
-//        while(nameInput.text == ""){
-//            nameInput.text = promptUserForName()
-//        }
-//        while (contact_phone_input.text==""){
-//            contact_phone_input.text=promptUserForPhone()
-//        }
+        if(nameInput.text == ""){
+            promptUserForName()
+        }
+        if (contact_name_input.text==""){
+            promptUserForPhone()
+        }
         print("post found tapped, now trying to post.")
         let name = nameInput.text ?? ""
         let description = descripInput.text ?? ""
@@ -366,10 +357,10 @@ class PostFoundViewController: UIViewController, UIImagePickerControllerDelegate
     func setupConstraints() {
         
         //the parameter used in this section. Modify the scaler, the whole thing is adjusted.
-        let width: CGFloat = 285
-        let leading: CGFloat = 18
-        let s_padding: CGFloat = 1
-        let l_padding: CGFloat = 8
+        let leading: CGFloat = 24
+        let width: CGFloat = view.frame.width-2*leading
+        let s_padding: CGFloat = 2
+        let l_padding: CGFloat = 10
         let theheight :CGFloat = view.frame.height * 0.033
         let theheight2 : CGFloat = view.frame.height * 0.043
         
@@ -378,7 +369,7 @@ class PostFoundViewController: UIViewController, UIImagePickerControllerDelegate
             name.widthAnchor.constraint(equalToConstant: 132),
             name.heightAnchor.constraint(equalToConstant: theheight),
             name.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor,constant: leading),
-            name.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 5),
+            name.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 15),
         ])
 
         NSLayoutConstraint.activate([
@@ -457,7 +448,7 @@ class PostFoundViewController: UIViewController, UIImagePickerControllerDelegate
         let theheight3 = view.frame.height * 0.209
         //lost_image
         NSLayoutConstraint.activate([
-            lost_image.widthAnchor.constraint(equalToConstant: 300),
+            lost_image.widthAnchor.constraint(equalToConstant: width),
             lost_image.heightAnchor.constraint(equalToConstant: theheight3),
             lost_image.leadingAnchor.constraint(equalTo: view.leadingAnchor,constant: leading),
             lost_image.topAnchor.constraint(equalTo: imagelabel.bottomAnchor, constant: l_padding),
@@ -466,18 +457,12 @@ class PostFoundViewController: UIViewController, UIImagePickerControllerDelegate
         //imageUserProfile
         if (isPost){
         NSLayoutConstraint.activate([
-            imageUserProfile.widthAnchor.constraint(equalToConstant: 200),
+            imageUserProfile.widthAnchor.constraint(equalToConstant: width),
             imageUserProfile.heightAnchor.constraint(equalToConstant: theheight3),
             imageUserProfile.leadingAnchor.constraint(equalTo: view.leadingAnchor,constant: leading),
-            imageUserProfile.topAnchor.constraint(equalTo: imagelabel.bottomAnchor, constant: l_padding),
+            imageUserProfile.topAnchor.constraint(equalTo: imagelabel.bottomAnchor, constant: s_padding),
         ])
-        }else{
-
         }
-        
-
-        
-        
 
         //PostLost_Button
         NSLayoutConstraint.activate([
