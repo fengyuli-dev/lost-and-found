@@ -31,11 +31,16 @@ class UserViewController:UIViewController{
         
         let titleview = UILabel();
         titleview.text = "Profile";
-        titleview.textColor = UIColor(red: 0.505, green: 0.524, blue: 0.637, alpha: 1)
+        titleview.textColor = UIColor(red: 0.063, green: 0.193, blue: 0.283, alpha: 1)
         let titleheight = view.frame.height * 0.030;
         titleview.font = UIFont(name: "RoundedMplus1c-ExtraBold", size: 22)
         self.navigationItem.titleView = titleview;
         titleview.textAlignment = .center;
+        
+        let rightbutton = UIBarButtonItem(title: "LogOut", style: .plain, target: self, action: #selector(righttapped))
+        navigationItem.rightBarButtonItem = rightbutton;
+        navigationItem.rightBarButtonItem?.tintColor = .black
+        
         
         let navBar = self.navigationController!.navigationBar
         let appearance = UINavigationBarAppearance();
@@ -53,18 +58,24 @@ class UserViewController:UIViewController{
         }else{
             print("userview, if let fails")
         }
+        
+        
+        let nametop:CGFloat = view.frame.height * 0.08
+        let nameh : CGFloat = view.frame.height * 0.031
         name.translatesAutoresizingMaskIntoConstraints=false
-        name.textColor = UIColor(red: 0.505, green: 0.524, blue: 0.637, alpha: 1)
-        name.font = UIFont(name: "RoundedMplus1c-ExtraBold", size: 22)
+        name.textColor = UIColor(red: 0.063, green: 0.193, blue: 0.283, alpha: 1)
+        name.font = UIFont(name: "RoundedMplus1c-ExtraBold", size: nameh)
         view.addSubview(name)
         NSLayoutConstraint.activate([
-            name.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 20),
-            name.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: view.frame.width*0.072)
+            name.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: nametop),
+            name.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: view.frame.width*0.072),
+            name.heightAnchor.constraint(equalToConstant: nameh)
         ])
         
+        
         email.translatesAutoresizingMaskIntoConstraints=false
-        email.textColor = UIColor(red: 0.505, green: 0.524, blue: 0.637, alpha: 1)
-        email.font = UIFont(name: "RoundedMplus1c-Light", size: 10)
+        email.textColor = UIColor(red: 0.063, green: 0.193, blue: 0.283, alpha: 1)
+        email.font = UIFont(name: "RoundedMplus1c-Light", size: (nameh * 2/3))
         view.addSubview(email)
         NSLayoutConstraint.activate([
             email.topAnchor.constraint(equalTo: name.safeAreaLayoutGuide.bottomAnchor, constant: 5),
@@ -73,13 +84,13 @@ class UserViewController:UIViewController{
         
         
         
-        let menutop = view.frame.height * 0.312
-        let menubot = view.frame.height * 0.1
+        let menutop = view.frame.height * 0.23
+        let menubot = view.frame.height * 0.06
         //set menubar
         menuBarView.translatesAutoresizingMaskIntoConstraints=false
         view.addSubview(menuBarView)
         menuBarView.dataArray = ["Your Found","Your Lost "]
-        menuBarView.collView.backgroundColor = UIColor(red: 0.505, green: 0.524, blue: 0.637, alpha: 1)
+        menuBarView.collView.backgroundColor = UIColor(red: 0.063, green: 0.193, blue: 0.283, alpha: 1)
         
         // menuBarView.collView.tintColor = UIColor(red: 0.859, green: 0.875, blue: 0.922, alpha: 1)
         // UIFont(name: "RoundedMplus1c-ExtraBold", size: 18)
@@ -89,10 +100,10 @@ class UserViewController:UIViewController{
             menuBarView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: menutop),
             menuBarView.heightAnchor.constraint(equalToConstant: menubot)
         ])
-        menuBarView.collView.selectItem(at: IndexPath.init(item: 0, section: 0), animated: true, scrollPosition: .centeredVertically)
         menuBarView.isSizeToFitCellsNeeded = false
-        menuBarView.collView.reloadData()
         menuBarView.menuDelegate = self
+        menuBarView.collView.selectItem(at: IndexPath.init(item: 0, section: 0), animated: true, scrollPosition: .centeredVertically)
+
  
         //0.312
         //set pagecontroller
@@ -116,6 +127,13 @@ class UserViewController:UIViewController{
 
 
     }
+    
+    
+    @objc func righttapped(){
+        userData.set(Data(), forKey: "UserProf");
+        let TMVC = TheMainViewController()
+        self.navigationController?.pushViewController(TMVC, animated: true);
+    }
 }
 
 
@@ -137,7 +155,6 @@ extension UserViewController: MenuBarDelegate {
         currentIndex = index
         print("now menubar didselceting.")
         menuBarView.collView.scrollToItem(at: IndexPath.init(item: index, section: 0), at: .centeredHorizontally, animated: true)
-        menuBarView.collView.reloadData()
         
     }
     

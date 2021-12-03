@@ -21,6 +21,7 @@ class ContentController: UIViewController{
     var cellPadding : CGFloat = 10
 //    var recButton = UILabel()
     var theHeight:Float = 15;
+    var delegate : userDelegate?
     
     init(){
         let foundlayout = UICollectionViewFlowLayout();
@@ -36,14 +37,14 @@ class ContentController: UIViewController{
         super.viewDidLoad()
         // title = "Found Items"
     
-        view.backgroundColor = UIColor(red: 0.505, green: 0.524, blue: 0.637, alpha: 1)
+        view.backgroundColor = UIColor(red: 0.063, green: 0.193, blue: 0.283, alpha: 1)
         let sectionpadding : CGFloat = 5;
         let foundlayout = UICollectionViewFlowLayout();
         foundTableView = UICollectionView(frame: .zero, collectionViewLayout: foundlayout)
         foundTableView.translatesAutoresizingMaskIntoConstraints = false
         foundTableView.dataSource = self
         foundTableView.delegate = self
-        foundTableView.backgroundColor = UIColor(red: 0.505, green: 0.524, blue: 0.637, alpha: 1)
+        foundTableView.backgroundColor = UIColor(red: 0.063, green: 0.193, blue: 0.283, alpha: 1)
         foundTableView.register(UserItemCell.self, forCellWithReuseIdentifier: reuseIdentifier_1)
         foundlayout.minimumLineSpacing = cellPadding;
         foundlayout.scrollDirection = .vertical;
@@ -57,8 +58,8 @@ class ContentController: UIViewController{
         foundTableView.reloadData()
     }
     
-    
 
+//0.089
     func setupConstraints() {
         
         //the parameter used in this section. Modify the scaler, the whole thing is adjusted.
@@ -129,10 +130,10 @@ extension ContentController : UICollectionViewDataSource{
         let item = foundItems[indexPath.item];
         if self.pageIndex == 0{
             print(foundid[indexPath.item])
-            cell.configure(for: item, id: foundid[indexPath.item], pageindex: self.pageIndex);
+            cell.configure(for: item, id: foundid[indexPath.item], pageindex: self.pageIndex,delegate: self);
         }
         else{
-            cell.configure(for: item, id: lostid[indexPath.item], pageindex:self.pageIndex)
+            cell.configure(for: item, id: lostid[indexPath.item], pageindex:self.pageIndex,delegate: self)
         }
         
         
@@ -146,8 +147,8 @@ extension ContentController : UICollectionViewDataSource{
 extension ContentController : UICollectionViewDelegate, UICollectionViewDelegateFlowLayout{
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        let theWidth = collectionView.frame.width * 0.825 ;
-        let theHeight = collectionView.frame.height * 0.24//note here.
+        let theWidth = collectionView.frame.width * 0.85 ;
+        let theHeight = collectionView.frame.height * 0.12//note here.
         return CGSize(width: theWidth, height: theHeight)
     }
     
@@ -156,7 +157,7 @@ extension ContentController : UICollectionViewDelegate, UICollectionViewDelegate
         //TODO: modify this.
 
         let display = FoundDescViewController();
-        display.setParaForFont(Float(view.frame.height) * 0.022) //set the font size!
+        display.setParaForFont(Float(view.frame.height) * 0.038) //set the font size!
         display.configure(for: item);
         if let pC = display.presentationController as? UISheetPresentationController {
             pC.detents = [.medium()] /// set here!
@@ -167,4 +168,8 @@ extension ContentController : UICollectionViewDelegate, UICollectionViewDelegate
     
 }
 
-
+extension ContentController:userDelegate{
+    func resetItems(index:Int) {
+        self.viewDidLoad()
+    }
+}

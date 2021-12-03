@@ -1,5 +1,9 @@
 import SwiftUI
 
+
+protocol userDelegate:class{
+    func resetItems(index:Int) -> Void
+}
 class UserItemCell: UICollectionViewCell {
     
     var name = UILabel()
@@ -10,6 +14,7 @@ class UserItemCell: UICollectionViewCell {
     var delete = UIButton(type: UIButton.ButtonType.custom) as UIButton;
     var id = 0;
     var pageindex = -1;
+    var delegate:userDelegate?
     
     override init(frame: CGRect) {
         super.init(frame: frame);
@@ -19,7 +24,7 @@ class UserItemCell: UICollectionViewCell {
         fatalError("init(coder:) has not been implemented")
     }
     
-    func configure(for item: Item, id id: Int, pageindex index: Int) {
+    func configure(for item: Item, id id: Int, pageindex index: Int, delegate delegate:userDelegate) {
         self.id=id;
         self.pageindex = index;
         name.text = item.name
@@ -28,15 +33,16 @@ class UserItemCell: UICollectionViewCell {
 //        des_image.image = item.pics
 //        contentView.backgroundColor = .white
         contentView.layer.cornerRadius = 25;
+        self.delegate=delegate
         
-        let recwidth = Float(contentView.frame.width) * (2/3)
+        let recwidth = Float(contentView.frame.width) * (2.3/3)
         rec.frame = CGRect.init(x: contentView.frame.minX, y: contentView.frame.minY, width: CGFloat(recwidth), height: contentView.frame.height)
         rec.layer.backgroundColor = UIColor(red: 0.941, green: 0.961, blue: 0.976, alpha: 1).cgColor
         rec.layer.cornerRadius = 25
         
         contentView.addSubview(rec)
         
-        let namefont = contentView.frame.height * 0.25
+        let namefont = contentView.frame.height * 0.28
         name.font = UIFont(name: "RoundedMplus1c-ExtraBold", size: namefont)
         name.translatesAutoresizingMaskIntoConstraints = false
         name.textColor = .black;
@@ -56,25 +62,15 @@ class UserItemCell: UICollectionViewCell {
         contentView.addSubview(time)
         
         
-        let image = UIImage(named: "delete") as UIImage?
+        let image = UIImage(named: "trash_full") as UIImage?
 //      button.frame = CGRectMake(100, 100, 100, 100)
         delete.setImage(image,for:.normal)
         delete.imageView?.contentMode = .scaleAspectFill
         delete.imageView?.clipsToBounds = true
-//        button.addTarget(self, action: "btnTouched:", forControlEvents:.TouchUpInside)
-//        self.view.addSubview(button)
-        
-//        delete.setTitle("go!", for: .normal);
         delete.translatesAutoresizingMaskIntoConstraints=false;
 //        delete.setTitleColor(.red, for: .normal)
         contentView.addSubview(delete)
         delete.addTarget(self, action: #selector(deleteTapped), for: .touchUpInside)
-        
-        
-        
-//        des_image.translatesAutoresizingMaskIntoConstraints = false
-//        contentView.addSubview(des_image)
-        //haven't figured out how to handle images
         
         setupConstraints()
     }
@@ -90,6 +86,11 @@ class UserItemCell: UICollectionViewCell {
                 print("delete success!")
             }
         }
+
+
+        self.removeFromSuperview()
+        self.delegate?.resetItems(index: self.pageindex)
+        
     }
     
     

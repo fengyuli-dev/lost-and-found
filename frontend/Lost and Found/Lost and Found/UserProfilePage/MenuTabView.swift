@@ -71,7 +71,6 @@ class MenuTabView: UIView, UICollectionViewDelegate, UICollectionViewDataSource,
         //https://developer.apple.com/library/archive/documentation/UserExperience/Conceptual/AutolayoutPG/VisualFormatLanguage.html ->tutorial for visual format!
         addConstraintsWithFormatString(formate: "V:|[v0]|", views: collView)
         addConstraintsWithFormatString(formate: "H:|[v0]|", views: collView)
-        backgroundColor = .yellow
         
     }
     

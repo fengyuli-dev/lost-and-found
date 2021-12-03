@@ -18,7 +18,7 @@ class MenuTabCell: UICollectionViewCell {
         
         didSet{
             UIView.animate(withDuration: 0.30) {
-                self.indicatorView.backgroundColor = self.isSelected ? UIColor.blue : UIColor.clear
+                self.indicatorView.backgroundColor = self.isSelected ? UIColor(red: 0.859, green: 0.875, blue: 0.922, alpha: 1) : UIColor.clear
                 self.layoutIfNeeded()
                 //UIColor(red: 0.505, green: 0.524, blue: 0.637, alpha: 1)
 //
@@ -73,7 +73,7 @@ class MenuTabCell: UICollectionViewCell {
         addSubview(indicatorView)
         
         addConstraintsWithFormatString(formate: "H:|[v0]|", views: indicatorView)
-        addConstraintsWithFormatString(formate: "V:[v0(20)]|", views: indicatorView)
+        addConstraintsWithFormatString(formate: "V:[v0(5)]|", views: indicatorView)
     }
     
 }
