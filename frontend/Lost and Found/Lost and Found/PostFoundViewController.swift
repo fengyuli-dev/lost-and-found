@@ -74,7 +74,8 @@ class PostFoundViewController: UIViewController, UIImagePickerControllerDelegate
         let titletop = view.frame.height * 0.04
         
         titleview.topAnchor.constraint(equalTo: view.topAnchor, constant: titletop).isActive=true
-        view.backgroundColor = UIColor(red: 0.325, green: 0.38, blue: 0.424, alpha: 1)
+        // view.backgroundColor = UIColor(red: 0.325, green: 0.38, blue: 0.424, alpha: 1)
+        //view.backgroundColor = UIColor(red: 0.722, green: 0.803, blue: 0.858, alpha: 1)
         
         let appearance = UINavigationBarAppearance();
         appearance.configureWithTransparentBackground();
@@ -86,8 +87,19 @@ class PostFoundViewController: UIViewController, UIImagePickerControllerDelegate
 //        let textAttributes = [NSAttributedString.Key.foregroundColor: color]
 //        navigationController?.navigationBar.titleTextAttributes = textAttributes
 //
-        view.backgroundColor = UIColor(red: 0.325, green: 0.38, blue: 0.424, alpha: 1)
-
+        let layer0 = CAGradientLayer()
+        layer0.colors = [
+            UIColor(red: 0.788, green: 0.839, blue: 0.875, alpha: 1).cgColor,
+            UIColor(red: 0.898, green: 0.898, blue: 0.898, alpha: 1).cgColor
+        ]
+        layer0.locations = [0, 0.73]
+        layer0.startPoint = CGPoint(x: 0.25, y: 0.5)
+        layer0.endPoint = CGPoint(x: 0.55, y: 0.5)
+        layer0.transform = CATransform3DMakeAffineTransform(CGAffineTransform(a: 0, b: 1, c: -1, d: 0, tx: 1, ty: 0))
+        layer0.bounds = view.bounds.insetBy(dx: -0.5*view.bounds.size.width, dy: -0.5*view.bounds.size.height)
+        layer0.position = view.center
+        view.layer.addSublayer(layer0)
+        
         setupViews()
         setupConstraints()
     }
@@ -166,7 +178,7 @@ class PostFoundViewController: UIViewController, UIImagePickerControllerDelegate
     }
     
     func setupViews(){
-        let color: UIColor = UIColor(red: 0.788, green: 0.839, blue: 0.875, alpha: 1)
+        let color: UIColor = UIColor(red: 0.325, green: 0.38, blue: 0.424, alpha: 1)
         let border_width : CGFloat = 0.5
         
         
@@ -311,6 +323,7 @@ class PostFoundViewController: UIViewController, UIImagePickerControllerDelegate
         
         let backBarButtton = UIBarButtonItem(title: "", style: .plain, target: nil, action: nil)
         navigationItem.backBarButtonItem = backBarButtton
+        self.navigationController?.navigationBar.backgroundColor = self.view.backgroundColor
     
     }
     

@@ -36,7 +36,6 @@ class LostTableViewCell: UICollectionViewCell {
         contentView.layer.shadowOffset = CGSize(width: 0, height: 5)
         contentView.layer.masksToBounds = false
         
-
         
         rec.layer.backgroundColor = UIColor(red: 0.941, green: 0.961, blue: 0.976, alpha: 1).cgColor
         rec.layer.cornerRadius = 25

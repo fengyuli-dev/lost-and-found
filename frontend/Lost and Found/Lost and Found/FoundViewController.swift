@@ -139,17 +139,19 @@ class FoundViewController: UIViewController, UISearchResultsUpdating, UISearchBa
 //        let rightimage = UIImage.init(named: "usericon");
 //        titleright.image = rightimage;
 //        navigationItem.setRightBarButton(UIBarButtonItem(customView: titleright), animated: true)
-        navigationItem.rightBarButtonItem?.customView?.translatesAutoresizingMaskIntoConstraints=false
+        self.navigationItem.rightBarButtonItem?.customView?.translatesAutoresizingMaskIntoConstraints=false
 //        view.addSubview(navigationItem.rightBarButtonItem?.customView ?? UIView())
 //        navigationItem.rightBarButtonItem?.customView?.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -5).isActive=true
 //        navigationItem.rightBarButtonItem?.customView?.heightAnchor.constraint(equalToConstant: 20).isActive=true
         let rightbutton = UIBarButtonItem(image: UIImage.init(named: "usericon"), style: .plain, target: self, action: #selector(righttapped))
-        navigationItem.rightBarButtonItem = rightbutton;
-        navigationItem.rightBarButtonItem?.tintColor = .black
-        navigationItem.rightBarButtonItem?.customView?.trailingAnchor.constraint(equalTo: navigationItem.titleView?.trailingAnchor ?? view.trailingAnchor, constant: 0).isActive=true
+        self.navigationItem.rightBarButtonItem = rightbutton;
+        self.navigationItem.rightBarButtonItem?.tintColor = .black
+        self.navigationItem.rightBarButtonItem?.customView?.trailingAnchor.constraint(equalTo: navigationItem.titleView?.trailingAnchor ?? view.trailingAnchor, constant: 0).isActive=true
         
         let backBarButtton = UIBarButtonItem(title: "", style: .plain, target: nil, action: nil)
-        navigationItem.backBarButtonItem = backBarButtton
+        self.navigationItem.backBarButtonItem = backBarButtton
+        self.navigationController?.navigationBar.backgroundColor = self.view.backgroundColor
+        
 //        navigationItem.backBarButtonItem = UIBarButtonItem(image: UIImage.init(named: "backbutton"), style: .plain, target: self, action: nil)
 
 

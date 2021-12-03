@@ -29,6 +29,7 @@ class QuestionViewController: UIViewController{
 //        view.backgroundColor = UIColor(red: 0.325, green: 0.38, blue: 0.424, alpha: 1)
         assignbackground();
         navigationItem.hidesBackButton=true
+        //navigationItem.color=.clear
         setupViews()
         setupConstraints()
     }
@@ -110,7 +111,8 @@ class QuestionViewController: UIViewController{
         view.addSubview(Logout)
         
 
-        self.navigationController?.navigationBar.tintColor = UIColor(red: 0.505, green: 0.524, blue: 0.637, alpha: 1)
+        self.navigationController?.navigationBar.tintColor = view.backgroundColor
+        self.navigationController?.navigationBar.backgroundColor = view.backgroundColor
         /*** If needed Assign Title Here ***/
         self.navigationItem.backBarButtonItem = UIBarButtonItem(title: "", style: UIBarButtonItem.Style.plain, target: nil, action: nil)
 

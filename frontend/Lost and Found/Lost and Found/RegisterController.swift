@@ -142,6 +142,7 @@ class RegisterController: UIViewController{
         
         self.navigationController?.navigationBar.tintColor = UIColor(red: 0.505, green: 0.524, blue: 0.637, alpha: 1)
         /*** If needed Assign Title Here ***/
+        self.navigationController?.navigationBar.backgroundColor = self.view.backgroundColor
         self.navigationItem.backBarButtonItem = UIBarButtonItem(title: "", style: UIBarButtonItem.Style.plain, target: nil, action: nil)
     }
     

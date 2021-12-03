@@ -79,7 +79,7 @@ class FoundTableViewCell: UICollectionViewCell {
         self.imageview.image = cellimage;
 //        imageview.image = UIImage.init(named: "try1")
         imageview.clipsToBounds = true;
-        imageview.backgroundColor = .red
+        imageview.backgroundColor = .white
         imageview.translatesAutoresizingMaskIntoConstraints=false;
         contentView.addSubview(imageview)
         imageview.layer.cornerRadius = 6

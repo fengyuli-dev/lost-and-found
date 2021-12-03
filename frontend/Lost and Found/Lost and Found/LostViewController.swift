@@ -97,6 +97,7 @@ class LostViewController: UIViewController, UISearchResultsUpdating, UISearchBar
         self.navigationItem.titleView = titleview;
         titleview.textAlignment = .center;
         
+        self.navigationController?.navigationBar.backgroundColor = self.view.backgroundColor
         let appearance = UINavigationBarAppearance();
         appearance.configureWithTransparentBackground();
         navBar.standardAppearance = appearance;

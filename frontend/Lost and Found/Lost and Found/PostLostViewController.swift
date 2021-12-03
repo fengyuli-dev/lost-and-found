@@ -58,7 +58,7 @@ class PostLostViewController: UIViewController, UIImagePickerControllerDelegate,
         super.viewDidLoad()
         //title = "Post Found"
         let navBar = self.navigationController!.navigationBar;
-//        navBar.isTranslucent = true;
+        navBar.isTranslucent = true;
 //        navBar.titleTextAttributes = [.backgroundColor: UIColor(.clear)]//this is of no use!
         let titleview = UILabel();
         titleview.text = "Post Lost";
@@ -327,6 +327,7 @@ class PostLostViewController: UIViewController, UIImagePickerControllerDelegate,
         
         let backBarButtton = UIBarButtonItem(title: "", style: .plain, target: nil, action: nil)
         navigationItem.backBarButtonItem = backBarButtton
+        self.navigationController?.navigationBar.backgroundColor = self.view.backgroundColor
     
     }
     
