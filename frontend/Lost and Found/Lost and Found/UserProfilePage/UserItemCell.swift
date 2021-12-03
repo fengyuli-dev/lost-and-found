@@ -2,7 +2,7 @@ import SwiftUI
 
 
 protocol userDelegate:class{
-    func resetItems(index:Int) -> Void
+    func resetItems(index:Int, completion: @escaping ()->Void) -> Void
 }
 class UserItemCell: UICollectionViewCell {
     
@@ -15,6 +15,7 @@ class UserItemCell: UICollectionViewCell {
     var id = 0;
     var pageindex = -1;
     var delegate:userDelegate?
+    var isTapped:Bool = false;
     
     override init(frame: CGRect) {
         super.init(frame: frame);
@@ -72,27 +73,45 @@ class UserItemCell: UICollectionViewCell {
         contentView.addSubview(delete)
         delete.addTarget(self, action: #selector(deleteTapped), for: .touchUpInside)
         
+        
         setupConstraints()
     }
     
     @objc func deleteTapped(){
-        if self.pageindex == 0{
-            NetworkManager.deleteFound(id: self.id) { item in
-                print("delete success!")
+
+        if (true){
+            if self.pageindex == 0{
+                NetworkManager.deleteFound(id: self.id) { item in
+                    print("delete success!")
+                }
             }
-        }
-        else if self.pageindex == 1{
-            NetworkManager.deleteLost(id: self.id) { item in
-                print("delete success!")
+            else if self.pageindex == 1{
+                NetworkManager.deleteLost(id: self.id) { item in
+                    print("delete success!")
+                }
             }
+            self.removeFromSuperview()
+            self.delegate?.resetItems(index: pageindex, completion: {
+                
+                self.removeFromSuperview()
+                self.superview?.reloadInputViews()
+            })//I REALLY DONT KNOW HOW TO RELOAD THE DATA SUCCESSFULLY.
+            //TODO: just how????
+            self.isTapped.toggle()
         }
 
 
-        self.removeFromSuperview()
-        self.delegate?.resetItems(index: self.pageindex)
+
+//        self.delegate?.resetItems(index: self.pageindex, completion: {
+//            print("now we are here!!!")
+//            self.removeFromSuperview()
+//        })
+//        self.delegate?.resetItems(index: self.pageindex)//why always only after two time can this work?????
+//        self.delegate?.resetItems(index: self.pageindex)
+
         
     }
-    
+ 
     
     func setupConstraints() {
         
@@ -133,6 +152,8 @@ class UserItemCell: UICollectionViewCell {
             delete.widthAnchor.constraint(equalToConstant: 30),
             delete.centerYAnchor.constraint(equalTo: rec.centerYAnchor)
         ])
+        
+
         
     }
 

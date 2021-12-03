@@ -169,7 +169,9 @@ extension ContentController : UICollectionViewDelegate, UICollectionViewDelegate
 }
 
 extension ContentController:userDelegate{
-    func resetItems(index:Int) {
-        self.viewDidLoad()
+    func resetItems(index: Int, completion: @escaping () -> Void) {
+        completion()
     }
+    
+
 }
