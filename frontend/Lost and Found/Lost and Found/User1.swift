@@ -15,8 +15,8 @@ struct User1:Codable{
     struct UserInfo:Codable{
         var id:Int;
         var email:String;
-        var lost:[Item];
-        var found:[Item];
+        var lost:[Item]?;
+        var found:[Item]?;
         struct Item:Codable{
             var id:Int
             var name: String
@@ -24,6 +24,8 @@ struct User1:Codable{
             var time: String?
             var description: String
             var user: Int
+            var contact:String?
+            var image:String?
         }
     }
 }

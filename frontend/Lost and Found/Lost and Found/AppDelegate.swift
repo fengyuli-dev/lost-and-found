@@ -16,6 +16,21 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
+        
+        // For Back button customization, setup the custom image for UINavigationBar inside CustomBackButtonNavController.
+        print("settingbakcbutton..")
+        let backButtonBackgroundImage = UIImage(named: "backbutton")
+        let barAppearance =
+        UINavigationBar.appearance(whenContainedInInstancesOf: [FoundViewController.self])
+        barAppearance.backIndicatorImage = backButtonBackgroundImage
+        barAppearance.backIndicatorTransitionMaskImage = backButtonBackgroundImage
+        // Nudge the back UIBarButtonItem image down a bit.
+        let barButtonAppearance =
+        UIBarButtonItem.appearance(whenContainedInInstancesOf: [FoundViewController.self])
+        barButtonAppearance.setBackButtonTitlePositionAdjustment(UIOffset(horizontal: 0, vertical: -5), for: .default)
+    
+        
+        
         return true
     }
 

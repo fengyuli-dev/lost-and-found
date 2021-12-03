@@ -9,7 +9,7 @@ import Foundation
 import Alamofire;
 
 class NetworkManager:Codable{
-    static let endpoint = "http://0.0.0.0:3000";
+    static let endpoint = "https://fengyulilostandfound.herokuapp.com";
     static let userInfoKey = "userInfo"
     static var headers:HTTPHeaders = [
         HTTPHeader(name: "Authorization", value: "")
@@ -25,16 +25,17 @@ class NetworkManager:Codable{
         print("now registering.")
 
         AF.request("\(endpoint)/api/register/", method: .post, parameters: parameters, encoding: JSONEncoding.default)
-            .validate(statusCode: 0 ..< 1000) // TODO: make this range smallest possible
+            .validate() // TODO: make this range smallest possible
             .responseData { response in
             switch response.result {
             case .failure(let error):
                 print("register failure.")
                 print(error)
+                errorHandler("false")
             case .success(let responseData):
                 print(String(decoding: responseData, as: UTF8.self))
                 do {
-                    
+                    userData.set(email, forKey: "UserName")
                     let decodedResponse = try JSONDecoder().decode(User1.self, from: responseData)
                     print(decodedResponse)
 //                    UserDefaults.standard.setValue(decodedResponse, forKey: userInfoKey)
@@ -75,6 +76,7 @@ class NetworkManager:Codable{
             case .success(let responseData):
                 print(String(decoding: responseData, as: UTF8.self))
                 do {
+                    userData.set(email, forKey: "UserName")
                     let decodedResponse = try JSONDecoder().decode(User1.self, from: responseData)
                     print(decodedResponse)
 //                    UserDefaults.standard.setValue(decodedResponse, forKey: userInfoKey)
@@ -135,11 +137,13 @@ class NetworkManager:Codable{
     }
     
     
-    static func postLost(name:String,time:String?,description:String,location:String,completion: @escaping (Item) -> Void){
+    static func postLost(name:String,time:String?,description:String,location:String,contact:String,image:String?,completion: @escaping (Item) -> Void){
         update()
         let parameter = [
             "name":name,
             "description":description,
+            "contact":contact,
+            "image":image,
             "time":time,
             "location":location
         ]
@@ -150,7 +154,6 @@ class NetworkManager:Codable{
             case .success(let data):
                 let jsonDecoder = JSONDecoder();
                 print("lostPostSucceeds")
-                print(String(decoding:data, as: UTF8.self))
                 if let lostpost = try? jsonDecoder.decode(Item.self, from:data){
                     print("updateLost if let succeeds");
                     let lost = lostpost;
@@ -164,11 +167,13 @@ class NetworkManager:Codable{
     }
     
     
-    static func postFound(name:String,time:String?,description:String,location:String,completion: @escaping (Item) -> Void){
+    static func postFound(name:String,time:String?,description:String,location:String,contact:String,image:String?,completion: @escaping (Item) -> Void){
         update()
         let parameter = [
             "name":name,
             "description":description,
+            "contact":contact,
+            "image":image,
             "time":time,
             "location":location
         ]
@@ -179,7 +184,6 @@ class NetworkManager:Codable{
             case .success(let data):
                 let jsonDecoder = JSONDecoder();
                 print("foundPostSucceeds")
-                print(String(decoding:data, as: UTF8.self))
                 if let lostpost = try? jsonDecoder.decode(Item.self, from:data){
                     print("updateFound if let succeeds");
                     let lost = lostpost;
@@ -203,14 +207,19 @@ class NetworkManager:Codable{
             case .success(let data):
                 print("getuser found succeeds")
                 let jsonDecoder = JSONDecoder();
-                print(String(decoding:data, as: UTF8.self))
                 jsonDecoder.keyDecodingStrategy = .convertFromSnakeCase;
+                do{
+                    let foundResponse1 = try? jsonDecoder.decode([Item].self, from: data)
+                }catch let jsonerror{
+                    print("I know you will come here.")
+                    print(jsonerror)
+                }
                 if let foundResponse = try? jsonDecoder.decode([Item].self, from: data){
                     let foundItems = foundResponse;
                     print("getuser Found if let succeeds")
                     completion(foundItems);
                 }else{
-                    print("get user if let fails")
+                    print("get user found if let fails")
                 }
             }
         }
@@ -227,14 +236,13 @@ class NetworkManager:Codable{
             case .success(let data):
                 print("getuser lost succeeds")
                 let jsonDecoder = JSONDecoder();
-                print(String(decoding:data, as: UTF8.self))
                 jsonDecoder.keyDecodingStrategy = .convertFromSnakeCase;
                 if let foundResponse = try? jsonDecoder.decode([Item].self, from: data){
                     let foundItems = foundResponse;
                     print("getuser lost if let succeeds")
                     completion(foundItems);
                 }else{
-                    print("get user if let fails")
+                    print("get user lost if let fails")
                 }
             }
         }
@@ -275,7 +283,6 @@ class NetworkManager:Codable{
             case .success(let data):
                 print("delete lost succeeds")
                 let jsonDecoder = JSONDecoder();
-                print(String(decoding:data, as: UTF8.self))
                 jsonDecoder.keyDecodingStrategy = .convertFromSnakeCase;
                 if let foundResponse = try? jsonDecoder.decode(Item.self, from: data){
                     let foundItems = foundResponse;

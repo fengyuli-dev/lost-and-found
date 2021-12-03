@@ -44,7 +44,7 @@ class UserViewController:UIViewController{
         
         
         let menutop = view.frame.height * 0.312
-        let menubot = view.frame.height * 0.5
+        let menubot = view.frame.height * 0.1
         //set menubar
         menuBarView.translatesAutoresizingMaskIntoConstraints=false
         view.addSubview(menuBarView)
@@ -54,7 +54,7 @@ class UserViewController:UIViewController{
             menuBarView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor),
             menuBarView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor),
             menuBarView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: menutop),
-            menuBarView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -menubot)
+            menuBarView.heightAnchor.constraint(equalToConstant: menubot)
         ])
         menuBarView.collView.selectItem(at: IndexPath.init(item: 0, section: 0), animated: true, scrollPosition: .centeredVertically)
         menuBarView.isSizeToFitCellsNeeded = false
@@ -66,20 +66,20 @@ class UserViewController:UIViewController{
         pageController = PageControllerVC();
         pageController.delegate = self
         pageController.dataSource = self
-        let they = menubot*0.92
-        let theheight = self.view.frame.height - they
         print(view.frame.height)
-        pageController.view.frame = CGRect.init(x: 0, y: they, width: self.view.frame.width, height: theheight)
-        print(pageController.view.frame.minY)
+        pageController.view.translatesAutoresizingMaskIntoConstraints = false
         pageController.setViewControllers([viewController(At: 0)!], direction: .forward, animated: true, completion: nil)
-//        self.pageController.view.frame = CGRect.init(x: 0, y: self.view.frame.maxY-menuBarView.frame.maxY, width: self.view.frame.width, height: self.view.frame.height - menuBarView.frame.maxY )
+ 
 
-        
-        
-        
         addChild(pageController)
         view.addSubview(pageController.view)
         pageController.didMove(toParent: self)
+        NSLayoutConstraint.activate([
+            pageController.view.topAnchor.constraint(equalTo: menuBarView.bottomAnchor),
+            pageController.view.bottomAnchor.constraint(equalTo: view.bottomAnchor),
+            pageController.view.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor),
+            pageController.view.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor)
+        ])
 
 
     }
@@ -104,7 +104,7 @@ extension UserViewController: MenuBarDelegate {
         currentIndex = index
         print("now menubar didselceting.")
         menuBarView.collView.scrollToItem(at: IndexPath.init(item: index, section: 0), at: .centeredHorizontally, animated: true)
-        menuBarView.collView.reloadData()
+//        menuBarView.collView.reloadData()
         
     }
     

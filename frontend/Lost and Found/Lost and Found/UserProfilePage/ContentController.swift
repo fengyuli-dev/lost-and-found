@@ -68,8 +68,8 @@ class ContentController: UIViewController{
         NSLayoutConstraint.activate([
             foundTableView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor),
             foundTableView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor),
-            foundTableView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: viewpadding),
-            foundTableView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor)
+            foundTableView.topAnchor.constraint(equalTo: view.topAnchor, constant: viewpadding),
+            foundTableView.bottomAnchor.constraint(equalTo: view.bottomAnchor)
         ])
         
     }

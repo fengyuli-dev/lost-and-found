@@ -17,9 +17,9 @@ class FoundViewController: UIViewController, UISearchResultsUpdating, UISearchBa
     var filtered: [Item] = []
     var foundItems: [Item]=[]
     var PostLost_Button = UIButton()
-    var cellPadding : CGFloat = 10
 //    var recButton = UILabel()
     var theHeight:Float = 15;
+    var titleright = UIImageView()
     
     init(){
         let foundlayout = UICollectionViewFlowLayout();
@@ -41,12 +41,15 @@ class FoundViewController: UIViewController, UISearchResultsUpdating, UISearchBa
 //        navBar.titleTextAttributes = [.backgroundColor: UIColor(.clear)]//this is of no use!
         let titleview = UILabel();
         titleview.text = "Found Items";
-        titleview.textColor = UIColor(red: 0.788, green: 0.839, blue: 0.875, alpha: 1)
+        titleview.textColor = .black
         let titleheight = view.frame.height * 0.026;
         titleview.font = UIFont(name: "RoundedMplus1c-ExtraBold", size: titleheight);
         self.navigationItem.titleView = titleview; //in this way the title is properly set.
-        //however.. why is it more to the left everytime I scroll back from the "post lost"?
+        titleview.translatesAutoresizingMaskIntoConstraints=false;
+        view.addSubview(titleview)
         titleview.textAlignment = .center;
+        let titletop = view.frame.height * 0.04
+        titleview.topAnchor.constraint(equalTo: view.topAnchor, constant: titletop).isActive=true
         view.backgroundColor = UIColor(red: 0.325, green: 0.38, blue: 0.424, alpha: 1)
         let appearance = UINavigationBarAppearance();
         appearance.configureWithTransparentBackground();
@@ -54,19 +57,26 @@ class FoundViewController: UIViewController, UISearchResultsUpdating, UISearchBa
         navBar.scrollEdgeAppearance = appearance;
         navBar.compactAppearance = appearance;
         //https://developer.apple.com/documentation/uikit/uinavigationcontroller/customizing_your_app_s_navigation_bar
+//        let height: CGFloat = 300 //whatever height you want to add to the existing height
+//        let bounds = self.navigationController!.navigationBar.bounds
+//        self.navigationController?.navigationBar.frame = CGRect(x: 0, y: 0, width: bounds.width, height: bounds.height + height)
+            
 
+        
+        let frame = CGRect(x: 0, y: 0, width: 400, height: 44)
         //search bar
         searchController.searchResultsUpdater = self
         searchController.searchBar.delegate = self
         searchController.searchBar.placeholder = "Search Items"
-        //not working!
-        searchController.searchBar.backgroundColor = .white
-        searchController.searchBar.tintColor = .black
-        searchController.searchBar.barTintColor = .white
-        self.navigationItem.searchController = searchController
+        //working!
+        searchController.searchBar.searchTextField.backgroundColor = .white
+        searchController.searchBar.translatesAutoresizingMaskIntoConstraints=false
+        self.navigationItem.searchController=searchController
+        self.navigationItem.searchController?.automaticallyShowsScopeBar=true
+        //I've tried out several methods but I just cannot make it STAY.
         
 
-        let sectionpadding : CGFloat = 5;
+        let cellPadding : CGFloat = view.frame.height * 0.113 * 0.236
         let foundlayout = UICollectionViewFlowLayout();
         foundTableView = UICollectionView(frame: .zero, collectionViewLayout: foundlayout)
         foundTableView.translatesAutoresizingMaskIntoConstraints = false
@@ -90,37 +100,62 @@ class FoundViewController: UIViewController, UISearchResultsUpdating, UISearchBa
         view.addSubview(PostLost_Button)
         
         
+//        let rightimage = UIImage.init(named: "usericon");
+//        titleright.image = rightimage;
+//        navigationItem.setRightBarButton(UIBarButtonItem(customView: titleright), animated: true)
+        navigationItem.rightBarButtonItem?.customView?.translatesAutoresizingMaskIntoConstraints=false
+//        view.addSubview(navigationItem.rightBarButtonItem?.customView ?? UIView())
+//        navigationItem.rightBarButtonItem?.customView?.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -5).isActive=true
+//        navigationItem.rightBarButtonItem?.customView?.heightAnchor.constraint(equalToConstant: 20).isActive=true
+        let rightbutton = UIBarButtonItem(image: UIImage.init(named: "usericon"), style: .plain, target: self, action: #selector(righttapped))
+        navigationItem.rightBarButtonItem = rightbutton;
+        navigationItem.rightBarButtonItem?.tintColor = .black
+        navigationItem.rightBarButtonItem?.customView?.trailingAnchor.constraint(equalTo: navigationItem.titleView?.trailingAnchor ?? view.trailingAnchor, constant: 0).isActive=true
+        
+        
+        let backBarButtton = UIBarButtonItem(title: "", style: .plain, target: nil, action: nil)
+        navigationItem.backBarButtonItem = backBarButtton
+//        navigationItem.backBarButtonItem = UIBarButtonItem(image: UIImage.init(named: "backbutton"), style: .plain, target: self, action: nil)
+
+
+        
         setupConstraints()
         getData();
     }
     
-    
 
-    func setupConstraints() {
-        
-        //the parameter used in this section. Modify the scaler, the whole thing is adjusted.
-        let viewpadding : CGFloat = 10;
-        
-        
-        NSLayoutConstraint.activate([
-            foundTableView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor),
-            foundTableView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor),
-            foundTableView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: viewpadding),
-            foundTableView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor)
-        ])
-        
-        NSLayoutConstraint.activate([
-            PostLost_Button.widthAnchor.constraint(equalToConstant: 130),
-            PostLost_Button.heightAnchor.constraint(equalToConstant: 46),
-            PostLost_Button.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -20),
-            PostLost_Button.centerXAnchor.constraint(equalTo: view.safeAreaLayoutGuide.centerXAnchor),
-        ])
-    }
     
     
     @objc func PostLostTapped() {
-        let PLVC = PostLostViewController();
-        self.navigationController?.pushViewController(PLVC, animated: true)
+            if let decodeSuccess = try? decoder.decode(User1.self, from:userData.object(forKey: "UserProf") as! Data){
+                print(decodeSuccess)
+                userData.set(decodeSuccess.session_token, forKey: "Authorization")
+                print(decodeSuccess.session_token)
+                print("decode user succeed! go to main page!")
+                let PLVC = PostLostViewController();
+                self.navigationController?.pushViewController(PLVC, animated: true)
+            }else{
+                print("decode user failure! go to login!")
+                let MVC = MainViewController();
+                self.navigationController?.pushViewController(MVC, animated: true)
+                }
+        
+    }
+    
+    @objc func righttapped(){
+        if let decodeSuccess = try? decoder.decode(User1.self, from:userData.object(forKey: "UserProf") as! Data){
+            print(decodeSuccess)
+            userData.set(decodeSuccess.session_token, forKey: "Authorization")
+            print(decodeSuccess.session_token)
+            print("decode user succeed! go to main page!")
+            let PLVC = UserViewController()
+            
+            self.navigationController?.pushViewController(PLVC, animated: true)
+        }else{
+            print("decode user failure! go to login!")
+            let MVC = MainViewController();
+            self.navigationController?.pushViewController(MVC, animated: true)
+            }
     }
     
     
@@ -170,6 +205,27 @@ class FoundViewController: UIViewController, UISearchResultsUpdating, UISearchBa
             searchController.searchBar.resignFirstResponder()
         }
     
+    func setupConstraints() {
+        
+        //the parameter used in this section. Modify the scaler, the whole thing is adjusted.
+        let viewpadding : CGFloat = 10;
+        
+        
+        NSLayoutConstraint.activate([
+            foundTableView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor),
+            foundTableView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor),
+            foundTableView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
+            foundTableView.bottomAnchor.constraint(equalTo: view.bottomAnchor)
+        ])
+        
+        NSLayoutConstraint.activate([
+            PostLost_Button.widthAnchor.constraint(equalToConstant: 130),
+            PostLost_Button.heightAnchor.constraint(equalToConstant: 46),
+            PostLost_Button.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -20),
+            PostLost_Button.centerXAnchor.constraint(equalTo: view.safeAreaLayoutGuide.centerXAnchor),
+        ])
+    }
+    
 }
 
 
@@ -202,22 +258,39 @@ extension FoundViewController : UICollectionViewDelegate, UICollectionViewDelega
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         let theWidth = collectionView.frame.width * 0.825 ;
-        let theHeight = collectionView.frame.height * 0.125//note here.
+        let theHeight = self.view.frame.height * 0.113//note here.
         return CGSize(width: theWidth, height: theHeight)
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         let item = foundItems[indexPath.item];
-
-        let display = FoundDescViewController();
-        display.setParaForFont(Float(view.frame.height) * 0.022) //set the font size!
-        display.configure(for: item);
-        if let pC = display.presentationController as? UISheetPresentationController {
-            pC.detents = [.medium()] /// set here!
-        }//look here. This is the way to show half-screen.
-        //https://stackoverflow.com/questions/42106980/how-to-present-a-viewcontroller-on-half-screen
+        if let decodeSuccess = try? decoder.decode(User1.self, from:userData.object(forKey: "UserProf") as! Data){
+            print(decodeSuccess)
+            userData.set(decodeSuccess.session_token, forKey: "Authorization")
+            print(decodeSuccess.session_token)
+            print("decode user succeed! go to main page!")
+            let display = FoundDescViewController();
+            display.setParaForFont(Float(view.frame.height) * 0.022) //set the font size!
+            display.configure(for: item);
+            if let pC = display.presentationController as? UISheetPresentationController {
+                pC.detents = [.medium()] /// set here!
+            }//look here. This is the way to show half-screen.
+            //https://stackoverflow.com/questions/42106980/how-to-present-a-viewcontroller-on-half-screen
+            
+            present(display, animated: true, completion: nil)
+        }else{
+            print("decode user failure! go to login!")
+            let MVC = MainViewController();
+            self.navigationController?.pushViewController(MVC, animated: true)
+            }
         
-        present(display, animated: true, completion: nil)
     }
     
+}
+
+
+extension UINavigationBar {
+    open override func sizeThatFits(_ size: CGSize) -> CGSize {
+        return CGSize(width: UIScreen.main.bounds.width, height: 51)
+    }
 }

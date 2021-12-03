@@ -14,16 +14,18 @@ class Item:Codable{
     var time: String
     var description: String
     var user: Int
-//    var pics: UIImage
+    var image: String?
+    var contact: String
     
-    init(id:Int, name: String, location: String, time: String, description: String,user: Int) {
+    init(id:Int, name: String, location: String, time: String, description: String,user: Int, image:String?, contact: String) {
         self.name = name
         self.location = location
         self.time = time
         self.description=description
         self.user=user
-//        self.pics=pics
+        self.image = image;
         self.id = id
+        self.contact = contact
     }
     
 }

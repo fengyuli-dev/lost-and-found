@@ -4,19 +4,13 @@
 //
 //  Created by Haoxuan Zou on 11/30/21.
 //
-
 import Foundation
 import UIKit
 
 protocol UserDelegate:class{
     func updateToken(token:String);
-//    func updateId(id:Int);
-//    func updateEmail(email:String);
     func getToken()->String;
-//    func getId()->Int;
-//    func getEmail()->String;
 }//this protocol seems redundant.
-
 class RegisterController: UIViewController{
     
     
@@ -99,6 +93,11 @@ class RegisterController: UIViewController{
         registerButton.widthAnchor.constraint(equalToConstant: CGFloat(150)).isActive = true;
         registerButton.heightAnchor.constraint(equalToConstant: CGFloat(50)).isActive = true;
         registerButton.addTarget(self, action: #selector(registerTapped), for: .touchUpInside)
+        
+        
+        self.navigationController?.navigationBar.tintColor = UIColor(red: 0.505, green: 0.524, blue: 0.637, alpha: 1)
+        /*** If needed Assign Title Here ***/
+        self.navigationItem.backBarButtonItem = UIBarButtonItem(title: "", style: UIBarButtonItem.Style.plain, target: nil, action: nil)
     }
     
     @objc func registerTapped(){
@@ -114,6 +113,7 @@ class RegisterController: UIViewController{
                 self.updateToken(token: user.session_token)
                 print(self.token)
                 print(user.detail.id)
+                self.navigationController?.popViewController(animated: true)
             }, errorHandler: { boolresult in
                 
                 if boolresult=="false"{

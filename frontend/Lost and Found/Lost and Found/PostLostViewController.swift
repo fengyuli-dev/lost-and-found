@@ -47,9 +47,9 @@ class PostLostViewController: UIViewController, UIImagePickerControllerDelegate,
         let color: UIColor=UIColor(red: 0.788, green: 0.839, blue: 0.875, alpha: 1)
         let textAttributes = [NSAttributedString.Key.foregroundColor: color]
         navigationController?.navigationBar.titleTextAttributes = textAttributes
-        
         view.backgroundColor = UIColor(red: 0.325, green: 0.38, blue: 0.424, alpha: 1)
 
+        
         setupViews()
         setupConstraints()
     }
@@ -72,7 +72,15 @@ class PostLostViewController: UIViewController, UIImagePickerControllerDelegate,
         let description = descripInput.text ?? ""
         let time = timeInput.text ?? ""
         let location = locInput.text ?? ""
-        NetworkManager.postLost(name: name, time: time, description: description, location: location) { item in
+        var imageTrans:String? = nil;
+        let image1:UIImage = imageUserProfile.image ?? UIImage();
+        let imageData = image1.jpegData(compressionQuality: 0.5)
+//        if let imageResult = try? encoder.encode(image1.jpegData(compressionQuality: 1)){
+//            print("post lost image, encode good")
+//            imageTrans = String(decoding:imageResult, as:UTF8.self)
+//        }
+        imageTrans = imageData?.base64EncodedString(options: .lineLength64Characters)
+        NetworkManager.postLost(name: name, time: time, description: description, location: location, contact: "", image:imageTrans) { item in
             print("postLostComplete!")
             print(item)
             let LVC = LostViewController(delegate: self.delegate);

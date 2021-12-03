@@ -5,7 +5,6 @@
 //
 //  Created by Haoxuan Zou on 11/19/21.
 //
-
 import UIKit
 
 class MainViewController: UIViewController{
@@ -109,6 +108,10 @@ class MainViewController: UIViewController{
         loginButton.titleLabel?.font = UIFont(name:"RoundedMplus1c-Medium", size: theFont);
         passwordText.font = UIFont(name: "RoundedMplus1c-Medium", size: theFont)
         registerButton.titleLabel?.font = UIFont(name: "RoundedMplus1c-Medium", size: theFont)
+        
+        self.navigationController?.navigationBar.tintColor = UIColor(red: 0.505, green: 0.524, blue: 0.637, alpha: 1)
+        /*** If needed Assign Title Here ***/
+        self.navigationItem.backBarButtonItem = UIBarButtonItem(title: "", style: UIBarButtonItem.Style.plain, target: nil, action: nil)
  
         
     }
@@ -121,12 +124,10 @@ class MainViewController: UIViewController{
             NetworkManager.login(email: netId, password: password, completion: { user in
                 print("success!!??!!")
                 self.updateToken(token: user.session_token);
-//                self.updateId(id: user.detail.id);
-//                self.updateEmail(email: user.detail.email)
                 print(user.session_token)
                 print(user.detail.id)
-                let qvc = QuestionViewController();
-                self.navigationController?.pushViewController(qvc, animated: true)
+                self.navigationController?.popViewController(animated: true)
+                
             },errorHandler: { boolresult in
                 if boolresult=="false"{
                     let createAlert = UIAlertController(title: "Login Failed!", message: nil, preferredStyle: .alert)
@@ -149,6 +150,8 @@ class MainViewController: UIViewController{
         let rvc = RegisterController(delegate: self);
         self.navigationController?.pushViewController(rvc, animated: true)
     }
+    
+
 
 
 }
@@ -162,7 +165,6 @@ extension MainViewController:UserDelegate{
 //        return self.email
 //    }
 //
-
     
 //    func updateId(id: Int) {
 //        self.id=id
@@ -178,4 +180,3 @@ extension MainViewController:UserDelegate{
         return self.token;
     }
 }
-

@@ -20,17 +20,23 @@ class QuestionViewController: UIViewController{
     var Lost = UIButton()
     var Found = UIButton()
     var Logout = UIButton()
-    var UserProf = UIButton();
+
     
     override func viewDidLoad() {
         super.viewDidLoad()
 //        view.backgroundColor = UIColor(red: 0.325, green: 0.38, blue: 0.424, alpha: 1)
         view.backgroundColor = .white
+        navigationItem.hidesBackButton=true
         setupViews()
         setupConstraints()
     }
     
     func setupViews(){
+//        let image = UIImage.init(named: "try1")
+//        if let result = try? encoder.encode(image?.jpegData(compressionQuality: 0.1)){
+//            print(String(decoding:result, as:UTF8.self))
+//        }
+        
 
 //        self.navigationItem.hidesBackButton = true;//You may never come back!
         
@@ -64,14 +70,18 @@ class QuestionViewController: UIViewController{
         Logout.translatesAutoresizingMaskIntoConstraints = false
         view.addSubview(Logout)
         
+
         
-        UserProf.layer.backgroundColor = UIColor(red: 0.788, green: 0.839, blue: 0.875, alpha: 1).cgColor
-        UserProf.layer.cornerRadius = 20
-        UserProf.setTitle("Log Out", for: .normal)
-        UserProf.setTitleColor(.black, for: .normal)
-        UserProf.addTarget(self, action: #selector(userprofTapped), for: .touchUpInside)
-        UserProf.translatesAutoresizingMaskIntoConstraints = false
-        view.addSubview(UserProf)
+//        let backImage = UIImage(named: "usericon")
+//
+//        self.navigationController?.navigationBar.backIndicatorImage = backImage
+//
+//        self.navigationController?.navigationBar.backIndicatorTransitionMaskImage = backImage
+        self.navigationController?.navigationBar.tintColor = UIColor(red: 0.505, green: 0.524, blue: 0.637, alpha: 1)
+        /*** If needed Assign Title Here ***/
+        self.navigationItem.backBarButtonItem = UIBarButtonItem(title: "", style: UIBarButtonItem.Style.plain, target: nil, action: nil)
+
+        
         
  
     }
@@ -107,12 +117,7 @@ class QuestionViewController: UIViewController{
         ])
         
         
-        NSLayoutConstraint.activate([
-            UserProf.widthAnchor.constraint(equalToConstant: theWidth),
-            UserProf.heightAnchor.constraint(equalToConstant: theHeight),
-            UserProf.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-            UserProf.topAnchor.constraint(equalTo: Logout.bottomAnchor, constant: 30),
-        ])
+
         
         //here I set up the fonts. It uses the height as a benchmark.
         
@@ -139,9 +144,7 @@ class QuestionViewController: UIViewController{
     }
     
     
-    @objc func userprofTapped(){
-        let UVC = UserViewController();
-        self.navigationController?.pushViewController(UVC, animated: true);
-    }
+
+
     
 }

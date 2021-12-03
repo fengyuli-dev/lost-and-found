@@ -33,7 +33,7 @@ class FoundDescViewController: UIViewController{
         name.text = item.name
         location.text = item.location
         time.text = item.time
-//        contact.text = String(item.user?? 0)
+        contact.text = item.contact;
         note.text = item.description
     }
     
