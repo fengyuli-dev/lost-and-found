@@ -53,7 +53,7 @@ class UserViewController:UIViewController{
         //set name
         if let userProf = try? decoder.decode(User1.self, from: userData.object(forKey: "UserProf") as! Data){
             print("userView, decode success")
-            self.name.text = "netid:" + userProf.detail.email
+            self.name.text = "NetId:" + userProf.detail.email
             self.email.text = userProf.detail.email + "@cornell.edu"
         }else{
             print("userview, if let fails")
@@ -89,7 +89,7 @@ class UserViewController:UIViewController{
         //set menubar
         menuBarView.translatesAutoresizingMaskIntoConstraints=false
         view.addSubview(menuBarView)
-        menuBarView.dataArray = ["Your Found","Your Lost "]
+        menuBarView.dataArray = ["My Found","My Lost "]
         menuBarView.collView.backgroundColor = UIColor(red: 0.063, green: 0.193, blue: 0.283, alpha: 1)
         
         // menuBarView.collView.tintColor = UIColor(red: 0.859, green: 0.875, blue: 0.922, alpha: 1)

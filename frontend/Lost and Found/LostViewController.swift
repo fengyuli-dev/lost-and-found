@@ -20,15 +20,15 @@ class LostViewController: UIViewController, UISearchResultsUpdating, UISearchBar
     var lostItems: [Item]=[]
     var filtered:[Item] = []
     
-    var PostFound_Button = UIButton()
-    var cellPadding : CGFloat = 10
-//    var recButton = UILabel()
-    var theHeight:Float = 15;
-    
-    // searchbar实现
     let searchController = UISearchController(searchResultsController: nil);
+    
     var searchActive: Bool = false
-
+    
+    var PostFound_Button = UIButton()
+    var theHeight:Float = 15;
+    var titleright = UIImageView()
+    var tryimage = UIImageView()
+    
     //refresh control
     let refreshControl = UIRefreshControl()
     
@@ -48,59 +48,72 @@ class LostViewController: UIViewController, UISearchResultsUpdating, UISearchBar
         fatalError("init(coder:) has not been implemented")
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        self.viewDidLoad()
+        print("view will apper.")
+        // Make the navigation bar background clear
+        navigationController?.navigationBar.setBackgroundImage(UIImage(), for: .default)
+        navigationController?.navigationBar.shadowImage = UIImage()
+        navigationController?.navigationBar.isTranslucent = true
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 //        view.backgroundColor = UIColor(red: 0.325, green: 0.38, blue: 0.424, alpha: 1)
         
         lostTableView.delegate=self
         
-        let navBar = self.navigationController!.navigationBar
         
-        //title = "Lost Items"
         
+        let frame = CGRect(x: 0, y: 0, width: 400, height: 44)
         //search bar
         searchController.searchResultsUpdater = self
         searchController.searchBar.delegate = self
         searchController.searchBar.placeholder = "Search Items"
-        // 这两行似乎没有起作用
-        searchController.searchBar.tintColor = .black
-        searchController.searchBar.barTintColor = .white
-        self.navigationItem.searchController = searchController
+        //working!
+        searchController.searchBar.searchTextField.backgroundColor = .white
+        searchController.searchBar.searchTextField.layer.cornerRadius = 10;
+        searchController.searchBar.searchTextField.widthAnchor.constraint(equalToConstant: 300).isActive=true;
+        searchController.searchBar.searchTextField.centerXAnchor.constraint(equalTo: searchController.searchBar.centerXAnchor,constant: view.frame.width/2).isActive=true
+        searchController.searchBar.searchTextField.frame = frame;
+        searchController.searchBar.searchTextField.translatesAutoresizingMaskIntoConstraints=false
+        searchController.searchBar.translatesAutoresizingMaskIntoConstraints=false
+        searchController.searchBar.setValue("🔙", forKey: "cancelButtonText")
+        self.navigationItem.searchController=searchController
+        self.navigationItem.searchController?.automaticallyShowsScopeBar=true
+        //I've tried out several methods but I just cannot make it STAY.
         
-        
-        if #available(iOS 10.0, *) {
-            lostTableView.refreshControl = refreshControl
-        } else {
-            lostTableView.addSubview(refreshControl)
-        }
-        refreshControl.addTarget(self, action: #selector(refreshData), for: .valueChanged)
-        
-        let layer0 = CAGradientLayer()
-        layer0.colors = [
-            UIColor(red: 0.788, green: 0.839, blue: 0.875, alpha: 1).cgColor,
-            UIColor(red: 0.898, green: 0.898, blue: 0.898, alpha: 1).cgColor
-        ]
-        layer0.locations = [0, 0.73]
-        layer0.startPoint = CGPoint(x: 0.25, y: 0.5)
-        layer0.endPoint = CGPoint(x: 0.55, y: 0.5)
-        layer0.transform = CATransform3DMakeAffineTransform(CGAffineTransform(a: 0, b: 1, c: -1, d: 0, tx: 1, ty: 0))
-        layer0.bounds = view.bounds.insetBy(dx: -0.5*view.bounds.size.width, dy: -0.5*view.bounds.size.height)
-        layer0.position = view.center
-        view.layer.addSublayer(layer0)
 
+        
+        let navBar = self.navigationController!.navigationBar;
+//        navBar.isTranslucent = true;
+//        navBar.titleTextAttributes = [.backgroundColor: UIColor(.clear)]//this is of no use!
         let titleview = UILabel();
         titleview.text = "Lost Items";
         titleview.textColor = UIColor(red: 0.063, green: 0.193, blue: 0.283, alpha: 1)
         let titleheight = view.frame.height * 0.026;
-        titleview.font = UIFont(name: "RoundedMplus1c-ExtraBold", size: titleheight)
-        self.navigationItem.titleView = titleview;
+        titleview.font = UIFont(name: "RoundedMplus1c-ExtraBold", size: titleheight);
+        self.navigationItem.titleView = titleview; //in this way the title is properly set.
+        titleview.translatesAutoresizingMaskIntoConstraints=false;
+        view.addSubview(titleview)
         titleview.textAlignment = .center;
+        let titletop = view.frame.height * 0.04
+        titleview.topAnchor.constraint(equalTo: view.topAnchor, constant: titletop).isActive=true
+        self.navigationController?.navigationBar.setBackgroundImage(UIImage(), for: .default) //UIImage.init(named: "transparent.png")
+        self.navigationController?.navigationBar.shadowImage = UIImage()
+        self.navigationController?.navigationBar.isTranslucent = true
         
-        let appearance = UINavigationBarAppearance();
-        appearance.configureWithTransparentBackground();
-        navBar.standardAppearance = appearance;
-        navBar.scrollEdgeAppearance = appearance;
-        navBar.compactAppearance = appearance;
+        
+        
+        tryimage.image = UIImage.init(named: "trythis");
+        tryimage.translatesAutoresizingMaskIntoConstraints=false;
+        view.addSubview(tryimage);
+        tryimage.topAnchor.constraint(equalTo: view.topAnchor).isActive=true;
+        tryimage.bottomAnchor.constraint(equalTo: view.bottomAnchor).isActive=true;
+        tryimage.leadingAnchor.constraint(equalTo: view.leadingAnchor).isActive=true;
+        tryimage.trailingAnchor.constraint(equalTo: view.trailingAnchor).isActive=true
+        
 
     
         let sectionpadding : CGFloat = view.frame.height * 0.113 * 0.236
@@ -125,6 +138,22 @@ class LostViewController: UIViewController, UISearchResultsUpdating, UISearchBar
         PostFound_Button.setTitleColor(UIColor(red: 0.937, green: 0.937, blue: 0.937, alpha: 1), for: .normal);
         PostFound_Button.titleLabel?.font = UIFont(name:"RoundedMplus1c-Medium", size: 18);
         view.addSubview(PostFound_Button)
+        
+        PostFound_Button.layer.shadowColor = UIColor(red: 0, green: 0, blue: 0, alpha: 0.25).cgColor
+        PostFound_Button.layer.shadowOpacity = 0.5
+        PostFound_Button.layer.shadowRadius = 0
+        PostFound_Button.layer.shadowOffset = CGSize(width: 0, height: 3)
+        PostFound_Button.layer.masksToBounds = false
+        
+        let rightbutton = UIBarButtonItem(image: UIImage.init(named: "usericon"), style: .plain, target: self, action: #selector(righttapped))
+        navigationItem.rightBarButtonItem = rightbutton;
+        navigationItem.rightBarButtonItem?.tintColor = .white
+        navigationItem.rightBarButtonItem?.customView?.trailingAnchor.constraint(equalTo: navigationItem.titleView?.trailingAnchor ?? view.trailingAnchor, constant: 0).isActive=true
+        
+        
+        let backBarButtton = UIBarButtonItem(title: "", style: .plain, target: self, action: #selector(backTapped))
+        
+        navigationItem.backBarButtonItem = backBarButtton
        
         setupConstraints()
         getData();
@@ -132,54 +161,19 @@ class LostViewController: UIViewController, UISearchResultsUpdating, UISearchBar
     }
     
     
+    @objc func backTapped(){
+        print("hello world.!!!!!")
+    }
 
-    func setupConstraints() {
-        
-        //the parameter used in this section. Modify the scaler, the whole thing is adjusted.
-        let viewpadding : CGFloat = 10;
-        
-        
-        NSLayoutConstraint.activate([
-            lostTableView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor),
-            lostTableView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor),
-            lostTableView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: viewpadding+10),
-            lostTableView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor)
-        ])
-        
-        NSLayoutConstraint.activate([
-            PostFound_Button.widthAnchor.constraint(equalToConstant: 130),
-            PostFound_Button.heightAnchor.constraint(equalToConstant: 46),
-            PostFound_Button.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -20),
-            PostFound_Button.centerXAnchor.constraint(equalTo: view.safeAreaLayoutGuide.centerXAnchor),
-        ])
-    }
-    
-    func sortData(){
-        self.lostItems.sort{(leftItem,rightItem)->Bool in
-            return leftItem.id > rightItem.id;
-        }
-    }
-    func getData(){
-        lostItems = []
-        NetworkManager.getAllLost { lostItems in
-            print("decode succeed")
-            self.lostItems = lostItems;
-            self.lostTableView.reloadData()
-            DispatchQueue.main.async {
-                self.lostTableView.reloadData();
-            }//what is this for??
-        }
-        
-    }
-    
-    @objc func PostFoundTapped() {
+    @objc func righttapped(){
         if let decodeSuccess = try? decoder.decode(User1.self, from:userData.object(forKey: "UserProf") as! Data){
             print(decodeSuccess)
             userData.set(decodeSuccess.session_token, forKey: "Authorization")
             print(decodeSuccess.session_token)
             print("decode user succeed! go to main page!")
-            let PFVC = PostFoundViewController();
-            self.navigationController?.pushViewController(PFVC, animated: true)
+            let PLVC = UserViewController()
+            
+            self.navigationController?.pushViewController(PLVC, animated: true)
         }else{
             print("decode user failure! go to login!")
             let MVC = MainViewController();
@@ -222,6 +216,57 @@ class LostViewController: UIViewController, UISearchResultsUpdating, UISearchBar
             searchController.searchBar.resignFirstResponder()
         }
     
+
+    func setupConstraints() {
+        
+        //the parameter used in this section. Modify the scaler, the whole thing is adjusted.
+        let viewpadding : CGFloat = 10;
+        
+        
+        NSLayoutConstraint.activate([
+            lostTableView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor),
+            lostTableView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor),
+            lostTableView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
+            lostTableView.bottomAnchor.constraint(equalTo: view.bottomAnchor)
+        ])
+        
+        NSLayoutConstraint.activate([
+            PostFound_Button.widthAnchor.constraint(equalToConstant: 130),
+            PostFound_Button.heightAnchor.constraint(equalToConstant: 46),
+            PostFound_Button.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -20),
+            PostFound_Button.centerXAnchor.constraint(equalTo: view.safeAreaLayoutGuide.centerXAnchor),
+        ])
+    }
+    
+    func getData(){
+        lostItems = []
+        NetworkManager.getAllLost { lostItems in
+            print("decode succeed")
+            self.lostItems = lostItems;
+            self.lostTableView.reloadData()
+            DispatchQueue.main.async {
+                self.lostTableView.reloadData();
+            }//what is this for??
+        }
+        
+    }
+    
+    @objc func PostFoundTapped() {
+        if let decodeSuccess = try? decoder.decode(User1.self, from:userData.object(forKey: "UserProf") as! Data){
+            print(decodeSuccess)
+            userData.set(decodeSuccess.session_token, forKey: "Authorization")
+            print(decodeSuccess.session_token)
+            print("decode user succeed! go to main page!")
+            let PFVC = PostFoundViewController();
+            self.navigationController?.pushViewController(PFVC, animated: true)
+        }else{
+            print("decode user failure! go to login!")
+            let MVC = MainViewController();
+            self.navigationController?.pushViewController(MVC, animated: true)
+            }
+    }
+
+    
     @objc func refreshData(){
         self.getData();
     }
@@ -262,21 +307,32 @@ extension LostViewController : UICollectionViewDelegate, UICollectionViewDelegat
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         let theWidth = collectionView.frame.width * 0.825 ;
-        let theHeight = collectionView.frame.height * 0.125//note here.
+        let theHeight = collectionView.frame.height * 0.113//note here.
         return CGSize(width: theWidth, height: theHeight)
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         let item = lostItems[indexPath.item];
-
-        let display = LostDescViewController();
-        display.setParaForFont(Float(view.frame.height) * 0.022) //set the font size!
-        display.configure(for: item);
-        if let pC = display.presentationController as? UISheetPresentationController {
-            pC.detents = [.medium()] /// set here!
-        }
-        
-        present(display, animated: true, completion: nil)
+        if let decodeSuccess = try? decoder.decode(User1.self, from:userData.object(forKey: "UserProf") as! Data){
+            print(decodeSuccess)
+            userData.set(decodeSuccess.session_token, forKey: "Authorization")
+            print(decodeSuccess.session_token)
+            print("decode user succeed! go to main page!")
+            let display = LostDescViewController();
+            display.setParaForFont(Float(view.frame.height) * 0.022) //set the font size!
+            display.configure(for: item);
+            if let pC = display.presentationController as? UISheetPresentationController {
+                
+                pC.detents = [.large()] /// set here!
+            }//look here. This is the way to show half-screen.
+            //https://stackoverflow.com/questions/42106980/how-to-present-a-viewcontroller-on-half-screen
+            
+            present(display, animated: true, completion: nil)
+        }else{
+            print("decode user failure! go to login!")
+            let MVC = MainViewController();
+            self.navigationController?.pushViewController(MVC, animated: true)
+            }
     }
     
 }

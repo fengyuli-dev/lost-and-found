@@ -34,6 +34,7 @@ class FoundViewController: UIViewController, UISearchResultsUpdating, UISearchBa
     }
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
+        self.viewDidLoad()
         print("view will apper.")
         // Make the navigation bar background clear
         navigationController?.navigationBar.setBackgroundImage(UIImage(), for: .default)
@@ -107,7 +108,7 @@ class FoundViewController: UIViewController, UISearchResultsUpdating, UISearchBa
         //search bar
         searchController.searchResultsUpdater = self
         searchController.searchBar.delegate = self
-        searchController.searchBar.placeholder = "Search Items"
+        searchController.searchBar.placeholder = "Search Items..."
         //working!
         searchController.searchBar.searchTextField.backgroundColor = .white
         searchController.searchBar.searchTextField.layer.cornerRadius = 10;
@@ -116,8 +117,8 @@ class FoundViewController: UIViewController, UISearchResultsUpdating, UISearchBa
         searchController.searchBar.searchTextField.frame = frame;
         searchController.searchBar.searchTextField.translatesAutoresizingMaskIntoConstraints=false
         searchController.searchBar.translatesAutoresizingMaskIntoConstraints=false
+        searchController.searchBar.setValue("🔙", forKey: "cancelButtonText")
         self.navigationItem.searchController=searchController
-        self.navigationItem.searchController?.automaticallyShowsScopeBar=true
         //I've tried out several methods but I just cannot make it STAY.
         
         
@@ -166,12 +167,17 @@ class FoundViewController: UIViewController, UISearchResultsUpdating, UISearchBa
         navigationItem.rightBarButtonItem?.customView?.trailingAnchor.constraint(equalTo: navigationItem.titleView?.trailingAnchor ?? view.trailingAnchor, constant: 0).isActive=true
         
         
-        let backBarButtton = UIBarButtonItem(title: "", style: .plain, target: nil, action: nil)
+        let backBarButtton = UIBarButtonItem(title: "", style: .plain, target: self, action: #selector(backTapped))
+        
         navigationItem.backBarButtonItem = backBarButtton
 //        navigationItem.backBarButtonItem = UIBarButtonItem(image: UIImage.init(named: "backbutton"), style: .plain, target: self, action: nil)
 
         setupConstraints()
         getData();
+    }
+    
+    @objc func backTapped(){
+        print("hello world.!!!!!")
     }
     
     
@@ -240,12 +246,12 @@ class FoundViewController: UIViewController, UISearchResultsUpdating, UISearchBa
         foundTableView.reloadData()
         }
 
-        func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
+    func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
             searchActive = false
             foundTableView.reloadData()
         }
 
-        func searchBarBookmarkButtonClicked(_ searchBar: UISearchBar) {
+    func searchBarBookmarkButtonClicked(_ searchBar: UISearchBar) {
             if !searchActive {
                 searchActive = true
                 foundTableView.reloadData()
@@ -253,6 +259,7 @@ class FoundViewController: UIViewController, UISearchResultsUpdating, UISearchBa
 
             searchController.searchBar.resignFirstResponder()
         }
+
     
     func setupConstraints() {
         
