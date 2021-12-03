@@ -50,7 +50,7 @@ class FoundViewController: UIViewController, UISearchResultsUpdating, UISearchBa
         titleview.textAlignment = .center;
         let titletop = view.frame.height * 0.04
         titleview.topAnchor.constraint(equalTo: view.topAnchor, constant: titletop).isActive=true
-        view.backgroundColor = UIColor(red: 0.325, green: 0.38, blue: 0.424, alpha: 1)
+        view.backgroundColor = .gray
         let appearance = UINavigationBarAppearance();
         appearance.configureWithTransparentBackground();
         navBar.standardAppearance = appearance;
