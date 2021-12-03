@@ -24,7 +24,7 @@ class MainViewController: UIViewController{
         print("shit.now we go again.")
         super.viewDidLoad()
         // Do any additional setup after loading the view.
-        view.backgroundColor = UIColor(red: 0.722, green: 0.803, blue: 0.858, alpha: 1)
+        view.backgroundColor = UIColor(red: 0.325, green: 0.38, blue: 0.424, alpha: 1)
         let theWidth = view.frame.width * 0.685;
         let theHeight = view.frame.height * 0.06;
         
@@ -36,7 +36,7 @@ class MainViewController: UIViewController{
         parent.addSubview(ProfileImage)
         ProfileImage.widthAnchor.constraint(equalToConstant: view.frame.width / 12).isActive = true
         ProfileImage.heightAnchor.constraint(equalToConstant: view.frame.height / 23).isActive = true
-        ProfileImage.topAnchor.constraint(equalTo: parent.safeAreaLayoutGuide.topAnchor, constant: 110).isActive = true
+        ProfileImage.topAnchor.constraint(equalTo: parent.safeAreaLayoutGuide.topAnchor, constant: 150).isActive = true
         ProfileImage.centerXAnchor.constraint(equalTo: parent.safeAreaLayoutGuide.centerXAnchor).isActive = true;
         
         
@@ -70,13 +70,7 @@ class MainViewController: UIViewController{
         loginButton.backgroundColor = UIColor(red: 0.788, green: 0.839, blue: 0.875, alpha: 1)
         loginButton.setTitle("Login", for: .normal)
         loginButton.setTitleColor(.black, for: .normal)
-        loginButton.layer.cornerRadius = 10;
-        loginButton.layer.shadowColor = UIColor(red: 0, green: 0, blue: 0, alpha: 0.25).cgColor
-        loginButton.layer.shadowOpacity = 0.5
-        loginButton.layer.shadowRadius = 0
-        loginButton.layer.shadowOffset = CGSize(width: 0, height: 3)
-        loginButton.layer.masksToBounds = false
-
+        loginButton.layer.cornerRadius = 23;
         parent.addSubview(loginButton)
         loginButton.translatesAutoresizingMaskIntoConstraints = false;
         loginButton.centerXAnchor.constraint(equalTo: parent.safeAreaLayoutGuide.centerXAnchor).isActive = true;
@@ -86,7 +80,7 @@ class MainViewController: UIViewController{
         
 //        registerLine.
 //
-        registerButton.backgroundColor = UIColor(red: 0.722, green: 0.803, blue: 0.858, alpha: 1)
+        registerButton.backgroundColor = UIColor(red: 0.325, green: 0.38, blue: 0.424, alpha: 1)
         //registerButton.setTitle("Register", for: .normal)
         registerButton.setTitleColor(.white, for: .normal)
         let yourAttributes: [NSAttributedString.Key: Any] = [
@@ -95,7 +89,7 @@ class MainViewController: UIViewController{
              .underlineStyle: NSUnderlineStyle.single.rawValue
          ]
         let attributeString = NSMutableAttributedString(
-                string: "Do not have an account? Click to create first!",
+                string: "Do not have an account? Click here to create first!",
                 attributes: yourAttributes
              )
         registerButton.setAttributedTitle(attributeString, for: .normal)
@@ -117,7 +111,6 @@ class MainViewController: UIViewController{
         
         self.navigationController?.navigationBar.tintColor = UIColor(red: 0.505, green: 0.524, blue: 0.637, alpha: 1)
         /*** If needed Assign Title Here ***/
-        self.navigationController?.navigationBar.backgroundColor = self.view.backgroundColor
         self.navigationItem.backBarButtonItem = UIBarButtonItem(title: "", style: UIBarButtonItem.Style.plain, target: nil, action: nil)
  
         

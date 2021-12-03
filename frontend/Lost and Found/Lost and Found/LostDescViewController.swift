@@ -20,8 +20,6 @@ class LostDescViewController: UIViewController{
     var contact_title = UILabel()
     var contact = UILabel()
     var fontSizeBase : Float = 15;
-    var imageLabel = UILabel()
-    var pic = UIImageView()
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -94,18 +92,7 @@ class LostDescViewController: UIViewController{
         note.font = UIFont(name: "RoundedMplus1c-Medium", size: theFont*(4/5))
         note.translatesAutoresizingMaskIntoConstraints = false
         view.addSubview(note)
-        
-        imageLabel.text = "Image:"
-        imageLabel.font = UIFont(name: "RoundedMplus1c-Medium", size: theFont*(4/5))
-        imageLabel.translatesAutoresizingMaskIntoConstraints = false
-        view.addSubview(imageLabel)
-        
-        pic.clipsToBounds = true;
-        pic.backgroundColor = .white
-        pic.translatesAutoresizingMaskIntoConstraints=false;
-        view.addSubview(pic)
-        pic.layer.cornerRadius = 6
-        
+
         contact_title.text="Contact:"
         contact_title.textColor = .black
         contact_title.font = UIFont(name: "RoundedMplus1c-Medium", size: theFont)
@@ -122,9 +109,9 @@ class LostDescViewController: UIViewController{
     func setupConstraints(){
         
         //the parameter used in this section. Modify the scaler, the whole thing is adjusted.
-        let s_padding: CGFloat = 2
-        let l_padding: CGFloat = 12
-        let leading: CGFloat = 40
+        let s_padding: CGFloat = 1
+        let l_padding: CGFloat = 6
+        let leading: CGFloat = 18
         
         NSLayoutConstraint.activate([
             name_title.widthAnchor.constraint(equalToConstant: 200),
@@ -183,24 +170,10 @@ class LostDescViewController: UIViewController{
         ])
         
         NSLayoutConstraint.activate([
-            imageLabel.widthAnchor.constraint(equalToConstant: 329),
-            imageLabel.heightAnchor.constraint(equalToConstant: 20),
-            imageLabel.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor,constant: leading),
-            imageLabel.topAnchor.constraint(equalTo: note.bottomAnchor, constant: l_padding),
-        ])
-        
-        NSLayoutConstraint.activate([
-            pic.widthAnchor.constraint(equalToConstant: 329),
-            pic.heightAnchor.constraint(equalToConstant: 20),
-            pic.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor,constant: leading),
-            pic.topAnchor.constraint(equalTo: note.bottomAnchor, constant: s_padding),
-        ])
-        
-        NSLayoutConstraint.activate([
             contact_title.widthAnchor.constraint(equalToConstant: 287),
             contact_title.heightAnchor.constraint(equalToConstant: 28),
             contact_title.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor,constant: leading),
-            contact_title.topAnchor.constraint(equalTo: pic.bottomAnchor, constant: l_padding),
+            contact_title.topAnchor.constraint(equalTo: note.bottomAnchor, constant: l_padding),
         ])
         
         NSLayoutConstraint.activate([

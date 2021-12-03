@@ -24,7 +24,6 @@ class FoundViewController: UIViewController, UISearchResultsUpdating, UISearchBa
     init(){
         let foundlayout = UICollectionViewFlowLayout();
         foundTableView = UICollectionView(frame: .zero, collectionViewLayout: foundlayout)//this is of no use.
-        
         super.init(nibName: nil, bundle: nil);
     }
     
@@ -36,49 +35,22 @@ class FoundViewController: UIViewController, UISearchResultsUpdating, UISearchBa
         super.viewDidLoad()
         // title = "Found Items"
         
+        
         let navBar = self.navigationController!.navigationBar;
 //        navBar.isTranslucent = true;
 //        navBar.titleTextAttributes = [.backgroundColor: UIColor(.clear)]//this is of no use!
         let titleview = UILabel();
         titleview.text = "Found Items";
-        titleview.textColor = UIColor(red: 0.063, green: 0.193, blue: 0.283, alpha: 1)
+        titleview.textColor = .black
         let titleheight = view.frame.height * 0.026;
         titleview.font = UIFont(name: "RoundedMplus1c-ExtraBold", size: titleheight);
         self.navigationItem.titleView = titleview; //in this way the title is properly set.
         titleview.translatesAutoresizingMaskIntoConstraints=false;
-        
-//        let colorTop =  UIColor(red: 0.788, green: 0.839, blue: 0.875, alpha: 1).cgColor
-//        let colorBottom = UIColor(red: 0.669, green: 0.719, blue: 0.754, alpha: 0).cgColor
-
-//        let gl = CAGradientLayer()
-//        gl.colors = [ UIColor(red: 0.55, green: 0.725, blue: 0.846, alpha: 0.42).cgColor,
-//                      UIColor(red: 0.669, green: 0.719, blue: 0.754, alpha: 0).cgColor]
-//        gl.locations = [0, 0.73]
-//        gl.startPoint = CGPoint(x: 0.25, y: 0.5)
-//        gl.endPoint = CGPoint(x: 0.75, y: 0.5)
-//        gl.position = view.center
-//        // gl.transform = CATransform3DMakeAffineTransform(CGAffineTransform(a: 0, b: 1, c: -1, d: 0, tx: 1, ty: 0))
-//        gl.bounds = view.bounds.insetBy(dx: view.bounds.size.width, dy: view.bounds.size.height)
-//        view.layer.insertSublayer(gl, at: 0)
-        let layer0 = CAGradientLayer()
-        layer0.colors = [
-            UIColor(red: 0.788, green: 0.839, blue: 0.875, alpha: 1).cgColor,
-            UIColor(red: 0.898, green: 0.898, blue: 0.898, alpha: 1).cgColor
-        ]
-        layer0.locations = [0, 0.73]
-        layer0.startPoint = CGPoint(x: 0.25, y: 0.5)
-        layer0.endPoint = CGPoint(x: 0.55, y: 0.5)
-        layer0.transform = CATransform3DMakeAffineTransform(CGAffineTransform(a: 0, b: 1, c: -1, d: 0, tx: 1, ty: 0))
-        layer0.bounds = view.bounds.insetBy(dx: -0.5*view.bounds.size.width, dy: -0.5*view.bounds.size.height)
-        layer0.position = view.center
-        view.layer.addSublayer(layer0)
-        
         view.addSubview(titleview)
         titleview.textAlignment = .center;
         let titletop = view.frame.height * 0.04
         titleview.topAnchor.constraint(equalTo: view.topAnchor, constant: titletop).isActive=true
-        navBar.backgroundColor = UIColor(red: 0.788, green: 0.839, blue: 0.875, alpha: 1)
-        
+        view.backgroundColor = UIColor(red: 0.325, green: 0.38, blue: 0.424, alpha: 1)
         let appearance = UINavigationBarAppearance();
         appearance.configureWithTransparentBackground();
         navBar.standardAppearance = appearance;
@@ -103,16 +75,14 @@ class FoundViewController: UIViewController, UISearchResultsUpdating, UISearchBa
         self.navigationItem.searchController?.automaticallyShowsScopeBar=true
         //I've tried out several methods but I just cannot make it STAY.
         
-        
+
         let cellPadding : CGFloat = view.frame.height * 0.113 * 0.236
         let foundlayout = UICollectionViewFlowLayout();
         foundTableView = UICollectionView(frame: .zero, collectionViewLayout: foundlayout)
-        foundTableView.backgroundColor = .clear
-
         foundTableView.translatesAutoresizingMaskIntoConstraints = false
         foundTableView.dataSource = self
         foundTableView.delegate = self
-//        foundTableView.backgroundColor = view.backgroundColor;
+        foundTableView.backgroundColor = view.backgroundColor;
         foundTableView.register(FoundTableViewCell.self, forCellWithReuseIdentifier: reuseIdentifier_1)
         foundlayout.minimumLineSpacing = cellPadding;
         foundlayout.scrollDirection = .vertical;
@@ -121,43 +91,39 @@ class FoundViewController: UIViewController, UISearchResultsUpdating, UISearchBa
         
         PostLost_Button.frame = CGRect(x: 0, y: 0, width: 130, height: 46)
         PostLost_Button.setTitle("Post Lost", for: .normal)
-        PostLost_Button.layer.backgroundColor = UIColor(red: 0.063, green: 0.193, blue: 0.283, alpha: 1).cgColor
+        PostLost_Button.layer.backgroundColor = UIColor(red: 0.788, green: 0.839, blue: 0.875, alpha: 1).cgColor
         PostLost_Button.layer.cornerRadius = 23
         PostLost_Button.addTarget(self, action: #selector(PostLostTapped), for: .touchUpInside)
-        PostLost_Button.setTitleColor(UIColor(red: 0.937, green: 0.937, blue: 0.937, alpha: 1), for: .normal);
-        PostLost_Button.titleLabel?.font = UIFont(name:"RoundedMplus1c-Medium", size: 18);
-        
-        PostLost_Button.layer.shadowColor = UIColor(red: 0, green: 0, blue: 0, alpha: 0.25).cgColor
-        PostLost_Button.layer.shadowOpacity = 0.5
-        PostLost_Button.layer.shadowRadius = 0
-        PostLost_Button.layer.shadowOffset = CGSize(width: 0, height: 3)
-        PostLost_Button.layer.masksToBounds = false
-        
         PostLost_Button.translatesAutoresizingMaskIntoConstraints = false
+        PostLost_Button.setTitleColor(.black, for: .normal);
+        PostLost_Button.titleLabel?.font = UIFont(name:"RoundedMplus1c-Medium", size: 18);
         view.addSubview(PostLost_Button)
-  
+        
+        
 //        let rightimage = UIImage.init(named: "usericon");
 //        titleright.image = rightimage;
 //        navigationItem.setRightBarButton(UIBarButtonItem(customView: titleright), animated: true)
-        self.navigationItem.rightBarButtonItem?.customView?.translatesAutoresizingMaskIntoConstraints=false
+        navigationItem.rightBarButtonItem?.customView?.translatesAutoresizingMaskIntoConstraints=false
 //        view.addSubview(navigationItem.rightBarButtonItem?.customView ?? UIView())
 //        navigationItem.rightBarButtonItem?.customView?.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -5).isActive=true
 //        navigationItem.rightBarButtonItem?.customView?.heightAnchor.constraint(equalToConstant: 20).isActive=true
         let rightbutton = UIBarButtonItem(image: UIImage.init(named: "usericon"), style: .plain, target: self, action: #selector(righttapped))
-        self.navigationItem.rightBarButtonItem = rightbutton;
-        self.navigationItem.rightBarButtonItem?.tintColor = .black
-        self.navigationItem.rightBarButtonItem?.customView?.trailingAnchor.constraint(equalTo: navigationItem.titleView?.trailingAnchor ?? view.trailingAnchor, constant: 0).isActive=true
+        navigationItem.rightBarButtonItem = rightbutton;
+        navigationItem.rightBarButtonItem?.tintColor = .black
+        navigationItem.rightBarButtonItem?.customView?.trailingAnchor.constraint(equalTo: navigationItem.titleView?.trailingAnchor ?? view.trailingAnchor, constant: 0).isActive=true
+        
         
         let backBarButtton = UIBarButtonItem(title: "", style: .plain, target: nil, action: nil)
-        self.navigationItem.backBarButtonItem = backBarButtton
-        self.navigationController?.navigationBar.backgroundColor = self.view.backgroundColor
-        
+        navigationItem.backBarButtonItem = backBarButtton
 //        navigationItem.backBarButtonItem = UIBarButtonItem(image: UIImage.init(named: "backbutton"), style: .plain, target: self, action: nil)
 
 
+        
         setupConstraints()
         getData();
     }
+    
+
     
     
     @objc func PostLostTapped() {
@@ -248,10 +214,9 @@ class FoundViewController: UIViewController, UISearchResultsUpdating, UISearchBa
         NSLayoutConstraint.activate([
             foundTableView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor),
             foundTableView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor),
-            foundTableView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor,constant: viewpadding+10),
+            foundTableView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
             foundTableView.bottomAnchor.constraint(equalTo: view.bottomAnchor)
         ])
-        
         
         NSLayoutConstraint.activate([
             PostLost_Button.widthAnchor.constraint(equalToConstant: 130),

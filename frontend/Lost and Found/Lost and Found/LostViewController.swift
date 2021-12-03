@@ -51,7 +51,7 @@ class LostViewController: UIViewController, UISearchResultsUpdating, UISearchBar
     
     override func viewDidLoad() {
         super.viewDidLoad()
-//        view.backgroundColor = UIColor(red: 0.325, green: 0.38, blue: 0.424, alpha: 1)
+        view.backgroundColor = UIColor(red: 0.325, green: 0.38, blue: 0.424, alpha: 1)
         
         lostTableView.delegate=self
         
@@ -76,28 +76,16 @@ class LostViewController: UIViewController, UISearchResultsUpdating, UISearchBar
         }
         refreshControl.addTarget(self, action: #selector(refreshData), for: .valueChanged)
         
-        let layer0 = CAGradientLayer()
-        layer0.colors = [
-            UIColor(red: 0.788, green: 0.839, blue: 0.875, alpha: 1).cgColor,
-            UIColor(red: 0.898, green: 0.898, blue: 0.898, alpha: 1).cgColor
-        ]
-        layer0.locations = [0, 0.73]
-        layer0.startPoint = CGPoint(x: 0.25, y: 0.5)
-        layer0.endPoint = CGPoint(x: 0.55, y: 0.5)
-        layer0.transform = CATransform3DMakeAffineTransform(CGAffineTransform(a: 0, b: 1, c: -1, d: 0, tx: 1, ty: 0))
-        layer0.bounds = view.bounds.insetBy(dx: -0.5*view.bounds.size.width, dy: -0.5*view.bounds.size.height)
-        layer0.position = view.center
-        view.layer.addSublayer(layer0)
 
         let titleview = UILabel();
         titleview.text = "Lost Items";
-        titleview.textColor = UIColor(red: 0.063, green: 0.193, blue: 0.283, alpha: 1)
+        titleview.textColor = UIColor(red: 0.788, green: 0.839, blue: 0.875, alpha: 1)
         let titleheight = view.frame.height * 0.026;
         titleview.font = UIFont(name: "RoundedMplus1c-ExtraBold", size: titleheight)
         self.navigationItem.titleView = titleview;
         titleview.textAlignment = .center;
         
-        self.navigationController?.navigationBar.backgroundColor = self.view.backgroundColor
+        
         let appearance = UINavigationBarAppearance();
         appearance.configureWithTransparentBackground();
         navBar.standardAppearance = appearance;
@@ -105,7 +93,7 @@ class LostViewController: UIViewController, UISearchResultsUpdating, UISearchBar
         navBar.compactAppearance = appearance;
 
     
-        let sectionpadding : CGFloat = view.frame.height * 0.113 * 0.236
+        let sectionpadding : CGFloat = 5;
         let lostlayout = UICollectionViewFlowLayout();
         lostTableView = UICollectionView(frame: .zero, collectionViewLayout: lostlayout)
         lostTableView.translatesAutoresizingMaskIntoConstraints = false
@@ -113,18 +101,18 @@ class LostViewController: UIViewController, UISearchResultsUpdating, UISearchBar
         lostTableView.delegate = self
         lostTableView.backgroundColor = view.backgroundColor;
         lostTableView.register(LostTableViewCell.self, forCellWithReuseIdentifier: reuseIdentifier_1)
-        lostlayout.minimumLineSpacing = sectionpadding;
+        lostlayout.minimumLineSpacing = cellPadding;
         lostlayout.scrollDirection = .vertical;
         view.addSubview(lostTableView)
         
         
         PostFound_Button.frame = CGRect(x: 0, y: 0, width: 130, height: 46)
         PostFound_Button.setTitle("Post Found", for: .normal)
-        PostFound_Button.layer.backgroundColor = UIColor(red: 0.063, green: 0.193, blue: 0.283, alpha: 1).cgColor
+        PostFound_Button.layer.backgroundColor = UIColor(red: 0.788, green: 0.839, blue: 0.875, alpha: 1).cgColor
         PostFound_Button.layer.cornerRadius = 23
         PostFound_Button.addTarget(self, action: #selector(PostFoundTapped), for: .touchUpInside)
         PostFound_Button.translatesAutoresizingMaskIntoConstraints = false
-        PostFound_Button.setTitleColor(UIColor(red: 0.937, green: 0.937, blue: 0.937, alpha: 1), for: .normal);
+        PostFound_Button.setTitleColor(.black, for: .normal);
         PostFound_Button.titleLabel?.font = UIFont(name:"RoundedMplus1c-Medium", size: 18);
         view.addSubview(PostFound_Button)
        
@@ -144,7 +132,7 @@ class LostViewController: UIViewController, UISearchResultsUpdating, UISearchBar
         NSLayoutConstraint.activate([
             lostTableView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor),
             lostTableView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor),
-            lostTableView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: viewpadding+10),
+            lostTableView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: viewpadding),
             lostTableView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor)
         ])
         

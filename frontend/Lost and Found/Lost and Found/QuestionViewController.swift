@@ -20,99 +20,64 @@ class QuestionViewController: UIViewController{
     var Lost = UIButton()
     var Found = UIButton()
     var Logout = UIButton()
-    var shadows = UIView()
-    var shapes = UIView()
 
     
     override func viewDidLoad() {
         super.viewDidLoad()
 //        view.backgroundColor = UIColor(red: 0.325, green: 0.38, blue: 0.424, alpha: 1)
-        assignbackground();
+        view.backgroundColor = .white
         navigationItem.hidesBackButton=true
-        //navigationItem.color=.clear
         setupViews()
         setupConstraints()
     }
     
-    
-    func assignbackground(){
-            let background = UIImage(named: "Image-1")
-            var imageView : UIImageView!
-            imageView = UIImageView(frame: view.bounds)
-            imageView.contentMode =  UIView.ContentMode.scaleAspectFill
-            imageView.backgroundColor = UIColor(red: 0, green: 0, blue: 0, alpha: 0.3)
-            imageView.clipsToBounds = true
-            imageView.image = background
-            imageView.center = view.center
-            view.addSubview(imageView)
-            self.view.sendSubviewToBack(imageView)
-        }
-    
     func setupViews(){
-        var shadows = UIView()
-        shadows.frame = view.frame
-        shadows.clipsToBounds = false
-        view.addSubview(shadows)
-
-        let shadowPath0 = UIBezierPath(roundedRect: shadows.bounds, cornerRadius: 0)
-        let layer0 = CALayer()
-        layer0.shadowPath = shadowPath0.cgPath
-        layer0.shadowColor = UIColor(red: 0, green: 0, blue: 0, alpha: 0.2).cgColor
-        layer0.shadowOpacity = 1
-        layer0.shadowRadius = 4
-        layer0.shadowOffset = CGSize(width: 0, height: 4)
-        layer0.bounds = shadows.bounds
-        layer0.position = shadows.center
-        shadows.layer.addSublayer(layer0)
-
-        let textcolor: UIColor = UIColor(red: 0.063, green: 0.193, blue: 0.283, alpha: 1)
+//        let image = UIImage.init(named: "try1")
+//        if let result = try? encoder.encode(image?.jpegData(compressionQuality: 0.1)){
+//            print(String(decoding:result, as:UTF8.self))
+//        }
         
+
+//        self.navigationItem.hidesBackButton = true;//You may never come back!
         
         //Lost
-        Lost.layer.backgroundColor = UIColor(red: 0.722, green: 0.803, blue: 0.858, alpha: 1).cgColor
-        Lost.layer.cornerRadius = 15//weird. when this number gets bigger, the button apperance
+        Lost.layer.backgroundColor = UIColor(red: 0.788, green: 0.839, blue: 0.875, alpha: 1).cgColor
+        Lost.layer.cornerRadius = 20//weird. when this number gets bigger, the button apperance
                                     //would become acute on the very left and right corner. verify.
         Lost.setTitle("Lost Something?", for: .normal)
-        Lost.setTitleColor(textcolor, for: .normal)
+        Lost.setTitleColor(.black, for: .normal)
         Lost.addTarget(self, action: #selector(lostTableTapped), for: .touchUpInside)
         Lost.translatesAutoresizingMaskIntoConstraints = false
         //well the font of the text is set in setUpConstraints(). Check to see why. interesting.
-        Lost.layer.shadowColor = UIColor(red: 0, green: 0, blue: 0, alpha: 0.25).cgColor
-        Lost.layer.shadowOpacity = 0.5
-        Lost.layer.shadowRadius = 0
-        Lost.layer.shadowOffset = CGSize(width: 0, height: 3)
-        Lost.layer.masksToBounds = false
         view.addSubview(Lost)
         
     
         //Found
-        Found.layer.backgroundColor = UIColor(red: 0.722, green: 0.803, blue: 0.858, alpha: 1).cgColor
-        Found.layer.cornerRadius = 15
+        Found.layer.backgroundColor = UIColor(red: 0.788, green: 0.839, blue: 0.875, alpha: 1).cgColor
+        Found.layer.cornerRadius = 20
         Found.setTitle("Found Something?", for: .normal)
-        Found.setTitleColor(textcolor, for: .normal)
+        Found.setTitleColor(.black, for: .normal)
         Found.addTarget(self, action: #selector(foundTableTapped), for: .touchUpInside)
-        
-
-        Found.layer.shadowColor = UIColor(red: 0, green: 0, blue: 0, alpha: 0.25).cgColor
-        Found.layer.shadowOpacity = 0.5
-        Found.layer.shadowRadius = 0
-        Found.layer.shadowOffset = CGSize(width: 0, height: 3)
-        Found.layer.masksToBounds = false
         Found.translatesAutoresizingMaskIntoConstraints = false
         view.addSubview(Found)
         
         
         Logout.layer.backgroundColor = UIColor(red: 0.788, green: 0.839, blue: 0.875, alpha: 1).cgColor
-        Logout.layer.cornerRadius = 15
+        Logout.layer.cornerRadius = 20
         Logout.setTitle("Log Out", for: .normal)
-        Logout.setTitleColor(textcolor, for: .normal)
+        Logout.setTitleColor(.black, for: .normal)
         Logout.addTarget(self, action: #selector(logoutTapped), for: .touchUpInside)
         Logout.translatesAutoresizingMaskIntoConstraints = false
         view.addSubview(Logout)
         
 
-        self.navigationController?.navigationBar.tintColor = view.backgroundColor
-        self.navigationController?.navigationBar.backgroundColor = view.backgroundColor
+        
+//        let backImage = UIImage(named: "usericon")
+//
+//        self.navigationController?.navigationBar.backIndicatorImage = backImage
+//
+//        self.navigationController?.navigationBar.backIndicatorTransitionMaskImage = backImage
+        self.navigationController?.navigationBar.tintColor = UIColor(red: 0.505, green: 0.524, blue: 0.637, alpha: 1)
         /*** If needed Assign Title Here ***/
         self.navigationItem.backBarButtonItem = UIBarButtonItem(title: "", style: UIBarButtonItem.Style.plain, target: nil, action: nil)
 
@@ -127,8 +92,6 @@ class QuestionViewController: UIViewController{
         let theWidth = view.frame.width * 0.744;
         let theHeight = view.frame.height * 0.054;
         let titlefont = theHeight * 0.455;
-
-        
         //lost
         NSLayoutConstraint.activate([
             Lost.widthAnchor.constraint(equalToConstant: theWidth),
