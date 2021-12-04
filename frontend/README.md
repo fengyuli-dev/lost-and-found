@@ -1,3 +1,3 @@
 Hello!
 
-I recommend downloading the zip file named "Lost and Found 6.zip" and run that instead. Downloading the file probably won't work.
+I recommend downloading the zip file named "Lost and Found 2.zip" and run that (workspace) instead. Downloading the file probably won't work.
