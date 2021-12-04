@@ -21,6 +21,7 @@ class QuestionViewController: UIViewController{
     var Found = UIButton()
     var shadows = UIView()
     var shapes = UIView()
+    var logo = UIImageView()
 
     
     override func viewDidLoad() {
@@ -65,6 +66,16 @@ class QuestionViewController: UIViewController{
 
         let textcolor: UIColor = UIColor(red: 0.063, green: 0.193, blue: 0.283, alpha: 1)
         
+        logo.image = UIImage(named: "logo1")
+        logo.translatesAutoresizingMaskIntoConstraints = false
+        logo.contentMode = .scaleAspectFill
+        logo.clipsToBounds = true
+        view.addSubview(logo)
+        logo.widthAnchor.constraint(equalToConstant: view.frame.width / 4).isActive = true
+        logo.heightAnchor.constraint(equalToConstant: view.frame.height / 8).isActive = true
+        logo.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 130).isActive = true
+        logo.centerXAnchor.constraint(equalTo: view.safeAreaLayoutGuide.centerXAnchor).isActive = true;
+        
         
         //Lost
         Lost.layer.backgroundColor = UIColor(red: 0.722, green: 0.803, blue: 0.858, alpha: 1).cgColor
@@ -78,7 +89,7 @@ class QuestionViewController: UIViewController{
         Lost.layer.shadowColor = UIColor(red: 0, green: 0, blue: 0, alpha: 0.25).cgColor
         Lost.layer.shadowOpacity = 0.5
         Lost.layer.shadowRadius = 0
-        Lost.layer.shadowOffset = CGSize(width: 0, height: 3)
+        Lost.layer.shadowOffset = CGSize(width: 0, height: 6)
         Lost.layer.masksToBounds = false
         view.addSubview(Lost)
         
@@ -94,7 +105,7 @@ class QuestionViewController: UIViewController{
         Found.layer.shadowColor = UIColor(red: 0, green: 0, blue: 0, alpha: 0.25).cgColor
         Found.layer.shadowOpacity = 0.5
         Found.layer.shadowRadius = 0
-        Found.layer.shadowOffset = CGSize(width: 0, height: 3)
+        Found.layer.shadowOffset = CGSize(width: 0, height: 6)
         Found.layer.masksToBounds = false
         Found.translatesAutoresizingMaskIntoConstraints = false
         view.addSubview(Found)
@@ -123,7 +134,7 @@ class QuestionViewController: UIViewController{
             Lost.widthAnchor.constraint(equalToConstant: theWidth),
             Lost.heightAnchor.constraint(equalToConstant: theHeight),
             Lost.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-            Lost.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 140),
+            Lost.topAnchor.constraint(equalTo: logo.bottomAnchor, constant: 30),
         ])
         
         //found
