@@ -1,1 +1,1 @@
-may the force be with you
+We're newbie developers!
