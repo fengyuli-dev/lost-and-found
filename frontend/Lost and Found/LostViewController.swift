@@ -65,8 +65,7 @@ class LostViewController: UIViewController, UISearchResultsUpdating, UISearchBar
         lostTableView.delegate=self
         
         
-        
-        let frame = CGRect(x: 0, y: 0, width: 400, height: 44)
+        let searchwidth = view.frame.width * 3/4
         //search bar
         searchController.searchResultsUpdater = self
         searchController.searchBar.delegate = self
@@ -74,12 +73,12 @@ class LostViewController: UIViewController, UISearchResultsUpdating, UISearchBar
         //working!
         searchController.searchBar.searchTextField.backgroundColor = .white
         searchController.searchBar.searchTextField.layer.cornerRadius = 10;
-        searchController.searchBar.searchTextField.widthAnchor.constraint(equalToConstant: 300).isActive=true;
+        searchController.searchBar.searchTextField.widthAnchor.constraint(equalToConstant: searchwidth).isActive=true;
         searchController.searchBar.searchTextField.centerXAnchor.constraint(equalTo: searchController.searchBar.centerXAnchor,constant: view.frame.width/2).isActive=true
-        searchController.searchBar.searchTextField.frame = frame;
+        searchController.searchBar.searchTextField.topAnchor.constraint(equalTo: searchController.searchBar.topAnchor,constant: 10).isActive=true
         searchController.searchBar.searchTextField.translatesAutoresizingMaskIntoConstraints=false
         searchController.searchBar.translatesAutoresizingMaskIntoConstraints=false
-        searchController.searchBar.setValue("🔙", forKey: "cancelButtonText")
+        searchController.searchBar.setValue("↩️", forKey: "cancelButtonText")
         self.navigationItem.searchController=searchController
         self.navigationItem.searchController?.automaticallyShowsScopeBar=true
         //I've tried out several methods but I just cannot make it STAY.
@@ -91,7 +90,7 @@ class LostViewController: UIViewController, UISearchResultsUpdating, UISearchBar
 //        navBar.titleTextAttributes = [.backgroundColor: UIColor(.clear)]//this is of no use!
         let titleview = UILabel();
         titleview.text = "Lost Items";
-        titleview.textColor = UIColor(red: 0.063, green: 0.193, blue: 0.283, alpha: 1)
+        titleview.textColor = UIColor(red: 0.938, green: 0.974, blue: 1, alpha: 1)
         let titleheight = view.frame.height * 0.026;
         titleview.font = UIFont(name: "RoundedMplus1c-ExtraBold", size: titleheight);
         self.navigationItem.titleView = titleview; //in this way the title is properly set.
@@ -160,6 +159,14 @@ class LostViewController: UIViewController, UISearchResultsUpdating, UISearchBar
         
     }
     
+    func sortData(){
+        print("first the data is \(self.lostItems)")
+        self.lostItems.sort { leftitem, rightitem in
+            return leftitem.id < rightitem.id
+        }
+        print("now the data is \(self.lostItems)")
+    }
+    
     
     @objc func backTapped(){
         print("hello world.!!!!!")
@@ -167,7 +174,7 @@ class LostViewController: UIViewController, UISearchResultsUpdating, UISearchBar
 
     @objc func righttapped(){
         if let decodeSuccess = try? decoder.decode(User1.self, from:userData.object(forKey: "UserProf") as! Data){
-            print(decodeSuccess)
+//            print(decodeSuccess)
             userData.set(decodeSuccess.session_token, forKey: "Authorization")
             print(decodeSuccess.session_token)
             print("decode user succeed! go to main page!")
@@ -226,7 +233,7 @@ class LostViewController: UIViewController, UISearchResultsUpdating, UISearchBar
         NSLayoutConstraint.activate([
             lostTableView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor),
             lostTableView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor),
-            lostTableView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
+            lostTableView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor,constant: 20),
             lostTableView.bottomAnchor.constraint(equalTo: view.bottomAnchor)
         ])
         
@@ -248,12 +255,13 @@ class LostViewController: UIViewController, UISearchResultsUpdating, UISearchBar
                 self.lostTableView.reloadData();
             }//what is this for??
         }
-        
+        self.sortData()
     }
+
     
     @objc func PostFoundTapped() {
         if let decodeSuccess = try? decoder.decode(User1.self, from:userData.object(forKey: "UserProf") as! Data){
-            print(decodeSuccess)
+//            print(decodeSuccess)
             userData.set(decodeSuccess.session_token, forKey: "Authorization")
             print(decodeSuccess.session_token)
             print("decode user succeed! go to main page!")
@@ -266,11 +274,7 @@ class LostViewController: UIViewController, UISearchResultsUpdating, UISearchBar
             }
     }
 
-    
-    @objc func refreshData(){
-        self.getData();
-    }
-    
+
     
 }
 
@@ -306,15 +310,15 @@ extension LostViewController : UICollectionViewDataSource{
 extension LostViewController : UICollectionViewDelegate, UICollectionViewDelegateFlowLayout{
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        let theWidth = collectionView.frame.width * 0.825 ;
-        let theHeight = collectionView.frame.height * 0.113//note here.
+        let theWidth = self.view.frame.width * 0.825 ;
+        let theHeight = self.view.frame.height * 0.113//note here.
         return CGSize(width: theWidth, height: theHeight)
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         let item = lostItems[indexPath.item];
         if let decodeSuccess = try? decoder.decode(User1.self, from:userData.object(forKey: "UserProf") as! Data){
-            print(decodeSuccess)
+//            print(decodeSuccess)
             userData.set(decodeSuccess.session_token, forKey: "Authorization")
             print(decodeSuccess.session_token)
             print("decode user succeed! go to main page!")

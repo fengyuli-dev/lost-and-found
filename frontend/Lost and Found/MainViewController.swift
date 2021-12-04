@@ -6,6 +6,7 @@
 //  Created by Haoxuan Zou on 11/19/21.
 //
 import UIKit
+import SystemConfiguration
 
 class MainViewController: UIViewController{
     
@@ -61,7 +62,7 @@ class MainViewController: UIViewController{
         netIdText.centerXAnchor.constraint(equalTo: parent.safeAreaLayoutGuide.centerXAnchor).isActive = true;
         netIdText.placeholder = "  NetId"
         //the font is set in the rear part.
-        
+        netIdText.autocapitalizationType = .none
         
         
         passwordText.backgroundColor = .white
@@ -69,6 +70,7 @@ class MainViewController: UIViewController{
         passwordText.placeholder = "  Password";
         passwordText.textColor = textColor
         parent.addSubview(passwordText)
+        passwordText.isSecureTextEntry=true
         passwordText.translatesAutoresizingMaskIntoConstraints = false
         passwordText.widthAnchor.constraint(equalToConstant: theWidth).isActive = true
         passwordText.heightAnchor.constraint(equalToConstant: theHeight).isActive = true
@@ -155,13 +157,13 @@ class MainViewController: UIViewController{
             NetworkManager.login(email: netId, password: password, completion: { user in
                 print("success!!??!!")
                 self.updateToken(token: user.session_token);
-                print(user.session_token)
-                print(user.detail.id)
+//                print(user.session_token)
+//                print(user.detail.id)
                 self.navigationController?.popViewController(animated: true)
                 
             },errorHandler: { boolresult in
                 if boolresult=="false"{
-                    let createAlert = UIAlertController(title: "Login Failed!", message: nil, preferredStyle: .alert)
+                    let createAlert = UIAlertController(title: "Login Failed!", message: "Please make sure the password is correct, or the username is registered.", preferredStyle: .alert)
                     createAlert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
                     self.present(createAlert,animated: true)
                 }
@@ -170,7 +172,7 @@ class MainViewController: UIViewController{
             )
             
         }else{
-            let createAlert = UIAlertController(title: "Register Failed!", message: nil, preferredStyle: .alert)
+            let createAlert = UIAlertController(title: "Login Failed!", message: "Please make sure the password is correct or the username is registered.", preferredStyle: .alert)
             createAlert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
             present(createAlert,animated: true)
         }
@@ -188,22 +190,7 @@ class MainViewController: UIViewController{
 }
 
 extension MainViewController:UserDelegate{
-//    func getId() -> Int {
-//        return self.id
-//    }
-//
-//    func getEmail() -> String {
-//        return self.email
-//    }
-//
-    
-//    func updateId(id: Int) {
-//        self.id=id
-//    }
-//
-//    func updateEmail(email: String) {
-//        self.email=email
-//    }
+
     func updateToken(token: String) {
         self.token=token
     }

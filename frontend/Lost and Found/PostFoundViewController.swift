@@ -153,7 +153,7 @@ class PostFoundViewController: UIViewController, UIImagePickerControllerDelegate
     
     
     @objc func afterposted(){
-        let deletealert = UIAlertController(title: "", message: "DeleteImage?", preferredStyle: .alert);
+        let deletealert = UIAlertController(title: "", message: "Delete Image?", preferredStyle: .alert);
         deletealert.addAction(UIAlertAction(title: "Nop", style: .cancel, handler: nil));
         deletealert.addAction(UIAlertAction(title: "Yep!", style: .default, handler: { alertaction in
             print("surprise.")
@@ -177,7 +177,7 @@ class PostFoundViewController: UIViewController, UIImagePickerControllerDelegate
         view.addSubview(imagelabel)
         
         //lost_image
-        lost_image.setTitle("Tap here to choose image", for: .normal)
+        lost_image.setTitle("Tap here to choose image (optional)", for: .normal)
         lost_image.layer.backgroundColor = .none
         lost_image.setTitleColor(color, for: .normal)
         lost_image.addTarget(self, action: #selector(showActionSheet), for: .touchUpInside)
@@ -250,7 +250,7 @@ class PostFoundViewController: UIViewController, UIImagePickerControllerDelegate
         descripInput.layer.borderWidth = border_width
         descripInput.textAlignment = .left
         descripInput.layer.cornerRadius = 5;
-        descripInput.placeholder = "Optional";
+        descripInput.placeholder = " Optional";
         descripInput.tintColor = .gray;
         descripInput.translatesAutoresizingMaskIntoConstraints = false
         view.addSubview(descripInput)
@@ -303,7 +303,7 @@ class PostFoundViewController: UIViewController, UIImagePickerControllerDelegate
         
         //contact_name_input
         contact_name_input.font = UIFont.systemFont(ofSize: 18)
-        contact_name_input.placeholder = "Optional. Default: Your Cornell Email"
+        contact_name_input.placeholder = " Optional. Default: Your Cornell Email"
         contact_name_input.tintColor = .gray
         contact_name_input.textColor = color
         contact_name_input.layer.borderColor = color.cgColor
@@ -351,14 +351,21 @@ class PostFoundViewController: UIViewController, UIImagePickerControllerDelegate
             finalContact = contact!
         }
         imageTrans=image?.jpegData(compressionQuality: 0.1)?.base64EncodedString() ?? ""
-        print(imageTrans)
-        NetworkManager.postFound(name: name, time: time, description: description, location: location, contact: finalContact, image:imageTrans) { item in
-            print("postFoundComplete!")
-            let FVC = FoundViewController();
-            
-            self.navigationController?.pushViewController(FVC, animated: true)
-            
-        }
+//        print(imageTrans)
+        let createAlert = UIAlertController(title: "Post this item?", message: "Please make sure that the information is correct and sufficient.", preferredStyle: .alert)
+        createAlert.addAction(UIAlertAction(title: "No", style: .cancel, handler: nil))
+        createAlert.addAction(UIAlertAction(title: "Yes", style: .default, handler: { alert in
+
+            NetworkManager.postFound(name: name, time: time, description: description, location: location, contact: finalContact, image:imageTrans) { item in
+                print("postFoundComplete!")
+                let FVC = QuestionViewController();
+                
+                self.navigationController?.pushViewController(FVC, animated: true)
+                
+            }
+        }))
+        present(createAlert,animated: true)
+
     }
 
     func setupConstraints() {
@@ -464,7 +471,7 @@ class PostFoundViewController: UIViewController, UIImagePickerControllerDelegate
         //imageUserProfile
         if (isPost){
         NSLayoutConstraint.activate([
-            imageUserProfile.widthAnchor.constraint(equalToConstant: width),
+            imageUserProfile.widthAnchor.constraint(equalToConstant: theheight3),
             imageUserProfile.heightAnchor.constraint(equalToConstant: theheight3),
             imageUserProfile.leadingAnchor.constraint(equalTo: view.leadingAnchor,constant: leading),
             imageUserProfile.topAnchor.constraint(equalTo: imagelabel.bottomAnchor, constant: s_padding),

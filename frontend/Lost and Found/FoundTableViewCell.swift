@@ -11,7 +11,6 @@ class FoundTableViewCell: UICollectionViewCell {
     var name = UILabel()
     var location = UILabel()
     var time = UILabel()
-    var des_image = UIImageView()
     var rec = UILabel()
     var imageview = UIImageView();
     var cellimage = UIImage();
@@ -31,7 +30,7 @@ class FoundTableViewCell: UICollectionViewCell {
         location.text = item.location
         time.text = "\(item.time)"
 //        des_image.image = item.pics
-        contentView.backgroundColor = UIColor(red: 0.938, green: 0.974, blue: 1, alpha: 1)
+        contentView.backgroundColor = UIColor(red: 0.938, green: 0.974, blue: 0.98, alpha: 1)
         contentView.layer.cornerRadius = 25;
         
         contentView.layer.shadowColor = UIColor(red: 0, green: 0, blue: 0, alpha: 0.25).cgColor
@@ -110,7 +109,7 @@ class FoundTableViewCell: UICollectionViewCell {
         
         
         
-        let imagelead = contentView.frame.width * 0.741
+        let imagelead = contentView.frame.width * 0.701
         let imagetrail = contentView.frame.width * 0.07
         let imagetop = contentView.frame.height * 0.11
         NSLayoutConstraint.activate([

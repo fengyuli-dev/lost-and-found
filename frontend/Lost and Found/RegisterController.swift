@@ -105,6 +105,7 @@ class RegisterController: UIViewController{
         netIdText.layer.cornerRadius = 10;
         netIdText.placeholder = "  CUNetId"
         //the font is set in the rear part.
+        netIdText.autocapitalizationType = .none
         
 
         // passwordText.backgroundColor = .white
@@ -121,6 +122,7 @@ class RegisterController: UIViewController{
         passwordText.topAnchor.constraint(equalTo: netIdText.bottomAnchor, constant: 20).isActive = true
         passwordText.layer.cornerRadius = 10;
         passwordText.centerXAnchor.constraint(equalTo: parent.safeAreaLayoutGuide.centerXAnchor).isActive = true
+        passwordText.autocapitalizationType = .none
         
         
         registerButton.backgroundColor = buttonColor
@@ -158,16 +160,16 @@ class RegisterController: UIViewController{
                 self.delegate.updateToken(token: user.session_token);
 //                self.delegate.updateId(id: user.detail.id);
 //                self.delegate.updateEmail(email: user.detail.email)
-                print(user.session_token)
+//                print(user.session_token)
                 self.updateToken(token: user.session_token)
-                print(self.token)
-                print(user.detail.id)
+//                print(self.token)
+//                print(user.detail.id)
                 self.navigationController?.popViewController(animated: true)
             }, errorHandler: { boolresult in
                 
                 if boolresult=="false"{
                     print("now the bool is false")
-                    let createAlert = UIAlertController(title: "Register Failed!", message: .none, preferredStyle: .alert)
+                    let createAlert = UIAlertController(title: "Register Failed.", message: "The user name is already registered.", preferredStyle: .alert)
                     createAlert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
                     self.present(createAlert,animated: true)
                     //create an alert.

@@ -130,10 +130,10 @@ extension ContentController : UICollectionViewDataSource{
         let item = foundItems[indexPath.item];
         if self.pageIndex == 0{
             print(foundid[indexPath.item])
-            cell.configure(for: item, id: foundid[indexPath.item], pageindex: self.pageIndex,delegate: self);
+            cell.configure(for: item, id: foundid[indexPath.item], pageindex: self.pageIndex);
         }
         else{
-            cell.configure(for: item, id: lostid[indexPath.item], pageindex:self.pageIndex,delegate: self)
+            cell.configure(for: item, id: lostid[indexPath.item], pageindex:self.pageIndex)
         }
         
         
@@ -157,10 +157,10 @@ extension ContentController : UICollectionViewDelegate, UICollectionViewDelegate
         //TODO: modify this.
 
         let display = FoundDescViewController();
-        display.setParaForFont(Float(view.frame.height) * 0.038) //set the font size!
+        display.setParaForFont(Float(view.frame.height) * 0.030) //set the font size!
         display.configure(for: item);
         if let pC = display.presentationController as? UISheetPresentationController {
-            pC.detents = [.medium()] /// set here!
+            pC.detents = [.large()] /// set here!
         }
         
         present(display, animated: true, completion: nil)
@@ -171,6 +171,7 @@ extension ContentController : UICollectionViewDelegate, UICollectionViewDelegate
 extension ContentController:userDelegate{
     func resetItems(index: Int, completion: @escaping () -> Void) {
         completion()
+        self.viewDidLoad();
     }
     
 

@@ -9,13 +9,14 @@ class UserItemCell: UICollectionViewCell {
     var name = UILabel()
     var location = UILabel()
     var time = UILabel()
-    var des_image = UIImageView()
     var rec = UILabel()
     var delete = UIButton(type: UIButton.ButtonType.custom) as UIButton;
     var id = 0;
     var pageindex = -1;
     var delegate:userDelegate?
     var isTapped:Bool = false;
+    var imageview = UIImageView();
+    var cellimage = UIImage();
     
     override init(frame: CGRect) {
         super.init(frame: frame);
@@ -25,16 +26,13 @@ class UserItemCell: UICollectionViewCell {
         fatalError("init(coder:) has not been implemented")
     }
     
-    func configure(for item: Item, id id: Int, pageindex index: Int, delegate delegate:userDelegate) {
+    func configure(for item: Item, id id: Int, pageindex index: Int) {
         self.id=id;
         self.pageindex = index;
         name.text = item.name
         location.text = item.location
         time.text = "\(item.time)"
-//        des_image.image = item.pics
-//        contentView.backgroundColor = .white
         contentView.layer.cornerRadius = 25;
-        self.delegate=delegate
         
         let recwidth = Float(contentView.frame.width) * (2.3/3)
         rec.frame = CGRect.init(x: contentView.frame.minX, y: contentView.frame.minY, width: CGFloat(recwidth), height: contentView.frame.height)
@@ -73,6 +71,23 @@ class UserItemCell: UICollectionViewCell {
         contentView.addSubview(delete)
         delete.addTarget(self, action: #selector(deleteTapped), for: .touchUpInside)
         
+        let dataDecoded:NSData? = NSData(base64Encoded: item.image ?? "", options: NSData.Base64DecodingOptions(rawValue: 0))
+        var decodedimage = UIImage()
+        if dataDecoded == nil{
+            print("datadecoded is nil1")
+        }else{
+            decodedimage = UIImage(data: dataDecoded as! Data) ?? UIImage()
+        }
+        
+        self.cellimage = decodedimage;
+        self.imageview.image = cellimage;
+//        imageview.image = UIImage.init(named: "try1")
+        imageview.clipsToBounds = true;
+        imageview.backgroundColor = .clear
+        imageview.translatesAutoresizingMaskIntoConstraints=false;
+        contentView.addSubview(imageview)
+        imageview.layer.cornerRadius = 6
+        
         
         setupConstraints()
     }
@@ -92,22 +107,14 @@ class UserItemCell: UICollectionViewCell {
             }
             self.removeFromSuperview()
             self.delegate?.resetItems(index: pageindex, completion: {
-                
-                self.removeFromSuperview()
-                self.superview?.reloadInputViews()
+            
+            self.removeFromSuperview()
+            self.superview?.reloadInputViews()
             })//I REALLY DONT KNOW HOW TO RELOAD THE DATA SUCCESSFULLY.
             //TODO: just how????
             self.isTapped.toggle()
         }
 
-
-
-//        self.delegate?.resetItems(index: self.pageindex, completion: {
-//            print("now we are here!!!")
-//            self.removeFromSuperview()
-//        })
-//        self.delegate?.resetItems(index: self.pageindex)//why always only after two time can this work?????
-//        self.delegate?.resetItems(index: self.pageindex)
 
         
     }
@@ -152,6 +159,18 @@ class UserItemCell: UICollectionViewCell {
             delete.widthAnchor.constraint(equalToConstant: 30),
             delete.centerYAnchor.constraint(equalTo: rec.centerYAnchor)
         ])
+        
+        
+        let imagelead = contentView.frame.width * 0.541
+        let imagetrail = contentView.frame.width * 0.28
+        let imagetop = contentView.frame.height * 0.11
+        NSLayoutConstraint.activate([
+            imageview.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: imagelead),
+            imageview.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -imagetrail),
+            imageview.heightAnchor.constraint(equalToConstant: contentView.frame.height*0.8),
+            imageview.topAnchor.constraint(equalTo: contentView.topAnchor, constant: imagetop)
+        ])
+        
         
 
         

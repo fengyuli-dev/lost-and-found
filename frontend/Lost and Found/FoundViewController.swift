@@ -51,37 +51,12 @@ class FoundViewController: UIViewController, UISearchResultsUpdating, UISearchBa
 //        navBar.titleTextAttributes = [.backgroundColor: UIColor(.clear)]//this is of no use!
         let titleview = UILabel();
         titleview.text = "Found Items";
-        titleview.textColor = UIColor(red: 0.063, green: 0.193, blue: 0.283, alpha: 1)
+        titleview.textColor = UIColor(red: 0.938, green: 0.974, blue: 1, alpha: 1)
         let titleheight = view.frame.height * 0.026;
         titleview.font = UIFont(name: "RoundedMplus1c-ExtraBold", size: titleheight);
         self.navigationItem.titleView = titleview; //in this way the title is properly set.
         titleview.translatesAutoresizingMaskIntoConstraints=false;
-        
-//        let colorTop =  UIColor(red: 0.788, green: 0.839, blue: 0.875, alpha: 1).cgColor
-//        let colorBottom = UIColor(red: 0.669, green: 0.719, blue: 0.754, alpha: 0).cgColor
-//        let gl = CAGradientLayer()
-//        gl.colors = [ UIColor(red: 0.55, green: 0.725, blue: 0.846, alpha: 0.42).cgColor,
-//                      UIColor(red: 0.669, green: 0.719, blue: 0.754, alpha: 0).cgColor]
-//        gl.locations = [0, 0.73]
-//        gl.startPoint = CGPoint(x: 0.25, y: 0.5)
-//        gl.endPoint = CGPoint(x: 0.75, y: 0.5)
-//        gl.position = view.center
-//        // gl.transform = CATransform3DMakeAffineTransform(CGAffineTransform(a: 0, b: 1, c: -1, d: 0, tx: 1, ty: 0))
-//        gl.bounds = view.bounds.insetBy(dx: view.bounds.size.width, dy: view.bounds.size.height)
-//        view.layer.insertSublayer(gl, at: 0)
-//        let layer0 = CAGradientLayer()
-//        layer0.colors = [
-//            UIColor(red: 0.788, green: 0.839, blue: 0.875, alpha: 1).cgColor,
-//            UIColor(red: 0.898, green: 0.898, blue: 0.898, alpha: 1).cgColor
-//        ]
-//        layer0.locations = [0, 0.73]
-//        layer0.startPoint = CGPoint(x: 0.25, y: 0.5)
-//        layer0.endPoint = CGPoint(x: 0.55, y: 0.5)
-//        layer0.transform = CATransform3DMakeAffineTransform(CGAffineTransform(a: 0, b: 1, c: -1, d: 0, tx: 1, ty: 0))
-//        layer0.bounds = view.bounds.insetBy(dx: -0.5*view.bounds.size.width, dy: -0.5*view.bounds.size.height)
-//        layer0.position = view.center
-//        view.layer.addSublayer(layer0)
-        
+      
         view.addSubview(titleview)
         titleview.textAlignment = .center;
         let titletop = view.frame.height * 0.04
@@ -103,7 +78,7 @@ class FoundViewController: UIViewController, UISearchResultsUpdating, UISearchBa
         tryimage.leadingAnchor.constraint(equalTo: view.leadingAnchor).isActive=true;
         tryimage.trailingAnchor.constraint(equalTo: view.trailingAnchor).isActive=true
 
-        
+        let searchwidth = view.frame.width * 3/4
         let frame = CGRect(x: 0, y: 0, width: 400, height: 44)
         //search bar
         searchController.searchResultsUpdater = self
@@ -112,12 +87,13 @@ class FoundViewController: UIViewController, UISearchResultsUpdating, UISearchBa
         //working!
         searchController.searchBar.searchTextField.backgroundColor = .white
         searchController.searchBar.searchTextField.layer.cornerRadius = 10;
-        searchController.searchBar.searchTextField.widthAnchor.constraint(equalToConstant: 300).isActive=true;
+        searchController.searchBar.searchTextField.widthAnchor.constraint(equalToConstant: searchwidth).isActive=true;
         searchController.searchBar.searchTextField.centerXAnchor.constraint(equalTo: searchController.searchBar.centerXAnchor,constant: view.frame.width/2).isActive=true
+        searchController.searchBar.searchTextField.topAnchor.constraint(equalTo: searchController.searchBar.topAnchor,constant: 10).isActive=true
         searchController.searchBar.searchTextField.frame = frame;
         searchController.searchBar.searchTextField.translatesAutoresizingMaskIntoConstraints=false
         searchController.searchBar.translatesAutoresizingMaskIntoConstraints=false
-        searchController.searchBar.setValue("🔙", forKey: "cancelButtonText")
+        searchController.searchBar.setValue("↩️", forKey: "cancelButtonText")
         self.navigationItem.searchController=searchController
         //I've tried out several methods but I just cannot make it STAY.
         
@@ -183,9 +159,9 @@ class FoundViewController: UIViewController, UISearchResultsUpdating, UISearchBa
     
     @objc func PostLostTapped() {
             if let decodeSuccess = try? decoder.decode(User1.self, from:userData.object(forKey: "UserProf") as! Data){
-                print(decodeSuccess)
+//                print(decodeSuccess)
                 userData.set(decodeSuccess.session_token, forKey: "Authorization")
-                print(decodeSuccess.session_token)
+//                print(decodeSuccess.session_token)
                 print("decode user succeed! go to main page!")
                 let PLVC = PostLostViewController();
                 self.navigationController?.pushViewController(PLVC, animated: true)
@@ -199,7 +175,7 @@ class FoundViewController: UIViewController, UISearchResultsUpdating, UISearchBa
     
     @objc func righttapped(){
         if let decodeSuccess = try? decoder.decode(User1.self, from:userData.object(forKey: "UserProf") as! Data){
-            print(decodeSuccess)
+//            print(decodeSuccess)
             userData.set(decodeSuccess.session_token, forKey: "Authorization")
             print(decodeSuccess.session_token)
             print("decode user succeed! go to main page!")
@@ -270,7 +246,7 @@ class FoundViewController: UIViewController, UISearchResultsUpdating, UISearchBa
         NSLayoutConstraint.activate([
             foundTableView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor),
             foundTableView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor),
-            foundTableView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor,constant: 0),
+            foundTableView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor,constant: 20),
             foundTableView.bottomAnchor.constraint(equalTo: view.bottomAnchor)
         ])
         
@@ -322,7 +298,7 @@ extension FoundViewController : UICollectionViewDelegate, UICollectionViewDelega
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         let item = foundItems[indexPath.item];
         if let decodeSuccess = try? decoder.decode(User1.self, from:userData.object(forKey: "UserProf") as! Data){
-            print(decodeSuccess)
+//            print(decodeSuccess)
             userData.set(decodeSuccess.session_token, forKey: "Authorization")
             print(decodeSuccess.session_token)
             print("decode user succeed! go to main page!")

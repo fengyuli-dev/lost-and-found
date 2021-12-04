@@ -68,12 +68,11 @@ class QuestionViewController: UIViewController{
         
         logo.image = UIImage(named: "logo1")
         logo.translatesAutoresizingMaskIntoConstraints = false
-        logo.contentMode = .scaleAspectFill
         logo.clipsToBounds = true
         view.addSubview(logo)
         logo.widthAnchor.constraint(equalToConstant: view.frame.width / 4).isActive = true
-        logo.heightAnchor.constraint(equalToConstant: view.frame.height / 8).isActive = true
-        logo.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 130).isActive = true
+        logo.heightAnchor.constraint(equalToConstant: view.frame.height / 7.6).isActive = true
+        logo.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 120).isActive = true
         logo.centerXAnchor.constraint(equalTo: view.safeAreaLayoutGuide.centerXAnchor).isActive = true;
         
         
@@ -134,7 +133,7 @@ class QuestionViewController: UIViewController{
             Lost.widthAnchor.constraint(equalToConstant: theWidth),
             Lost.heightAnchor.constraint(equalToConstant: theHeight),
             Lost.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-            Lost.topAnchor.constraint(equalTo: logo.bottomAnchor, constant: 30),
+            Lost.topAnchor.constraint(equalTo: logo.bottomAnchor, constant: 40),
         ])
         
         //found
