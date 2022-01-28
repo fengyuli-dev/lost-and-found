@@ -105,7 +105,7 @@ class LostViewController: UIViewController, UISearchResultsUpdating, UISearchBar
         
         
         
-        tryimage.image = UIImage.init(named: "trythis");
+        tryimage.image = UIImage.init(named: "Image-1");
         tryimage.translatesAutoresizingMaskIntoConstraints=false;
         view.addSubview(tryimage);
         tryimage.topAnchor.constraint(equalTo: view.topAnchor).isActive=true;

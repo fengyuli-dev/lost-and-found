@@ -180,8 +180,8 @@ class FoundDescViewController: UIViewController{
         ])
         
         NSLayoutConstraint.activate([
-            name.widthAnchor.constraint(equalToConstant: 114),
-            name.heightAnchor.constraint(equalToConstant: 20),
+            name.widthAnchor.constraint(equalToConstant: 300),
+            name.heightAnchor.constraint(equalToConstant: 25),
             name.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor,constant: leading),
             name.topAnchor.constraint(equalTo: name_title.bottomAnchor, constant: s_padding),
         ])
@@ -195,35 +195,35 @@ class FoundDescViewController: UIViewController{
         
         NSLayoutConstraint.activate([
             location.widthAnchor.constraint(equalToConstant: 305),
-            location.heightAnchor.constraint(equalToConstant: 20),
+            location.heightAnchor.constraint(equalToConstant: 25),
             location.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor,constant: leading),
             location.topAnchor.constraint(equalTo: loc_title.bottomAnchor, constant: s_padding),
         ])
         
         NSLayoutConstraint.activate([
             time_title.widthAnchor.constraint(equalToConstant: 167),
-            time_title.heightAnchor.constraint(equalToConstant: 28),
+            time_title.heightAnchor.constraint(equalToConstant: 30),
             time_title.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor,constant: leading),
             time_title.topAnchor.constraint(equalTo: location.bottomAnchor, constant: l_padding),
         ])
         
         NSLayoutConstraint.activate([
             time.widthAnchor.constraint(equalToConstant: thewidth),
-            time.heightAnchor.constraint(equalToConstant: 20),
+            time.heightAnchor.constraint(equalToConstant: 25),
             time.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor,constant: leading),
             time.topAnchor.constraint(equalTo: time_title.bottomAnchor, constant: s_padding),
         ])
         
         NSLayoutConstraint.activate([
             note_title.widthAnchor.constraint(equalToConstant: 329),
-            note_title.heightAnchor.constraint(equalToConstant: 28),
+            note_title.heightAnchor.constraint(equalToConstant: 30),
             note_title.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor,constant: leading),
             note_title.topAnchor.constraint(equalTo: time.bottomAnchor, constant: l_padding),
         ])
         
         NSLayoutConstraint.activate([
             note.widthAnchor.constraint(equalToConstant: thewidth),
-            note.heightAnchor.constraint(equalToConstant: 20),
+            note.heightAnchor.constraint(equalToConstant: 25),
             note.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor,constant: leading),
             note.topAnchor.constraint(equalTo: note_title.bottomAnchor, constant: s_padding),
         ])

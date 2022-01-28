@@ -40,13 +40,13 @@ class LostDescViewController: UIViewController{
         name.text = item.name
         location.text = item.location
         if item.time == ""{
-            time.text = "The founder didn't enter the found time."
+            time.text = "The owner didn't enter lost time."
         }else{
             time.text = item.time
         }
         contact.text = item.contact
         if item.description == ""{
-            note.text = "The founder didn't write any notes."
+            note.text = "The owner didn't write any notes."
         }else{
             note.text = item.description
         }
@@ -181,22 +181,22 @@ class LostDescViewController: UIViewController{
         ])
         
         NSLayoutConstraint.activate([
-            name.widthAnchor.constraint(equalToConstant: 114),
-            name.heightAnchor.constraint(equalToConstant: 20),
+            name.widthAnchor.constraint(equalToConstant: 300),
+            name.heightAnchor.constraint(equalToConstant: 24),
             name.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor,constant: leading),
             name.topAnchor.constraint(equalTo: name_title.bottomAnchor, constant: s_padding),
         ])
         
         NSLayoutConstraint.activate([
             loc_title.widthAnchor.constraint(equalToConstant: 305),
-            loc_title.heightAnchor.constraint(equalToConstant: 28),
+            loc_title.heightAnchor.constraint(equalToConstant: 32),
             loc_title.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor,constant: leading),
             loc_title.topAnchor.constraint(equalTo: name.bottomAnchor, constant: l_padding),
         ])
         
         NSLayoutConstraint.activate([
             location.widthAnchor.constraint(equalToConstant: 305),
-            location.heightAnchor.constraint(equalToConstant: 20),
+            location.heightAnchor.constraint(equalToConstant: 24),
             location.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor,constant: leading),
             location.topAnchor.constraint(equalTo: loc_title.bottomAnchor, constant: s_padding),
         ])
@@ -224,7 +224,7 @@ class LostDescViewController: UIViewController{
         
         NSLayoutConstraint.activate([
             note.widthAnchor.constraint(equalToConstant: thewidth),
-            note.heightAnchor.constraint(equalToConstant: 20),
+            note.heightAnchor.constraint(equalToConstant: 25),
             note.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor,constant: leading),
             note.topAnchor.constraint(equalTo: note_title.bottomAnchor, constant: s_padding),
         ])
